@@ -1,0 +1,79 @@
+trigger para isnertar y modificar de acuerdo a la cantidad de recpecion -- para ingreso masivo
+begin
+declare _traslado int;
+declare _fecha date;
+declare _usuario int;
+declare _estado int;
+
+declare _origen int;
+declare _destino int;
+
+declare _producto int;
+declare _encontrado int;
+declare _recibido int;
+declare _cantidad int;
+
+declare _costo float;
+
+declare _kardex int;
+
+set _traslado = new.id_traslado;
+set _producto = new.id_producto;
+set _recibido = new.c_recibido;
+set _cantidad = new.c_enviado;
+
+select t.fecha, t.a_origen, t.a_destino, t.u_envia, t.estado 
+into _fecha, _origen, _destino, _usuario, _estado  
+from traslados as t 
+where t.id_traslado = _traslado;
+
+#salida del producto
+update productos_almacen
+set cactual = cactual - _recibido, f_salida = _fecha 
+where id_almacen = _origen and id_producto = _producto;
+
+select p.costo 
+into _costo 
+from productos as p 
+where p.id_producto = _producto;
+
+#insertar kardex para salida de mercaderia
+select ifnull(max(id_kardex) + 1, 1) 
+into _kardex 
+from kardex_productos 
+where id_producto = _producto and id_almacen = _origen;
+
+insert into kardex_productos 
+values (_kardex, _producto, _origen, _fecha, 11, 0, _recibido, 0, _costo,  8, _origen, _traslado, _usuario, CURRENT_TIMESTAMP());
+
+#recepcion de producto cambio de estado del traslado
+if (_recibido < _cantidad ) THEN
+update traslados as t set t.estado = 3 where t.id_traslado = _traslado;
+end if;
+
+#recepcion del producto e ingreso a kardex
+if (_recibido > 0) then
+    select count(*) 
+    into _encontrado 
+    from productos_almacen 
+    where id_producto = _producto and id_almacen = _destino;
+
+    if (_encontrado > 0) then
+        update productos_almacen
+        set cactual = cactual + _recibido, f_infreso = _fecha 
+        where id_almacen = _destino and id_producto = _producto;
+    else 
+        insert into productos_almacen 
+        values (_destino, _producto, _recibido, _fecha, "1000-01-01");
+    end if;
+
+    select ifnull(max(id_kardex) + 1, 1) 
+    into _kardex 
+    from kardex_productos 
+    where id_producto = _producto and id_almacen = _destino;
+
+    insert into kardex_productos 
+    values (_kardex, _producto, _destino, _fecha, 11, _recibido, 0, _costo, 0,  8, _destino, _traslado, _usuario, CURRENT_TIMESTAMP());
+end if;
+
+end

@@ -853,6 +853,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
                 int contar_filas = t_traslado.getRowCount();
                 if (contar_filas > 0) {
                     btn_guardar.setEnabled(true);
+                    btn_enviar.setEnabled(true);
                     btn_guardar.requestFocus();
                 }
             }

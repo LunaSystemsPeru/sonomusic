@@ -337,7 +337,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
                         + "inner join almacen as ad on ad.id_almacen = t.a_destino "
                         + "inner join usuarios as uo on uo.id_usuarios = t.u_envia "
                         + "inner join usuarios as ud on ud.id_usuarios = t.u_recibe "
-                        + "where (t.a_origen = '" + id_almacen + "' or t.a_destino = '" + id_almacen + "') "
+                        + "where (t.a_origen = '" + id_almacen + "' or t.a_destino = '" + id_almacen + "') and concat(year(t.fecha), LPAD(month(t.fecha), 2, '0')) = '"+texto+"' "
                         + "order by t.fecha desc, t.id_traslado desc";
             }
 

@@ -45,7 +45,7 @@ public class cl_enviar_venta extends Thread {
     cl_venta c_venta;
     cl_varios c_varios = new cl_varios();
     private int id_venta;
-    private int id_tido;
+    private int guia;
     private int id_almacen;
 
     public cl_enviar_venta() {
@@ -59,23 +59,7 @@ public class cl_enviar_venta extends Thread {
         c_venta.validar_venta();
     }
 
-    public void setId_venta(int id_venta) {
-        this.id_venta = id_venta;
-    }
-
-    public void setId_tido(int id_tido) {
-        this.id_tido = id_tido;
-    }
-
-    public void setId_almacen(int id_almacen) {
-        this.id_almacen = id_almacen;
-    }
-
-    
-    @Override
-    public void run() {
-        cargar_venta();
-
+    private void enviar_venta() {
         String[] envio_sunat;
         envio_sunat = cl_envio_server.enviar_documento(c_venta.getId_venta(), c_venta.getId_tido(), c_venta.getId_almacen());
 
@@ -113,5 +97,62 @@ public class cl_enviar_venta extends Thread {
                 JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }
         }
+    }
+
+    private void enviar_guia() {
+        String[] envio_sunat;
+        envio_sunat = cl_envio_server.enviar_documento(id_venta, 5, id_almacen);
+
+        String nombre_archivo = envio_sunat[0];
+        String url_codigo_qr = envio_sunat[2];
+        String hash = envio_sunat[3];
+        String estatus = envio_sunat[5];
+        if (estatus.equals("error")) {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
+        } else {
+            File miDir = new File(".");
+            try {
+                Map<String, Object> parametros = new HashMap<>();
+                String path = miDir.getCanonicalPath();
+                String direccion = path + "//reports//subreports//";
+
+                System.out.println(direccion);
+                parametros.put("SUBREPORT_DIR", direccion);
+                parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
+                parametros.put("REPORT_LOCALE", Locale.ENGLISH);
+                parametros.put("p_id_venta", c_venta.getId_venta());
+                parametros.put("p_id_almacen", c_venta.getId_almacen());
+                parametros.put("p_codigo_qr", url_codigo_qr);
+                parametros.put("p_hash", hash);
+                //c_varios.imp_reporte("rpt_documento_venta", parametros);
+                c_varios.ver_reporte("rpt_documento_guia", parametros);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+            }
+        }
+    }
+
+    public void setId_venta(int id_venta) {
+        this.id_venta = id_venta;
+    }
+
+    public void setGuia(int guia) {
+        this.guia = guia;
+    }
+
+    public void setId_almacen(int id_almacen) {
+        this.id_almacen = id_almacen;
+    }
+
+    @Override
+    public void run() {
+        cargar_venta();
+        enviar_venta();
+
+        //si guia = 0 enviar guia; sino, es 1 selecciono sin guia
+        if (guia == 0) {
+            enviar_guia();
+        }
+
     }
 }

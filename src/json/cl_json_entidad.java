@@ -240,6 +240,9 @@ public class cl_json_entidad {
         if (source.equals("essalud")) {
             nombres = result.get("ApellidoPaterno").toString() + " " + result.get("ApellidoMaterno").toString() + " " + result.get("Nombres").toString();
         }
+        if (!estatus) {
+            nombres = "ERROR AL ENCONTRAR NOMBRE";
+        }
         return nombres;
     }
 }

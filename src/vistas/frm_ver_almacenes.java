@@ -93,6 +93,10 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
         btn_j_grabar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         btn_j_cancelar = new javax.swing.JButton();
+        txt_j_ubigeo = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txt_j_telefono = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         jd_ver_doc_sunat = new javax.swing.JDialog();
         jToolBar3 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
@@ -200,10 +204,29 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
         });
         jToolBar2.add(btn_j_cancelar);
 
+        txt_j_ubigeo.setEnabled(false);
+        txt_j_ubigeo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_j_ubigeoKeyPressed(evt);
+            }
+        });
+
+        jLabel10.setText("Ubigeo:");
+
+        txt_j_telefono.setEnabled(false);
+        txt_j_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_j_telefonoKeyPressed(evt);
+            }
+        });
+
+        jLabel11.setText("Telefono:");
+
         javax.swing.GroupLayout jd_reg_tiendaLayout = new javax.swing.GroupLayout(jd_reg_tienda.getContentPane());
         jd_reg_tienda.getContentPane().setLayout(jd_reg_tiendaLayout);
         jd_reg_tiendaLayout.setHorizontalGroup(
             jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,6 +236,20 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
                         .addComponent(txt_j_direccion))
                     .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
                         .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
+                                .addComponent(txt_j_id, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(cbx_j_empresa, 0, 499, Short.MAX_VALUE)))
+                    .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
+                        .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt_j_telefono))
                             .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -224,20 +261,13 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
                             .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_j_ticketera)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
-                        .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_j_ticketera))
                             .addGroup(jd_reg_tiendaLayout.createSequentialGroup()
-                                .addComponent(txt_j_id, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(cbx_j_empresa, 0, 499, Short.MAX_VALUE))))
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt_j_ubigeo)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jd_reg_tiendaLayout.setVerticalGroup(
             jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,7 +297,15 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
                 .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_j_ticketera, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_j_ubigeo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_reg_tiendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_j_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jd_ver_doc_sunat.setTitle("Ver Documentos de esta Tienda");
@@ -579,10 +617,10 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
 
     private void txt_j_ticketeraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_j_ticketeraKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String ntexto = txt_j_ciudad.getText().trim();
-            if (ntexto.length() > 0) {
-                btn_j_grabar.setEnabled(true);
-                btn_j_grabar.requestFocus();
+            String ntexto = txt_j_ticketera.getText().trim();
+            if (ntexto.length() >= 0) {
+                txt_j_ubigeo.setEnabled(true);
+                txt_j_ubigeo.requestFocus();
             }
         }
     }//GEN-LAST:event_txt_j_ticketeraKeyPressed
@@ -631,6 +669,8 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
         txt_j_direccion.setText(c_almacen.getDireccion());
         txt_j_ciudad.setText(c_almacen.getCiudad());
         txt_j_ticketera.setText(c_almacen.getTicketera());
+        txt_j_ubigeo.setText(c_almacen.getUbigeo());
+        txt_j_telefono.setText(c_almacen.getTelefono());
         c_empresa.setId(c_almacen.getEmpresa());
         c_empresa.validar_empresa();
         cbx_j_empresa.getModel().setSelectedItem(new cla_empresa(c_empresa.getId(), c_empresa.getRuc(), c_empresa.getRazon()));
@@ -687,6 +727,26 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_reg_documentoActionPerformed
 
+    private void txt_j_ubigeoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_j_ubigeoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String ntexto = txt_j_ubigeo.getText().trim();
+            if (ntexto.length() == 6) {
+                txt_j_telefono.setEnabled(true);
+                txt_j_telefono.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txt_j_ubigeoKeyPressed
+
+    private void txt_j_telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_j_telefonoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String ntexto = txt_j_telefono.getText().trim();
+            if (ntexto.length() == 9) {
+                btn_j_grabar.setEnabled(true);
+                btn_j_grabar.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txt_j_telefonoKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
@@ -704,6 +764,8 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -729,7 +791,9 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txt_j_direccion;
     private javax.swing.JTextField txt_j_id;
     private javax.swing.JTextField txt_j_nombre;
+    private javax.swing.JTextField txt_j_telefono;
     private javax.swing.JTextField txt_j_ticketera;
+    private javax.swing.JTextField txt_j_ubigeo;
     private javax.swing.JTextField txt_numero;
     private javax.swing.JTextField txt_serie;
     // End of variables declaration//GEN-END:variables

@@ -1196,7 +1196,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
             //llenar documentos sunat
             m_mis_documentos m_documentos = new m_mis_documentos();
-            m_documentos.cbx_mis_documentos(cbx_doc_venta);
+            m_documentos.cbx_documentos_venta(cbx_doc_venta);
 
             String venta = t_ventas.getValueAt(fila_seleccionada, 2).toString();
             String fecha = t_ventas.getValueAt(fila_seleccionada, 1).toString();
@@ -1422,7 +1422,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
         System.out.println(letras_numeros);
         
-        String url_codigo_qr = "http://www.lunasystemsperu.com/clientes/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
+        String url_codigo_qr = "http://localhost/clientes/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
         System.out.println(url_codigo_qr);
 
         File miDir = new File(".");

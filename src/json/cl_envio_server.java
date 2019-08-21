@@ -23,7 +23,7 @@ public class cl_envio_server {
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36";
 
     public static String[] enviar_documento(int id_venta, int tipo_documento, int id_almacen) {
-        String SERVER_PATH = "http://lunasystemsperu/clientes/sonomusic/greenter/generates/";
+        String SERVER_PATH = "http://localhost/clientes/new_sonomusic/greenter/generates/";
         
         String url = null;
         String[] datos = new String[6];
@@ -33,6 +33,10 @@ public class cl_envio_server {
         }
         if (tipo_documento == 2) {
             url = SERVER_PATH + "factura.php?id_venta=" + id_venta + "&id_almacen=" + id_almacen;
+        }
+        
+        if (tipo_documento == 5) {
+            url = SERVER_PATH + "guia-remision.php?id_venta=" + id_venta + "&id_almacen=" + id_almacen;
         }
         StringBuffer response;
 

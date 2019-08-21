@@ -27,6 +27,8 @@ public class cl_almacen {
     private String direccion;
     private String ciudad;
     private String ticketera;
+    private String ubigeo;
+    private String telefono;
     private String estado;
 
     public cl_almacen() {
@@ -88,6 +90,22 @@ public class cl_almacen {
         this.ticketera = ticketera;
     }
 
+    public String getUbigeo() {
+        return ubigeo;
+    }
+
+    public void setUbigeo(String ubigeo) {
+        this.ubigeo = ubigeo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
     public void mostrar(JTable tabla, String query) {
         try {
             DefaultTableModel modelo = new DefaultTableModel() {
@@ -144,7 +162,7 @@ public class cl_almacen {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "insert into almacen "
-                + "Values ('" + id + "', '" + empresa + "', '" + nombre + "', '" + direccion + "', '" + ciudad + "', '" + ticketera + "', '1')";
+                + "Values ('" + id + "', '" + empresa + "', '" + nombre + "', '" + direccion + "', '" + ciudad + "', '" + ticketera + "', '" + ubigeo + "', '" + telefono + "', '1')";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;
@@ -157,7 +175,7 @@ public class cl_almacen {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "update almacen "
-                + "set id_empresa = '" + empresa + "', nombre = '" + nombre + "', direccion = '" + direccion + "', ciudad = '" + ciudad + "', ticketera = '" + ticketera + "' "
+                + "set id_empresa = '" + empresa + "', nombre = '" + nombre + "', direccion = '" + direccion + "', ciudad = '" + ciudad + "', ticketera = '" + ticketera + "', ubigeo = '" + ubigeo + "', telefono = '" + telefono + "'  "
                 + "where id_almacen = '" + id + "'";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
@@ -199,6 +217,8 @@ public class cl_almacen {
                 direccion = rs.getString("direccion");
                 ciudad = rs.getString("ciudad");
                 ticketera = rs.getString("ticketera");
+                ubigeo = rs.getString("ubigeo");
+                telefono = rs.getString("telefono");
                 estado = rs.getString("estado");
             }
         } catch (SQLException ex) {

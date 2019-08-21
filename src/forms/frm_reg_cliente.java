@@ -270,36 +270,48 @@ public class frm_reg_cliente extends javax.swing.JDialog {
             if (documento.length() > 0) {
                 if (documento.length() == 8) {
                     System.out.println("buscar dni");
-                    try {
-                        String json = cl_json_entidad.getJSONDNI_LUNASYSTEMS(documento);
-                        //Lo mostramos
-                        String datos = cl_json_entidad.showJSONDNIL(json);
-                        txt_nom.setText(datos);
-                        txt_dir.setText("-");
-                        txt_celular.setEnabled(true);
-                        txt_celular.requestFocus();
+                    c_cliente.setDocumento(documento.trim());
+                    if (c_cliente.comprobar_cliente_doc()) {
+                        JOptionPane.showMessageDialog(null, "El Cliente ya esta registrado");
+                        btn_cerrar.doClick();
+                    } else {
+                        try {
+                            String json = cl_json_entidad.getJSONDNI_LUNASYSTEMS(documento);
+                            //Lo mostramos
+                            String datos = cl_json_entidad.showJSONDNIL(json);
+                            txt_nom.setText(datos);
+                            txt_dir.setText("-");
+                            txt_celular.setEnabled(true);
+                            txt_celular.requestFocus();
 
-                    } catch (ParseException e) {
-                        JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + e.getLocalizedMessage());
+                        } catch (ParseException e) {
+                            JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR DNI " + e.getLocalizedMessage());
+                        }
                     }
                 }
                 if (documento.length() == 11) {
                     System.out.println("buscar ruc");
-                    try {
-                        String json = cl_json_entidad.getJSONRUC_LUNASYSTEMS(documento);
-                        //Lo mostramos
-                        String[] datos = cl_json_entidad.showJSONRUC_JMP(json);
-                        txt_nom.setText(datos[0]);
-                        txt_dir.setText(datos[1]);
-                        txt_celular.setEnabled(true);
-                        txt_celular.requestFocus();
+                    c_cliente.setDocumento(documento.trim());
+                    if (c_cliente.comprobar_cliente_doc()) {
+                        JOptionPane.showMessageDialog(null, "El Cliente ya esta registrado");
+                        btn_cerrar.doClick();
+                    } else {
+                        try {
+                            String json = cl_json_entidad.getJSONRUC_LUNASYSTEMS(documento);
+                            //Lo mostramos
+                            String[] datos = cl_json_entidad.showJSONRUC_JMP(json);
+                            txt_nom.setText(datos[0]);
+                            txt_dir.setText(datos[1]);
+                            txt_celular.setEnabled(true);
+                            txt_celular.requestFocus();
 
-                    } catch (ParseException e) {
-                        JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + e.getLocalizedMessage());
+                        } catch (ParseException e) {
+                            JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + e.getLocalizedMessage());
+                        }
                     }
                 }
-                
-           }
+
+            }
         }
     }//GEN-LAST:event_txt_ndocKeyPressed
 

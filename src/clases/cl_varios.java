@@ -237,13 +237,13 @@ public class cl_varios {
                 Desktop.getDesktop().open(file);
             } catch (IOException e) {
                 System.out.print(e + " -- error io");
-                JOptionPane.showMessageDialog(null, "Error al Generar el PDF -- " + e);
+                JOptionPane.showMessageDialog(null, "Error al Generar el PDF -- \n" + e);
             }
 
         } catch (JRException ex) {
             System.out.print(ex + " -- error jre");
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error con el Reporte -- " + ex);
+            JOptionPane.showMessageDialog(null, "Error con el Reporte -- \n" + ex);
         }
     }
 
@@ -277,7 +277,7 @@ public class cl_varios {
                     Desktop.getDesktop().open(file);
                 } catch (IOException e) {
                     System.out.print(e + " -- error io");
-                    JOptionPane.showMessageDialog(null, "Error al Generar el EXCEL -- " + e);
+                    JOptionPane.showMessageDialog(null, "Error al Generar el EXCEL -- \n" + e);
                 }
             }
         } catch (JRException e) {

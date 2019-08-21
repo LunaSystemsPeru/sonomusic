@@ -105,8 +105,7 @@ public class cl_movimiento_caja {
         try {
             Statement st = c_conectar.conexion();
             String query = "select ifnull(max(id_movimiento) + 1, 1) as codigo "
-                    + "from cajas_movimientos "
-                    + "where id_almacen = '" + id_almacen + "' and fecha = '" + fecha + "'";
+                    + "from cajas_movimientos ";
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 id_movimiento = rs.getInt("codigo");

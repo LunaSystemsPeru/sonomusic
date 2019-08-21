@@ -174,19 +174,25 @@ public class cl_guia_remision {
                 }
             };
             modelo.addColumn("Id");
-            modelo.addColumn("RUC");
+            modelo.addColumn("Fecha");
+            modelo.addColumn("Nro Guia");
             modelo.addColumn("Razon Social");
-            modelo.addColumn("Estado");
+            modelo.addColumn("Nro Factura");
+            modelo.addColumn("Usuario");
+            modelo.addColumn("Hash");
 
             Statement st = c_conectar.conexion();
             ResultSet rs = c_conectar.consulta(st, query);
 
             while (rs.next()) {
-                Object[] fila = new Object[4];
-                fila[0] = rs.getString("id_empresa");
-                fila[1] = rs.getString("ruc");
-                fila[2] = rs.getString("razon");
-                fila[3] = rs.getString("estado");
+                Object[] fila = new Object[7];
+                fila[0] = rs.getString("id_venta");
+                fila[1] = rs.getString("fecha");
+                fila[2] = rs.getString("serie") + "-" + rs.getString("numero");
+                fila[3] = rs.getString("nombre");
+                fila[4] = rs.getString("serventa") + "-" + rs.getString("numventa");
+                fila[5] = rs.getString("username");
+                fila[6] = rs.getString("hash");
                 modelo.addRow(fila);
             }
 
@@ -196,8 +202,11 @@ public class cl_guia_remision {
             tabla.setModel(modelo);
             tabla.getColumnModel().getColumn(0).setPreferredWidth(10);
             tabla.getColumnModel().getColumn(1).setPreferredWidth(40);
-            tabla.getColumnModel().getColumn(2).setPreferredWidth(300);
-            tabla.getColumnModel().getColumn(3).setPreferredWidth(30);
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(3).setPreferredWidth(300);
+            tabla.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(5).setPreferredWidth(80);
+            tabla.getColumnModel().getColumn(6).setPreferredWidth(100);
         } catch (SQLException ex) {
             System.out.print(ex);
         }

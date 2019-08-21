@@ -151,6 +151,8 @@ public class cl_kardex {
                     + "inner join usuarios as u on u.id_usuarios = k.id_usuarios "
                     + "where k.id_almacen = '" + id_almacen + "' and k.fecha_registro like '" + fecha + "%' "
                     + "order by k.fecha_registro asc, k.id_kardex asc ";
+            
+            System.out.println(query);
 
             Statement st = c_conectar.conexion();
             ResultSet rs = c_conectar.consulta(st, query);
@@ -204,7 +206,7 @@ public class cl_kardex {
             }
 
             Object filaf[] = new Object[11];
-            filaf[0] = "";
+            filaf[0] = "Z";
             filaf[1] = "";
             filaf[2] = "TOTALES";
             filaf[3] = "";

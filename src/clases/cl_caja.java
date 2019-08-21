@@ -135,7 +135,21 @@ public class cl_caja {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "insert into cajas "
-                + "Values ('" + id_almacen + "', '" + fecha + "', '0', '0', '0', '0', '0', '0', '0', '" + m_apertura + "', '0', '0')";
+                + "Values ('" + id_almacen + "', '" + fecha + "', '0', '0', '0', '0', '0', '" + m_apertura + "', '0', '" + m_apertura + "', '0', '0')";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+        return registrado;
+    }
+    
+    public boolean cerrar_caja() {
+        boolean registrado = false;
+        Statement st = c_conectar.conexion();
+        String query = "update cajas "
+                + "set m_cierre = '"+m_cierre+"' "
+                + "where id_almacen = '" + id_almacen + "' and fecha = '" + fecha + "'";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;

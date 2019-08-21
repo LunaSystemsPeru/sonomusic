@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_documento_venta" pageWidth="595" pageHeight="420" orientation="Landscape" columnWidth="380" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="83e6294a-e951-4013-9a41-86232dfed820">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_documento_venta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="83e6294a-e951-4013-9a41-86232dfed820">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="192.168.1.6"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -18,7 +18,7 @@
 	<parameter name="p_id_almacen" class="java.lang.String"/>
 	<parameter name="p_id_venta" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select v.fecha,  e.ruc, e.razon, e.direccion as dir_principal, al.direccion as dir_sucursal, ds.descripcion as nom_tido, ds.id_tido, v.serie, 
+		<![CDATA[select v.fecha,  e.ruc, e.razon, e.direccion as dir_principal, al.direccion as dir_sucursal, al.telefono, ds.descripcion as nom_tido, ds.id_tido, v.serie, 
 LPAD(v.numero, 8, 0) as numero, c.documento as doc_cliente, c.nombre as nom_cliente, c.direccion as dir_cliente, u.username as vendedor, pv.id_producto, p.descripcion as nom_producto, p.marca, p.modelo, pv.cantidad, pv.precio
 from ventas as v 
 inner join productos_ventas as pv on pv.id_ventas = v.id_ventas and pv.id_almacen = v.id_almacen
@@ -50,6 +50,10 @@ where v.id_ventas = $P{p_id_venta} and v.id_almacen = $P{p_id_almacen}]]>
 		<property name="com.jaspersoft.studio.field.label" value="dir_sucursal"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="almacen"/>
 	</field>
+	<field name="telefono" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="almacen"/>
+	</field>
 	<field name="nom_tido" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nom_tido"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="documentos_sunat"/>
@@ -62,7 +66,7 @@ where v.id_ventas = $P{p_id_venta} and v.id_almacen = $P{p_id_almacen}]]>
 		<property name="com.jaspersoft.studio.field.label" value="serie"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
 	</field>
-	<field name="numero" class="java.lang.Integer">
+	<field name="numero" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="numero"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ventas"/>
 	</field>
@@ -248,7 +252,7 @@ where v.id_ventas = $P{p_id_venta} and v.id_almacen = $P{p_id_almacen}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Cel: 936507153"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="425" y="93" width="56" height="16" uuid="0d193ff3-b9cb-4c12-bb96-22a7b5d6549d"/>
@@ -472,4 +476,9 @@ where v.id_ventas = $P{p_id_venta} and v.id_almacen = $P{p_id_almacen}]]>
 			</textField>
 		</band>
 	</columnFooter>
+	<pageFooter>
+		<band height="401">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
 </jasperReport>

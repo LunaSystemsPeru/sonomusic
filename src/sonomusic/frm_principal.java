@@ -28,6 +28,7 @@ import vistas.frm_ver_almacenes;
 import vistas.frm_ver_clientes;
 import vistas.frm_ver_cobros;
 import vistas.frm_ver_empresas;
+import vistas.frm_ver_guias_remision;
 import vistas.frm_ver_ingresos;
 import vistas.frm_ver_inventarios;
 import vistas.frm_ver_kardex_diario;
@@ -685,10 +686,15 @@ public class frm_principal extends javax.swing.JFrame {
         jToolBar2.add(jButton7);
 
         jButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/shop-78-512.png"))); // NOI18N
-        jButton20.setText("Salidas");
+        jButton20.setText("Guias de Remision");
         jButton20.setFocusable(false);
         jButton20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton20.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
         jToolBar2.add(jButton20);
         jToolBar2.add(jSeparator12);
 
@@ -997,6 +1003,12 @@ public class frm_principal extends javax.swing.JFrame {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        frm_ver_guias_remision formulario = new frm_ver_guias_remision();
+        c_varios.llamar_ventana(formulario);
+        
+    }//GEN-LAST:event_jButton20ActionPerformed
 
     /**
      * @param args the command line arguments

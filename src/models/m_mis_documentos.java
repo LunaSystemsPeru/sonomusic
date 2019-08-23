@@ -61,7 +61,7 @@ public class m_mis_documentos {
                     + "inner join documentos_sunat as ds on ds.id_tido= da.id_tido "
                     + "where da.id_almacen = '" + id_almacen + "' and da.id_tido in (1,2, 6) "
                     + "group by da.id_tido "
-                    + "order by ds.descripcion asc";
+                    + "order by ds.descripcion desc";
             ResultSet rs = c_conectar.consulta(st, query);
             
             while (rs.next()) {

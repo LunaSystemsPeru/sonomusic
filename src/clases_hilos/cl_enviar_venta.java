@@ -92,7 +92,11 @@ public class cl_enviar_venta extends Thread {
                 parametros.put("p_codigo_qr", url_codigo_qr);
                 parametros.put("p_hash", hash);
                 //c_varios.imp_reporte("rpt_documento_venta", parametros);
-                c_varios.ver_reporte("rpt_documento_venta", parametros);
+                if (id_almacen == 1) {
+                    c_varios.ver_reporte("rpt_documento_venta_rodson", parametros);
+                } else {
+                    c_varios.ver_reporte("rpt_documento_venta", parametros);
+                }
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }
@@ -125,7 +129,11 @@ public class cl_enviar_venta extends Thread {
                 parametros.put("p_codigo_qr", url_codigo_qr);
                 parametros.put("p_hash", hash);
                 //c_varios.imp_reporte("rpt_documento_venta", parametros);
-                c_varios.ver_reporte("rpt_documento_guia", parametros);
+                if (id_almacen == 1) {
+                    c_varios.ver_reporte("rpt_documento_guia_rodson", parametros);
+                } else {
+                    c_varios.ver_reporte("rpt_documento_guia", parametros);
+                }
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }

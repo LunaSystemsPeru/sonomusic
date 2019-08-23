@@ -113,7 +113,7 @@ public class cl_cobros_ventas {
         c_conectar.cerrar(st);
         return registrado;
     }
-    
+
     public boolean eliminar() {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
@@ -127,7 +127,7 @@ public class cl_cobros_ventas {
         c_conectar.cerrar(st);
         return registrado;
     }
-    
+
     public void mostrar(JTable tabla) {
         DefaultTableModel modelo;
         try {
@@ -159,7 +159,7 @@ public class cl_cobros_ventas {
                 fila[1] = rs.getString("fecha");
                 double cmonto = rs.getDouble("monto");
                 fila[2] = c_varios.formato_numero(cmonto);
-                
+
                 int ctipo_pago = rs.getInt("tipo_pago");
                 String ctipo = "";
                 if (ctipo_pago == 1) {
@@ -185,4 +185,6 @@ public class cl_cobros_ventas {
             System.out.print(e);
         }
     }
+
+    
 }

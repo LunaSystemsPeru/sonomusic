@@ -20,7 +20,6 @@ public class cl_venta_cupon {
     cl_conectar c_conectar = new cl_conectar();
 
     private int id_venta;
-    private int periodo;
     private int id_almacen;
     private String fecha;
     private double monto;
@@ -38,14 +37,6 @@ public class cl_venta_cupon {
 
     public void setId_venta(int id_venta) {
         this.id_venta = id_venta;
-    }
-
-    public int getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(int periodo) {
-        this.periodo = periodo;
     }
 
     public int getId_almacen() {
@@ -108,7 +99,7 @@ public class cl_venta_cupon {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "insert into ventas_cupones "
-                + "Values ('" + id_venta + "', '" + periodo + "', '" + id_almacen + "', '" + fecha + "', '" + motivo + "', '" + monto + "', '0', '" + id_usuario + "', '1')";
+                + "Values ('" + id_venta + "', '" + id_almacen + "', '" + fecha + "', '" + motivo + "', '" + monto + "', '0', '" + id_usuario + "', '1')";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;
@@ -122,7 +113,7 @@ public class cl_venta_cupon {
         Statement st = c_conectar.conexion();
         String query = "update ventas_cupones "
                 + "set monto_usado = monto_usado + '" + usado + "' "
-                + "where id_ventas = '" + id_venta + "' and periodo = '" + periodo + "' and id_almacen = '" + id_almacen + "'";
+                + "where id_ventas = '" + id_venta + "'  and id_almacen = '" + id_almacen + "'";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;
@@ -136,7 +127,7 @@ public class cl_venta_cupon {
         try {
             Statement st = c_conectar.conexion();
             String query = "select * from ventas_cupones "
-                    + "where id_ventas = '" + id_venta + "' and periodo = '" + periodo + "' and id_almacen = '" + id_almacen + "'";
+                    + "where id_ventas = '" + id_venta + "' and id_almacen = '" + id_almacen + "'";
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 registrado = true;
@@ -158,15 +149,15 @@ public class cl_venta_cupon {
         boolean registrado = false;
         try {
             Statement st = c_conectar.conexion();
-            String query = "select vc.id_ventas, vc.periodo, vc.id_almacen "
+            String query = "select vc.id_ventas, vc.id_almacen "
                     + "from ventas_cupones as vc "
-                    + "inner join ventas as v on v.id_ventas = vc.id_ventas and v.periodo = vc.periodo and v.id_almacen = vc.id_almacen "
+                    + "inner join ventas as v on v.id_ventas = vc.id_ventas and v.id_almacen = vc.id_almacen "
                     + "where v.id_cliente = '" + id_cliente + "'";
+            System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 registrado = true;
                 id_venta = rs.getInt("id_ventas");
-                periodo = rs.getInt("periodo");
                 id_almacen = rs.getInt("id_almacen");
             }
             c_conectar.cerrar(st);

@@ -183,11 +183,15 @@ public class frm_ver_guias_remision extends javax.swing.JInternalFrame {
             parametros.put("p_id_almacen", id_almacen);
             parametros.put("p_hash", "");
             //   c_varios.imp_reporte("rpt_documento_venta", parametros);
-            c_varios.ver_reporte("rpt_documento_guia", parametros);
+            if (id_almacen == 1) {
+                c_varios.ver_reporte("rpt_documento_guia_rodson", parametros);
+            } else {
+                c_varios.ver_reporte("rpt_documento_guia", parametros);
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
         }
-        
+
         btn_modificar.setEnabled(false);
     }//GEN-LAST:event_btn_modificarActionPerformed
 

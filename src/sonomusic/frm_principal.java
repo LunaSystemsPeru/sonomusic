@@ -16,6 +16,7 @@ import forms.frm_reg_cierre_caja;
 import forms.frm_reg_movimiento_caja;
 import forms.frm_reg_venta;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -39,6 +40,7 @@ import vistas.frm_ver_proveedores;
 import vistas.frm_ver_traslados;
 import vistas.frm_ver_usuarios;
 import vistas.frm_ver_ventas;
+import vistas.rpt_reportes;
 
 /**
  *
@@ -54,6 +56,7 @@ public class frm_principal extends javax.swing.JFrame {
     public static cl_empresa c_empresa = new cl_empresa();
 
     cl_caja c_caja = new cl_caja();
+    cl_grafica_mensual c_grafica;
 
     /**
      * Creates new form frm_principal
@@ -136,11 +139,8 @@ public class frm_principal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         lbl_empresa = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        jp_dias = new javax.swing.JPanel();
         jp_meses = new javax.swing.JPanel();
-        jToolBar3 = new javax.swing.JToolBar();
-        jLabel6 = new javax.swing.JLabel();
-        lbl_usuario = new javax.swing.JLabel();
+        jp_dias = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jToolBar4 = new javax.swing.JToolBar();
         jButton5 = new javax.swing.JButton();
@@ -179,6 +179,9 @@ public class frm_principal extends javax.swing.JFrame {
         jSeparator13 = new javax.swing.JToolBar.Separator();
         jButton21 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
+        jToolBar3 = new javax.swing.JToolBar();
+        jLabel6 = new javax.swing.JLabel();
+        lbl_usuario = new javax.swing.JLabel();
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -419,6 +422,7 @@ public class frm_principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sono Music Import | Sistema de Gestion de Ventas");
         setBackground(new java.awt.Color(204, 204, 204));
+        setIconImage(Toolkit.getDefaultToolkit().getImage("reports/logo.png"));
 
         jToolBar1.setBorder(null);
         jToolBar1.setFloatable(false);
@@ -447,6 +451,19 @@ public class frm_principal extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
 
+        jp_meses.setPreferredSize(new java.awt.Dimension(419, 309));
+
+        javax.swing.GroupLayout jp_mesesLayout = new javax.swing.GroupLayout(jp_meses);
+        jp_meses.setLayout(jp_mesesLayout);
+        jp_mesesLayout.setHorizontalGroup(
+            jp_mesesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+        jp_mesesLayout.setVerticalGroup(
+            jp_mesesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jp_diasLayout = new javax.swing.GroupLayout(jp_dias);
         jp_dias.setLayout(jp_diasLayout);
         jp_diasLayout.setHorizontalGroup(
@@ -458,56 +475,13 @@ public class frm_principal extends javax.swing.JFrame {
             .addGap(0, 309, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jp_mesesLayout = new javax.swing.GroupLayout(jp_meses);
-        jp_meses.setLayout(jp_mesesLayout);
-        jp_mesesLayout.setHorizontalGroup(
-            jp_mesesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
-        );
-        jp_mesesLayout.setVerticalGroup(
-            jp_mesesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 309, Short.MAX_VALUE)
-        );
+        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jDesktopPane1.setLayer(jp_dias, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jp_meses, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jp_meses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jp_dias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(0, 233, Short.MAX_VALUE)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jp_dias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jp_meses, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        jToolBar3.setFloatable(false);
-        jToolBar3.setBorderPainted(false);
-        jToolBar3.setOpaque(false);
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user_thief_baldie.png"))); // NOI18N
-        jLabel6.setText("Usuario: ");
-        jToolBar3.add(jLabel6);
-
-        lbl_usuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lbl_usuario.setText("loyangureng");
-        jToolBar3.add(lbl_usuario);
-
+        jToolBar4.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar4.setBorder(null);
         jToolBar4.setFloatable(false);
         jToolBar4.setRollover(true);
         jToolBar4.setBorderPainted(false);
-        jToolBar4.setOpaque(false);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Office-Customer-Male-Light-icon.png"))); // NOI18N
         jButton5.setText("Clientes");
@@ -565,14 +539,19 @@ public class frm_principal extends javax.swing.JFrame {
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         jToolBar4.add(jButton8);
 
         jTabbedPane1.addTab("Facturacion", jToolBar4);
 
+        jToolBar5.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar5.setBorder(null);
         jToolBar5.setFloatable(false);
         jToolBar5.setBorderPainted(false);
-        jToolBar5.setOpaque(false);
 
         jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/customer-testimonials-512.png"))); // NOI18N
         jButton18.setText("Proveedores");
@@ -610,10 +589,10 @@ public class frm_principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Compras", jToolBar5);
 
+        jToolBar2.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar2.setBorder(null);
         jToolBar2.setFloatable(false);
         jToolBar2.setBorderPainted(false);
-        jToolBar2.setOpaque(false);
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/transport-512.png"))); // NOI18N
         jButton11.setText("Mis Productos");
@@ -642,6 +621,7 @@ public class frm_principal extends javax.swing.JFrame {
 
         jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/archiver-512.png"))); // NOI18N
         jButton15.setText("Clasificacion");
+        jButton15.setEnabled(false);
         jButton15.setFocusable(false);
         jButton15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton15.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -712,10 +692,10 @@ public class frm_principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Mercaderia", jToolBar2);
 
+        jToolBar6.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar6.setBorder(null);
         jToolBar6.setFloatable(false);
         jToolBar6.setBorderPainted(false);
-        jToolBar6.setOpaque(false);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/company_building-512.png"))); // NOI18N
         jButton3.setText("Empresas");
@@ -782,6 +762,44 @@ public class frm_principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Configuracion", jToolBar6);
 
+        jDesktopPane1.setLayer(jp_meses, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jp_dias, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTabbedPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addComponent(jp_meses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jp_dias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jp_dias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jp_meses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jToolBar3.setFloatable(false);
+        jToolBar3.setBorderPainted(false);
+        jToolBar3.setOpaque(false);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user_thief_baldie.png"))); // NOI18N
+        jLabel6.setText("Usuario: ");
+        jToolBar3.add(jLabel6);
+
+        lbl_usuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lbl_usuario.setText("loyangureng");
+        jToolBar3.add(lbl_usuario);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -791,14 +809,12 @@ public class frm_principal extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 453, Short.MAX_VALUE)
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
                 .addComponent(jDesktopPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -884,8 +900,8 @@ public class frm_principal extends javax.swing.JFrame {
             jd_apertura.setLocationRelativeTo(null);
             jd_apertura.setVisible(true);
         }
-        
-        cl_grafica_mensual c_grafica = new cl_grafica_mensual();
+
+        c_grafica = new cl_grafica_mensual();
         c_grafica.llenar_series_diarias(jp_dias);
         c_grafica.llenar_series_mensuales(jp_meses);
     }//GEN-LAST:event_btn_ingresarActionPerformed
@@ -1007,8 +1023,15 @@ public class frm_principal extends javax.swing.JFrame {
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         frm_ver_guias_remision formulario = new frm_ver_guias_remision();
         c_varios.llamar_ventana(formulario);
-        
+
     }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        Frame f = JOptionPane.getRootFrame();
+        rpt_reportes dialog = new rpt_reportes(f, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

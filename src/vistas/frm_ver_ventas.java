@@ -677,7 +677,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         });
 
-        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENTE", "FECHA" }));
+        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENTE", "FECHA", "NRO. DOCUMENTO" }));
         cbx_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbx_buscarActionPerformed(evt);
@@ -1134,6 +1134,17 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                             + "order by v.id_ventas asc";
                     System.out.println(query);
                 }
+                if (tipo_buscar == 2) {
+                    texto = c_varios.fecha_myql(texto);
+                    query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
+                            + "from ventas as v "
+                            + "inner join clientes as c on c.id_cliente = v.id_cliente "
+                            + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
+                            + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
+                            + "where v.numero = '" + texto + "' and v.id_almacen = '" + id_almacen + "' "
+                            + "order by v.id_ventas asc";
+                    System.out.println(query);
+                }
                 c_venta.mostrar(t_ventas, query);
                 sumar_totales();
             } else {
@@ -1217,7 +1228,19 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_entregar_productosActionPerformed
 
+    private void limpiar_entrega() {
+        txt_fecha_separacion.setText("");
+        txt_doc_separacion.setText("");
+        txt_cliente_separacion.setText("");
+        txt_total_separacion.setText("");
+        txt_doc_venta.setText("");
+        txt_datos_venta.setText("");
+    }
+
+
     private void btn_grabar_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_grabar_ventaActionPerformed
+        btn_grabar_venta.setEnabled(false);
+
         c_venta.setId_almacen(c_separacion.getId_almacen());
         c_venta.obtener_codigo();
         c_venta.setFecha(c_varios.getFechaActual());
@@ -1315,7 +1338,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 }
             }
 
-            jd_entrega_separacion.dispose();
+            jd_entrega_separacion.setVisible(false);
+            limpiar_entrega();
             c_venta.mostrar(t_ventas, query);
         }
     }//GEN-LAST:event_btn_grabar_ventaActionPerformed
@@ -1397,8 +1421,13 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
     private void cbx_doc_ventaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_doc_ventaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            txt_doc_venta.selectAll();
-            txt_doc_venta.requestFocus();
+            cla_mis_documentos c_dcumento = (cla_mis_documentos) cbx_doc_venta.getSelectedItem();
+            if (c_dcumento.getId_tido() == 6) {
+                btn_grabar_venta.requestFocus();
+            } else {
+                txt_doc_venta.selectAll();
+                txt_doc_venta.requestFocus();
+            }
         }
     }//GEN-LAST:event_cbx_doc_ventaKeyPressed
 
@@ -1421,8 +1450,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         leer_numeros c_letras = new leer_numeros();
         String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
         System.out.println(letras_numeros);
-        
-        String url_codigo_qr = "http://localhost/clientes/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
+
+        String url_codigo_qr = "http://www.lunasystemsperu.com/clientes/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
         System.out.println(url_codigo_qr);
 
         File miDir = new File(".");
@@ -1440,8 +1469,12 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             parametros.put("p_letras_numero", letras_numeros);
             parametros.put("p_codigo_qr", url_codigo_qr);
             parametros.put("p_hash", c_hash.getHash());
-         //   c_varios.imp_reporte("rpt_documento_venta", parametros);
-            c_varios.ver_reporte("rpt_documento_venta", parametros);
+            //   c_varios.imp_reporte("rpt_documento_venta", parametros);
+            if (id_almacen == 1) {
+                c_varios.ver_reporte("rpt_documento_venta_rodson", parametros);
+            } else {
+                c_varios.ver_reporte("rpt_documento_venta", parametros);
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
         }

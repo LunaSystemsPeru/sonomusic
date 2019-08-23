@@ -488,6 +488,7 @@
               <Format format="##/##/####" subtype="-1" type="5"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_fechaKeyPressed"/>

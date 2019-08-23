@@ -49,6 +49,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
     boolean modificar = false;
     int id_almacen = frm_principal.c_almacen.getId();
     int id_usuario = frm_principal.c_usuario.getId_usuario();
+    int id_empresa = frm_principal.c_almacen.getEmpresa();
 
     TextAutoCompleter tac_productos = null;
     DefaultTableModel detalle;
@@ -146,7 +147,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
             cargar_productos();
 
             txt_buscar_producto.setEnabled(true);
-            btn_enviar.setEnabled(true);
+            btn_enviar.setEnabled(false);
             btn_guardar.setEnabled(true);
             txt_buscar_producto.requestFocus();
         }
@@ -269,7 +270,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
 
     private void llenar() {
         c_traslado.setId_traslado(c_traslado.obtener_codigo());
-        c_traslado.setEstado(0);
+        c_traslado.setEstado(1);
         c_traslado.setId_usuario_envia(id_usuario);
         c_traslado.setFecha_recepcion("1000-01-01");
         c_traslado.setId_tienda_envia(id_almacen);
@@ -573,6 +574,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
         txt_fecha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_fecha.setEnabled(false);
         txt_fecha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_fechaKeyPressed(evt);
@@ -795,8 +797,20 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             cla_almacen cla_almacen = (cla_almacen) cbx_tiendas.getSelectedItem();
             int id_tienda = cla_almacen.getId_almacen();
-            c_traslado.setId_tienda_recibe(id_tienda);
-            txt_fecha.requestFocus();
+
+            cl_almacen c_envia_tienda = new cl_almacen();
+            c_envia_tienda.setId(id_tienda);
+            c_envia_tienda.validar_almacen();
+            if (c_envia_tienda.getEmpresa() == id_empresa) {
+                c_traslado.setId_tienda_recibe(id_tienda);
+                txt_fecha.setEnabled(true);
+                txt_fecha.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "NO SE PUEDE SELECCIONAR A ESTE ALMACEN \nNo corresponde a tu empresa");
+                cbx_tiendas.requestFocus();
+                txt_fecha.setEnabled(false);
+                txt_buscar_producto.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_cbx_tiendasKeyPressed
 
@@ -853,7 +867,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
                 int contar_filas = t_traslado.getRowCount();
                 if (contar_filas > 0) {
                     btn_guardar.setEnabled(true);
-                    btn_enviar.setEnabled(true);
+                    btn_enviar.setEnabled(false);
                     btn_guardar.requestFocus();
                 }
             }

@@ -1016,6 +1016,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        setClosable(true);
         setTitle("Reg. Documento Venta");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Agregar Productos"));
@@ -1773,7 +1774,8 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             String texto = txt_j_tarjeta.getText();
             if (texto.length() > 0 && c_varios.esDecimal(texto)) {
                 calcular_vuelto();
-                btn_bus_cupon.requestFocus();
+                // btn_bus_cupon.requestFocus();
+                btn_pago.requestFocus();
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR CON EL MONTO");
             }
@@ -1993,7 +1995,10 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_precioFocusGained
 
     private void btn_jd_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_jd_eliminarActionPerformed
-
+        detalle.removeRow(fila_seleccionada);
+        calcular_total();
+        jd_modificar_item.dispose();
+        txt_buscar_producto.requestFocus();
     }//GEN-LAST:event_btn_jd_eliminarActionPerformed
 
     private void btn_bus_cuponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bus_cuponActionPerformed
@@ -2057,6 +2062,8 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 jd_guia_remision.setVisible(true);
 
             } else {
+                btn_editar_guiar.setEnabled(false);
+                txt_direccion_guia.setText("");
                 btn_grabar.setEnabled(true);
                 btn_grabar.requestFocus();
             }

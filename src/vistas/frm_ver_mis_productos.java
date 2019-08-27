@@ -5,8 +5,11 @@
  */
 package vistas;
 
+import clases.cl_almacen;
 import clases.cl_kardex;
 import clases.cl_productos_almacen;
+import clases.cl_traslados;
+import clases.cl_usuario;
 import clases.cl_varios;
 import forms.frm_reg_producto;
 import java.awt.Frame;
@@ -28,6 +31,7 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
     int id_almacen = frm_principal.c_almacen.getId();
     int id_usuario = frm_principal.c_usuario.getId_usuario();
     int fila_seleccionada = -1;
+    int kardex_seleccionado;
     String query;
 
     /**
@@ -77,6 +81,7 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         t_kardex = new javax.swing.JTable();
         txt_kardex_descripcion = new javax.swing.JTextField();
+        btn_detalle_kardex = new javax.swing.JButton();
         jd_ajuste_producto = new javax.swing.JDialog();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -93,6 +98,24 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
         txt_cantidad_tienda = new javax.swing.JTextField();
         txt_cantidad_kardex = new javax.swing.JTextField();
         txt_diferencia_kardex = new javax.swing.JTextField();
+        jd_detalle_traslado = new javax.swing.JDialog();
+        txt_tienda_origen = new javax.swing.JTextField();
+        txt_tienda_destino = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txt_fecha_envio = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txt_fecha_recepcion = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txt_usuario_envia = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txt_id_traslado = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jToolBar3 = new javax.swing.JToolBar();
+        btn_ver_pdf_traslado = new javax.swing.JButton();
+        btn_salir_traslado = new javax.swing.JButton();
+        txt_usuario_recibe = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         btn_ver_tiendas = new javax.swing.JButton();
         btn_ver_kardex = new javax.swing.JButton();
@@ -120,9 +143,23 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
             }
         ));
         t_kardex.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        t_kardex.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_kardexMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(t_kardex);
 
         txt_kardex_descripcion.setFocusable(false);
+
+        btn_detalle_kardex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/exportar.png"))); // NOI18N
+        btn_detalle_kardex.setText("Ver Detalle");
+        btn_detalle_kardex.setEnabled(false);
+        btn_detalle_kardex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_detalle_kardexActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jd_kardexLayout = new javax.swing.GroupLayout(jd_kardex.getContentPane());
         jd_kardex.getContentPane().setLayout(jd_kardexLayout);
@@ -132,14 +169,19 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jd_kardexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
-                    .addComponent(txt_kardex_descripcion))
+                    .addGroup(jd_kardexLayout.createSequentialGroup()
+                        .addComponent(txt_kardex_descripcion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_detalle_kardex)))
                 .addContainerGap())
         );
         jd_kardexLayout.setVerticalGroup(
             jd_kardexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_kardexLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addComponent(txt_kardex_descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jd_kardexLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_kardex_descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_detalle_kardex, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                 .addContainerGap())
@@ -260,6 +302,109 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_diferencia_kardex, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+        );
+
+        jLabel7.setText("Tienda Origen:");
+
+        jLabel8.setText("Tienda Destino:");
+
+        jLabel9.setText("Fecha Envio:");
+
+        jLabel10.setText("Fecha Recepcion:");
+
+        jLabel11.setText("Usuario Envia:");
+
+        jLabel12.setText("Id. Traslado");
+
+        jToolBar3.setFloatable(false);
+
+        btn_ver_pdf_traslado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard_text.png"))); // NOI18N
+        btn_ver_pdf_traslado.setText("Ver PDf");
+        btn_ver_pdf_traslado.setFocusable(false);
+        btn_ver_pdf_traslado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_ver_pdf_traslado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar3.add(btn_ver_pdf_traslado);
+
+        btn_salir_traslado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
+        btn_salir_traslado.setText("Salir");
+        btn_salir_traslado.setFocusable(false);
+        btn_salir_traslado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_salir_traslado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar3.add(btn_salir_traslado);
+
+        jLabel13.setText("Usuario Recibe:");
+
+        javax.swing.GroupLayout jd_detalle_trasladoLayout = new javax.swing.GroupLayout(jd_detalle_traslado.getContentPane());
+        jd_detalle_traslado.getContentPane().setLayout(jd_detalle_trasladoLayout);
+        jd_detalle_trasladoLayout.setHorizontalGroup(
+            jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_tienda_origen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_tienda_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_fecha_envio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_fecha_recepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_usuario_envia, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_id_traslado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_usuario_recibe, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jd_detalle_trasladoLayout.setVerticalGroup(
+            jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
+                .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_tienda_origen, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_tienda_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_fecha_envio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_fecha_recepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_usuario_envia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_usuario_recibe, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_id_traslado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -564,6 +709,44 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void t_kardexMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_kardexMouseClicked
+        kardex_seleccionado = t_kardex.getSelectedRow();
+        btn_detalle_kardex.setEnabled(true);
+    }//GEN-LAST:event_t_kardexMouseClicked
+
+    private void btn_detalle_kardexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detalle_kardexActionPerformed
+        if (kardex_seleccionado > -1) {
+            int idkardex = Integer.parseInt(t_kardex.getValueAt(kardex_seleccionado, 0).toString());
+            cl_kardex c_kardexdetalle = new cl_kardex();
+            c_kardexdetalle.setId_kardex(idkardex);
+            c_kardexdetalle.setId_almacen(id_almacen);
+            c_kardexdetalle.setId_producto(c_kardex.getId_producto());
+            c_kardexdetalle.obtener_datos();
+
+            if (c_kardexdetalle.getId_tipo_movimiento() == 11) {
+                cl_traslados c_traslado = new cl_traslados();
+                c_traslado.setId_traslado(c_kardexdetalle.getNumero());
+                c_traslado.validar_datos();
+
+                cl_almacen c_tenvia = new cl_almacen();
+                c_tenvia.setId(c_traslado.getId_tienda_envia());
+                c_tenvia.validar_almacen();
+
+                cl_almacen c_trecibe = new cl_almacen();
+                c_trecibe.setId(c_traslado.getId_tienda_recibe());
+                c_trecibe.validar_almacen();
+                
+                txt_tienda_origen.setText(c_tenvia.getNombre());
+                txt_tienda_destino.setText(c_trecibe.getNombre());
+
+                jd_detalle_traslado.setModal(true);
+                jd_detalle_traslado.setSize(386, 382);
+                jd_detalle_traslado.setLocationRelativeTo(null);
+                jd_detalle_traslado.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_btn_detalle_kardexActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -608,20 +791,30 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_ajuste_kardex;
+    private javax.swing.JButton btn_detalle_kardex;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_limpiar;
     private javax.swing.JButton btn_salir;
+    private javax.swing.JButton btn_salir_traslado;
     private javax.swing.JButton btn_ver_kardex;
+    private javax.swing.JButton btn_ver_pdf_traslado;
     private javax.swing.JButton btn_ver_tiendas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
@@ -631,15 +824,24 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
     private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JToolBar jToolBar3;
     private javax.swing.JDialog jd_ajuste_producto;
+    private javax.swing.JDialog jd_detalle_traslado;
     private javax.swing.JDialog jd_kardex;
     private javax.swing.JTable t_kardex;
     private javax.swing.JTextField txt_buscar;
     private javax.swing.JTextField txt_cantidad_kardex;
     private javax.swing.JTextField txt_cantidad_tienda;
     private javax.swing.JTextField txt_diferencia_kardex;
+    private javax.swing.JTextField txt_fecha_envio;
+    private javax.swing.JTextField txt_fecha_recepcion;
+    private javax.swing.JTextField txt_id_traslado;
     private javax.swing.JTextField txt_kardex_descripcion;
     private javax.swing.JTextField txt_precio_kardex;
     private javax.swing.JTextField txt_producto_kardex;
+    private javax.swing.JTextField txt_tienda_destino;
+    private javax.swing.JTextField txt_tienda_origen;
+    private javax.swing.JTextField txt_usuario_envia;
+    private javax.swing.JTextField txt_usuario_recibe;
     // End of variables declaration//GEN-END:variables
 }

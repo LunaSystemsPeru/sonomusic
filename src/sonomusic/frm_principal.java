@@ -151,6 +151,8 @@ public class frm_principal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jSeparator10 = new javax.swing.JToolBar.Separator();
         jButton8 = new javax.swing.JButton();
+        jSeparator14 = new javax.swing.JToolBar.Separator();
+        jButton9 = new javax.swing.JButton();
         jToolBar5 = new javax.swing.JToolBar();
         jButton18 = new javax.swing.JButton();
         jSeparator8 = new javax.swing.JToolBar.Separator();
@@ -545,6 +547,19 @@ public class frm_principal extends javax.swing.JFrame {
             }
         });
         jToolBar4.add(jButton8);
+        jToolBar4.add(jSeparator14);
+
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/error.png"))); // NOI18N
+        jButton9.setText("Reconectar");
+        jButton9.setFocusable(false);
+        jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(jButton9);
 
         jTabbedPane1.addTab("Facturacion", jToolBar4);
 
@@ -1033,6 +1048,11 @@ public class frm_principal extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        c_conectar.conectar();
+        autoconectar();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1093,6 +1113,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
@@ -1113,6 +1134,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator11;
     private javax.swing.JToolBar.Separator jSeparator12;
     private javax.swing.JToolBar.Separator jSeparator13;
+    private javax.swing.JToolBar.Separator jSeparator14;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;

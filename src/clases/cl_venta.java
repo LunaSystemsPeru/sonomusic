@@ -330,6 +330,7 @@ public class cl_venta {
 
         } catch (SQLException e) {
             System.out.print(e);
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
         }
     }
 

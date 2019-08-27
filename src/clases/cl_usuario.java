@@ -141,6 +141,8 @@ public class cl_usuario {
             if (rs.next()) {
                 existe = true;
             }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             JOptionPane.showMessageDialog(null, "se perdio la conexion \n"+ex.getLocalizedMessage());

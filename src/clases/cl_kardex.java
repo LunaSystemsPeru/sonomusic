@@ -41,12 +41,24 @@ public class cl_kardex {
     public cl_kardex() {
     }
 
+    public int getId_producto() {
+        return id_producto;
+    }
+
     public void setId_producto(int id_producto) {
         this.id_producto = id_producto;
     }
 
+    public int getId_almacen() {
+        return id_almacen;
+    }
+
     public void setId_almacen(int id_almacen) {
         this.id_almacen = id_almacen;
+    }
+
+    public String getFecha() {
+        return fecha;
     }
 
     public void setFecha(String fecha) {
@@ -151,7 +163,7 @@ public class cl_kardex {
                     + "inner join usuarios as u on u.id_usuarios = k.id_usuarios "
                     + "where k.id_almacen = '" + id_almacen + "' and k.fecha_registro like '" + fecha + "%' "
                     + "order by k.fecha_registro asc, k.id_kardex asc ";
-            
+
             System.out.println(query);
 
             Statement st = c_conectar.conexion();
@@ -286,7 +298,7 @@ public class cl_kardex {
             mostrar.addColumn("S/ Salida");
             mostrar.addColumn("Usuario");
             mostrar.addColumn("Fec. Registro");
-            
+
             int total_ingreso = 0;
             int total_salida = 0;
 
@@ -306,11 +318,11 @@ public class cl_kardex {
                 fila[10] = rs.getString("fecha_registro");
 
                 mostrar.addRow(fila);
-                
+
                 total_ingreso += rs.getInt("cant_ingreso");
                 total_salida += rs.getInt("cant_salida");
             }
-            
+
             Object filaf[] = new Object[11];
             filaf[0] = "";
             filaf[1] = "";
@@ -355,6 +367,32 @@ public class cl_kardex {
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, ex);
         }
+    }
+
+    public boolean obtener_datos() {
+        boolean existe = false;
+        try {
+            Statement st = c_conectar.conexion();
+            String sql = "select * "
+                    + "from kardex_productos "
+                    + "where id_producto = '" + id_producto + "' and id_almacen = '" + this.id_almacen + "' and kp.id_kardex = '" + this.id_kardex + "'";
+            ResultSet rs = c_conectar.consulta(st, sql);
+            if (rs.next()) {
+                fecha = rs.getString("fecha");
+                id_tipo_movimiento = rs.getInt("id_tipo_movimiento");
+                cant_ingreso = rs.getInt("cant_ingreso");
+                cant_salida = rs.getInt("cant_salida");
+                costo_ingreso =rs.getDouble("costo_ingreso");
+                costo_salida =rs.getDouble("costo_salida");
+                id_tido =rs.getInt("id_tido");
+                serie =rs.getString("serie_documento");
+                numero =rs.getInt("numero_documento");
+                id_usuario =rs.getInt("id_usario");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
     }
 
     public int obtener_suma_kardex() {

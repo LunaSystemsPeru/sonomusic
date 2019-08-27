@@ -67,9 +67,7 @@ public class cl_enviar_venta extends Thread {
         String url_codigo_qr = envio_sunat[2];
         String hash = envio_sunat[3];
         String estatus = envio_sunat[5];
-        if (estatus.equals("error")) {
-            JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
-        } else {
+        if (estatus.equals("aceptado")) {
             //imprimir boleta o factura
             leer_numeros c_letras = new leer_numeros();
             String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
@@ -100,6 +98,8 @@ public class cl_enviar_venta extends Thread {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
         }
     }
 
@@ -111,9 +111,7 @@ public class cl_enviar_venta extends Thread {
         String url_codigo_qr = envio_sunat[2];
         String hash = envio_sunat[3];
         String estatus = envio_sunat[5];
-        if (estatus.equals("error")) {
-            JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
-        } else {
+        if (estatus.equals("aceptado")) {
             File miDir = new File(".");
             try {
                 Map<String, Object> parametros = new HashMap<>();
@@ -137,6 +135,8 @@ public class cl_enviar_venta extends Thread {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
         }
     }
 

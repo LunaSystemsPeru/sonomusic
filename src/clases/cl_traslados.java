@@ -273,9 +273,11 @@ public class cl_traslados {
             while (rs.next()) {
                 existe = true;
                 fecha_envio = rs.getString("fecha");
+                fecha_recepcion = rs.getString("fecha_recepcion");
                 id_tienda_envia = rs.getInt("a_origen");
                 id_tienda_recibe = rs.getInt("a_destino");
                 id_usuario_envia = rs.getInt("u_envia");
+                id_usuario_recibe = rs.getInt("u_recibe");
             }
             c_conectar.cerrar(rs);
             c_conectar.cerrar(st);

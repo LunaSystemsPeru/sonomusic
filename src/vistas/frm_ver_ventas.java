@@ -931,27 +931,33 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         c_detalle.setId_venta(id_venta);
         c_detalle.eliminar();
 
-        //eliminar cobros
-//        c_cobros.setId_almacen(id_almacen);
-//        c_cobros.setId_venta(id_venta);
-//        c_cobros.eliminar();
         //anular venta
         c_venta.setId_venta(id_venta);
         c_venta.setId_almacen(id_almacen);
+
+        //eliminar cobros
+        c_venta.validar_venta();
+        if (c_venta.getFecha().equals(c_varios.getFechaActual())) {
+            c_cobros.setId_almacen(id_almacen);
+            c_cobros.setId_venta(id_venta);
+            c_cobros.eliminar();
+        } else {
+            //crear cupon
+            c_cupon.setId_almacen(id_almacen);
+            c_cupon.setId_venta(id_venta);
+            c_cupon.setId_usuario(id_usuario);
+            c_cupon.setFecha(c_varios.getFechaActual());
+            c_cupon.setEstado(1);
+            c_cupon.setMotivo(txt_jd_motivo.getText().toUpperCase().trim());
+            c_cupon.setMonto(monto_cupon);
+            c_cupon.setUsado(0);
+
+            c_cupon.registrar();
+
+        }
+        
         c_venta.anular();
-
-        //crear cupon
-        c_cupon.setId_almacen(id_almacen);
-        c_cupon.setId_venta(id_venta);
-        c_cupon.setId_usuario(id_usuario);
-        c_cupon.setFecha(c_varios.getFechaActual());
-        c_cupon.setEstado(1);
-        c_cupon.setMotivo(txt_jd_motivo.getText().toUpperCase().trim());
-        c_cupon.setMonto(monto_cupon);
-        c_cupon.setUsado(0);
-
-        c_cupon.registrar();
-
+        
         jd_anular_documento.dispose();
         c_venta.mostrar(t_ventas, query);
         //si es venta dar de baja

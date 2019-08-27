@@ -236,6 +236,7 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
 
     private void btn_j_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_j_salirActionPerformed
         jd_reg_movimiento.dispose();
+        limpiar();
     }//GEN-LAST:event_btn_j_salirActionPerformed
 
     private void txt_motivoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_motivoKeyPressed
@@ -288,6 +289,7 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
         boolean registrado = c_movimiento.insertar();
         if (registrado) {
             jd_reg_movimiento.dispose();
+            limpiar();
             String fecha = c_varios.getFechaActual();
             String query = "select mc.id_movimiento, mc.ingresa, mc.retira, mc.motivo, u.username "
                     + "from cajas_movimientos as mc "
@@ -297,6 +299,12 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_j_guardarActionPerformed
 
+    private void limpiar(){
+        txt_motivo.setText("");
+        txt_monto.setText("");
+        cbx_tipo.setEnabled(false);
+        txt_monto.setEnabled(false);
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jd_reg_movimiento.setModal(true);
         jd_reg_movimiento.setSize(400, 329);

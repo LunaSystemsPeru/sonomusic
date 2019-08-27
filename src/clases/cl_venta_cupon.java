@@ -152,7 +152,8 @@ public class cl_venta_cupon {
             String query = "select vc.id_ventas, vc.id_almacen "
                     + "from ventas_cupones as vc "
                     + "inner join ventas as v on v.id_ventas = vc.id_ventas and v.id_almacen = vc.id_almacen "
-                    + "where v.id_cliente = '" + id_cliente + "'";
+                    + "where v.id_cliente = '" + id_cliente + "' and v.id_almacen= '" + this.id_almacen + "'";
+            System.out.println(query);
             System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {

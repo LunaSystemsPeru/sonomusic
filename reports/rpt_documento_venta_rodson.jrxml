@@ -476,9 +476,4 @@ where v.id_ventas = $P{p_id_venta} and v.id_almacen = $P{p_id_almacen}]]>
 			</textField>
 		</band>
 	</columnFooter>
-	<pageFooter>
-		<band height="401">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-		</band>
-	</pageFooter>
 </jasperReport>

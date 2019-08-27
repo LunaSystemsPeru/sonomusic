@@ -254,13 +254,13 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             if (tac_clientes != null) {
                 tac_clientes.removeAllItems();
             }
-
-            //1 para boletas
+            //TIPO:
+            //1 para separacion
             // 2 para facturas
-            // 3 para separaciones
+            // 3 para boleta
             JTextField text_box = txt_nom_cliente;
             String sql = "";
-            if (tipo == 2) {
+            if (tipo == 1) {
                 txt_nom_cliente.setEnabled(true);
                 txt_doc_cliente.setEnabled(false);
                 txt_nom_cliente.requestFocus();
@@ -270,7 +270,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                         + "where LENGTH(documento) != 11 ";
             }
 
-            if (tipo == 3) {
+            if (tipo == 2) {
                 txt_nom_cliente.setEnabled(false);
                 txt_doc_cliente.setEnabled(true);
                 txt_doc_cliente.requestFocus();
@@ -278,6 +278,16 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 sql = "select id_cliente, documento, nombre "
                         + "from clientes "
                         + "where LENGTH(documento) = 11 ";
+            }
+
+            if (tipo == 3) {
+                txt_nom_cliente.setEnabled(true);
+                txt_doc_cliente.setEnabled(false);
+                text_box = txt_nom_cliente;
+                sql = "select id_cliente, documento, nombre "
+                        + "from clientes "
+                        + "where LENGTH(documento) != 11 ";
+                txt_nom_cliente.requestFocus();
             }
 
             tac_clientes = new TextAutoCompleter(text_box, new AutoCompleterCallback() {
@@ -300,13 +310,14 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             tac_clientes.setCaseSensitive(false);
             Statement st = c_conectar.conexion();
             ResultSet rs = c_conectar.consulta(st, sql);
+            System.out.println(sql);
             while (rs.next()) {
                 int id_cliente = rs.getInt("id_cliente");
                 String descripcion = "";
-                if (tipo == 2) {
+                if (tipo == 3) {
                     descripcion = rs.getString("nombre") + " | " + rs.getString("documento");
                 }
-                if (tipo == 3) {
+                if (tipo == 2) {
                     descripcion = rs.getString("documento");
                 }
                 tac_clientes.addItem(new cla_cliente(id_cliente, descripcion));
@@ -316,6 +327,16 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error " + e.getLocalizedMessage());
             System.out.println(e.getLocalizedMessage());
+        }
+
+        if (tipo == 3) {
+            txt_nom_cliente.requestFocus();
+        }
+        if (tipo == 2) {
+            txt_doc_cliente.requestFocus();
+        }
+        if (tipo == 1) {
+            txt_nom_cliente.requestFocus();
         }
     }
 
@@ -1274,6 +1295,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
         jLabel11.setText("Desea Guia de Remision:");
 
         cbx_guia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Si, Emitir", "No, alli nomas" }));
+        cbx_guia.setSelectedIndex(1);
         cbx_guia.setEnabled(false);
         cbx_guia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -1634,7 +1656,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
                 //ir a nombre cliente
                 limpiar_cliente();
-                cargar_clientes(2);
+                cargar_clientes(3);
             }
         }
     }//GEN-LAST:event_cbx_tipo_ventaKeyPressed
@@ -1669,13 +1691,13 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 if (id_tido == 1) {
                     //ir a nombre cliente
                     limpiar_cliente();
-                    cargar_clientes(2);
+                    cargar_clientes(3);
                 }
 
                 if (id_tido == 2) {
-                    //ir a nombre cliente
+                    //ir a ruc cliente
                     limpiar_cliente();
-                    cargar_clientes(3);
+                    cargar_clientes(2);
 
                 }
             }
@@ -1966,11 +1988,13 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
         int tipo = cbx_tipo_venta.getSelectedIndex() + 1;
-        if (tipo == 1) {
+        //2 ES FACTURA
+        if (tipo == 2) {
             cargar_clientes(2);
         }
-        if (tipo == 2) {
-            cargar_clientes(3);
+        //3 ES BOLETA
+        if (tipo == 3) {
+            cargar_clientes(1);
         }
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
@@ -2002,6 +2026,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_jd_eliminarActionPerformed
 
     private void btn_bus_cuponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bus_cuponActionPerformed
+        c_cupon.setId_almacen(id_almacen);
         boolean hay_cupon = c_cupon.validar_cliente(c_cliente.getCodigo());
         if (hay_cupon) {
             c_cupon.validar_cupon();

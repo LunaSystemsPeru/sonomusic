@@ -441,36 +441,36 @@ where gr.id_almacen = $P{p_id_almacen}   and gr.id_venta =  $P{p_id_venta}]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="122" splitType="Stretch">
+		<band height="101" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="90" width="331" height="16" uuid="84c91941-474a-4e99-8e2b-9317d314931d"/>
+				<reportElement x="0" y="69" width="331" height="16" uuid="84c91941-474a-4e99-8e2b-9317d314931d"/>
 				<textElement verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Hash: " +$F{hash}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="106" width="331" height="16" uuid="1a17508d-4964-470a-8d7e-4667e12dd949">
+				<reportElement x="0" y="85" width="331" height="16" uuid="1a17508d-4964-470a-8d7e-4667e12dd949">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Consulta tu comprobante en: esonomusic.lunasystemsperu.com]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="74" width="331" height="16" uuid="3dd3821f-7ad3-435f-a3bd-7fa0a6caf3d0"/>
+				<reportElement x="280" y="85" width="275" height="16" uuid="3dd3821f-7ad3-435f-a3bd-7fa0a6caf3d0"/>
 				<textElement verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Representacion impresa de la GUIA DE REMISION ELECTRONICA"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="488" y="74" width="67" height="16" uuid="a4bc0609-a86e-446d-8f7b-d1d2faaa6eb5">
+				<reportElement x="488" y="69" width="67" height="16" uuid="a4bc0609-a86e-446d-8f7b-d1d2faaa6eb5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Venta"]]></textFieldExpression>
 			</textField>
@@ -565,11 +565,11 @@ where gr.id_almacen = $P{p_id_almacen}   and gr.id_venta =  $P{p_id_venta}]]>
 				<textFieldExpression><![CDATA[$F{dni_chofer}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="390" y="74" width="98" height="16" uuid="9fc142f3-0daf-46c7-898a-786a138425a8">
+				<reportElement x="390" y="69" width="98" height="16" uuid="9fc142f3-0daf-46c7-898a-786a138425a8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Motivo Traslado: "]]></textFieldExpression>
 			</textField>

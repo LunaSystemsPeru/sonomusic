@@ -375,7 +375,7 @@ public class cl_kardex {
             Statement st = c_conectar.conexion();
             String sql = "select * "
                     + "from kardex_productos "
-                    + "where id_producto = '" + id_producto + "' and id_almacen = '" + this.id_almacen + "' and kp.id_kardex = '" + this.id_kardex + "'";
+                    + "where id_producto = '" + id_producto + "' and id_almacen = '" + this.id_almacen + "' and id_kardex = '" + this.id_kardex + "'";
             ResultSet rs = c_conectar.consulta(st, sql);
             if (rs.next()) {
                 fecha = rs.getString("fecha");

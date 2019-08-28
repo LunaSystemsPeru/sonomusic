@@ -304,13 +304,31 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        txt_tienda_origen.setEditable(false);
+        txt_tienda_origen.setBackground(new java.awt.Color(255, 255, 255));
+
+        txt_tienda_destino.setEditable(false);
+        txt_tienda_destino.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel7.setText("Tienda Origen:");
+
+        txt_fecha_envio.setEditable(false);
+        txt_fecha_envio.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel8.setText("Tienda Destino:");
 
+        txt_fecha_recepcion.setEditable(false);
+        txt_fecha_recepcion.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel9.setText("Fecha Envio:");
 
+        txt_usuario_envia.setEditable(false);
+        txt_usuario_envia.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel10.setText("Fecha Recepcion:");
+
+        txt_id_traslado.setEditable(false);
+        txt_id_traslado.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel11.setText("Usuario Envia:");
 
@@ -330,7 +348,15 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
         btn_salir_traslado.setFocusable(false);
         btn_salir_traslado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_salir_traslado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_salir_traslado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_salir_trasladoActionPerformed(evt);
+            }
+        });
         jToolBar3.add(btn_salir_traslado);
+
+        txt_usuario_recibe.setEditable(false);
+        txt_usuario_recibe.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel13.setText("Usuario Recibe:");
 
@@ -343,33 +369,33 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jd_detalle_trasladoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_tienda_origen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_tienda_origen, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_tienda_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_tienda_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_fecha_envio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_fecha_envio, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_fecha_recepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_fecha_recepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_usuario_envia, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_usuario_envia, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_id_traslado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_id_traslado, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jd_detalle_trasladoLayout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_usuario_recibe, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txt_usuario_recibe, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_detalle_trasladoLayout.setVerticalGroup(
@@ -634,7 +660,7 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
         if (fila_seleccionada > -1) {
             desactivar_botones();
             jd_kardex.setModal(true);
-            jd_kardex.setSize(840, 380);
+            jd_kardex.setSize(840, 480);
             jd_kardex.setLocationRelativeTo(null);
             int id_producto = Integer.parseInt(jTable1.getValueAt(fila_seleccionada, 0).toString());
             String producto = jTable1.getValueAt(fila_seleccionada, 1).toString() + " " + jTable1.getValueAt(fila_seleccionada, 2).toString();
@@ -716,6 +742,8 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
 
     private void btn_detalle_kardexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detalle_kardexActionPerformed
         if (kardex_seleccionado > -1) {
+            btn_detalle_kardex.setEnabled(false);
+            
             int idkardex = Integer.parseInt(t_kardex.getValueAt(kardex_seleccionado, 0).toString());
             cl_kardex c_kardexdetalle = new cl_kardex();
             c_kardexdetalle.setId_kardex(idkardex);
@@ -736,16 +764,35 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
                 c_trecibe.setId(c_traslado.getId_tienda_recibe());
                 c_trecibe.validar_almacen();
                 
+                cl_usuario c_uenvia = new cl_usuario();
+                c_uenvia.setId_usuario(c_traslado.getId_usuario_envia());
+                c_uenvia.validar_usuario();
+                
+                
+                cl_usuario c_urecibe = new cl_usuario();
+                c_urecibe.setId_usuario(c_traslado.getId_usuario_recibe());
+                c_urecibe.validar_usuario();
+                
                 txt_tienda_origen.setText(c_tenvia.getNombre());
                 txt_tienda_destino.setText(c_trecibe.getNombre());
+                txt_fecha_envio.setText(c_traslado.getFecha_envio());
+                txt_fecha_recepcion.setText(c_traslado.getFecha_recepcion());
+                txt_usuario_envia.setText(c_uenvia.getNombre());
+                txt_usuario_recibe.setText(c_urecibe.getNombre());
+                txt_id_traslado.setText(c_traslado.getId_traslado()+"");
+                
 
                 jd_detalle_traslado.setModal(true);
-                jd_detalle_traslado.setSize(386, 382);
+                jd_detalle_traslado.setSize(516, 382);
                 jd_detalle_traslado.setLocationRelativeTo(null);
                 jd_detalle_traslado.setVisible(true);
             }
         }
     }//GEN-LAST:event_btn_detalle_kardexActionPerformed
+
+    private void btn_salir_trasladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salir_trasladoActionPerformed
+        jd_detalle_traslado.dispose();
+    }//GEN-LAST:event_btn_salir_trasladoActionPerformed
 
     /**
      * @param args the command line arguments

@@ -516,7 +516,7 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         btn_guardar.setEnabled(false);
 
         if (JOptionPane.OK_OPTION == confirmado) {
-            c_inventario.setAnio(2018);
+            c_inventario.setAnio(2019);
             c_inventario.setFecha(c_varios.getFechaActual());
             c_inventario.setId_almacen(id_almacen);
             c_inventario.setId_usuario(id_usuario);

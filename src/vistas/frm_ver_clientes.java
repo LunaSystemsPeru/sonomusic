@@ -6,7 +6,10 @@
 package vistas;
 
 import clases.cl_cliente;
+import forms.frm_reg_cliente;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,6 +18,8 @@ import java.awt.event.KeyEvent;
 public class frm_ver_clientes extends javax.swing.JInternalFrame {
 
     cl_cliente c_cliente = new cl_cliente();
+
+    int fila_seleccionada;
 
     public frm_ver_clientes() {
         initComponents();
@@ -65,6 +70,11 @@ public class frm_ver_clientes extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        t_clientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_clientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(t_clientes);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODOS", "DEUDORES", "INACTIVOS" }));
@@ -78,6 +88,11 @@ public class frm_ver_clientes extends javax.swing.JInternalFrame {
         btn_modificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_modificar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         btn_modificar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_modificar);
 
         btn_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
@@ -142,6 +157,23 @@ public class frm_ver_clientes extends javax.swing.JInternalFrame {
             txt_buscar.setText("");
         }
     }//GEN-LAST:event_txt_buscarKeyPressed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        int id_cliente = Integer.parseInt(t_clientes.getValueAt(fila_seleccionada, 0).toString());
+        btn_modificar.setEnabled(false);
+        Frame f = JOptionPane.getRootFrame();
+        frm_reg_cliente.accion = "modificar";
+        frm_reg_cliente.origen = "mod_cliente";
+        frm_reg_cliente.c_cliente.setCodigo(id_cliente);
+        frm_reg_cliente dialog = new frm_reg_cliente(f, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void t_clientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_clientesMouseClicked
+        btn_modificar.setEnabled(true);
+        fila_seleccionada = t_clientes.getSelectedRow();
+    }//GEN-LAST:event_t_clientesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

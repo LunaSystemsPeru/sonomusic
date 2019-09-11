@@ -55,7 +55,9 @@ public class frm_reg_cliente extends javax.swing.JDialog {
     }
 
     private void llenar() {
-        c_cliente.setCodigo(c_cliente.obtener_codigo());
+        if (c_cliente.getCodigo() == 0) {
+            c_cliente.setCodigo(c_cliente.obtener_codigo());
+        }
         c_cliente.setDocumento(txt_ndoc.getText());
         c_cliente.setNombre(txt_nom.getText().trim().toUpperCase());
         c_cliente.setDireccion(txt_dir.getText().trim().toUpperCase());
@@ -362,18 +364,13 @@ public class frm_reg_cliente extends javax.swing.JDialog {
                 }
             }
 
-//            if (accion.equals("modificar")) {
-//                if (c_entidad.modificar()) {
-//                    Notification.show("Clientes", "CLIENTE MODIFICADO CORRECTAMENTE");
-//                    if (origen.equals("reg_venta")) {
-//                        frm_reg_venta.btn_actualizar.doClick();
-//                    }
-//                    if (origen.equals("reg_guiaa")) {
-//                        frm_reg_guia.btn_actualizar.doClick();
-//                    }
-//                    this.dispose();
-//                }
-//            }
+            if (accion.equals("modificar")) {
+                if (c_cliente.modificar()) {
+                    Notification.show("Clientes", "CLIENTE MODIFICADO CORRECTAMENTE");
+                    btn_cerrar.doClick();
+                }
+            }
+            c_cliente.setCodigo(0);
             accion = "";
             origen = "";
         }

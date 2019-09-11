@@ -10,10 +10,13 @@ import clases.cl_caja;
 import clases.cl_conectar;
 import clases.cl_empresa;
 import clases.cl_usuario;
+import clases.cl_usuario_permisos;
 import clases.cl_varios;
+import clases_hilos.cl_notificaciones;
 import clases_varios.cl_grafica_mensual;
 import forms.frm_reg_cierre_caja;
 import forms.frm_reg_movimiento_caja;
+import forms.frm_reg_traslado;
 import forms.frm_reg_venta;
 import java.awt.Frame;
 import java.awt.Toolkit;
@@ -34,13 +37,15 @@ import vistas.frm_ver_ingresos;
 import vistas.frm_ver_inventarios;
 import vistas.frm_ver_kardex_diario;
 import vistas.frm_ver_mis_productos;
+import vistas.frm_ver_mis_productos2;
 import vistas.frm_ver_productos_tiendas;
 import vistas.frm_ver_productos_todos;
 import vistas.frm_ver_proveedores;
 import vistas.frm_ver_traslados;
 import vistas.frm_ver_usuarios;
 import vistas.frm_ver_ventas;
-import vistas.rpt_reportes;
+import vistas.rpt_mercaderia;
+import vistas.rpt_ventas;
 
 /**
  *
@@ -54,9 +59,11 @@ public class frm_principal extends javax.swing.JFrame {
     public static cl_usuario c_usuario = new cl_usuario();
     public static cl_almacen c_almacen = new cl_almacen();
     public static cl_empresa c_empresa = new cl_empresa();
+    public static cl_usuario_permisos c_permiso = new cl_usuario_permisos();
 
     cl_caja c_caja = new cl_caja();
     cl_grafica_mensual c_grafica;
+    cl_notificaciones c_notificaciones = new cl_notificaciones();
 
     /**
      * Creates new form frm_principal
@@ -97,6 +104,66 @@ public class frm_principal extends javax.swing.JFrame {
             timer.setRepeats(true);
         } catch (Exception e) {
             System.out.println("Error grave " + e.getLocalizedMessage());
+        }
+    }
+
+    private void auto_notificar() {
+        try {
+            Timer timer = new Timer(60000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("mostrando id almacen " + c_almacen.getId());
+                    c_notificaciones.setId_almacen(c_almacen.getId());
+                    c_notificaciones.mostrar();
+                }
+            });
+            timer.start();
+            timer.setRepeats(true);
+        } catch (Exception e) {
+            System.out.println("Error grave " + e.getLocalizedMessage());
+        }
+    }
+
+    private void cargar_permisos() {
+        c_permiso.setId_permiso(18);
+        boolean permitido18 = c_permiso.validar();
+
+        if (!permitido18) {
+            jButton4.setEnabled(false);
+        }
+
+        c_permiso.setId_permiso(17);
+        boolean permitido17 = c_permiso.validar();
+
+        if (!permitido17) {
+            jButton16.setEnabled(false);
+        }
+
+        c_permiso.setId_permiso(16);
+        boolean permitido16 = c_permiso.validar();
+
+        if (!permitido16) {
+            jButton3.setEnabled(false);
+        }
+
+        c_permiso.setId_permiso(15);
+        boolean permitido15 = c_permiso.validar();
+
+        if (!permitido15) {
+            jButton23.setEnabled(false);
+        }
+        
+        c_permiso.setId_permiso(9);
+        boolean permitido9 = c_permiso.validar();
+
+        if (!permitido9) {
+            jButton13.setEnabled(false);
+        }
+        
+        c_permiso.setId_permiso(4);
+        boolean permitido4 = c_permiso.validar();
+
+        if (!permitido4) {
+            jButton19.setEnabled(false);
         }
     }
 
@@ -172,6 +239,8 @@ public class frm_principal extends javax.swing.JFrame {
         jButton20 = new javax.swing.JButton();
         jSeparator12 = new javax.swing.JToolBar.Separator();
         jButton17 = new javax.swing.JButton();
+        jSeparator15 = new javax.swing.JToolBar.Separator();
+        jButton23 = new javax.swing.JButton();
         jToolBar6 = new javax.swing.JToolBar();
         jButton3 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
@@ -182,6 +251,10 @@ public class frm_principal extends javax.swing.JFrame {
         jButton21 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
+        jLabel13 = new javax.swing.JLabel();
+        lbl_traslados_encontrados = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jSeparator16 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         lbl_usuario = new javax.swing.JLabel();
 
@@ -524,7 +597,7 @@ public class frm_principal extends javax.swing.JFrame {
         jToolBar4.add(jSeparator9);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Identity-separation-man-qr-code-data-barcode-512.png"))); // NOI18N
-        jButton1.setText("Separaciones");
+        jButton1.setText("Por Cobrar");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -549,7 +622,7 @@ public class frm_principal extends javax.swing.JFrame {
         jToolBar4.add(jButton8);
         jToolBar4.add(jSeparator14);
 
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/error.png"))); // NOI18N
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconfinder_computer_connection_1421640.png"))); // NOI18N
         jButton9.setText("Reconectar");
         jButton9.setFocusable(false);
         jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -704,6 +777,19 @@ public class frm_principal extends javax.swing.JFrame {
             }
         });
         jToolBar2.add(jButton17);
+        jToolBar2.add(jSeparator15);
+
+        jButton23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard-512.png"))); // NOI18N
+        jButton23.setText("Reportes");
+        jButton23.setFocusable(false);
+        jButton23.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton23.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton23);
 
         jTabbedPane1.addTab("Mercaderia", jToolBar2);
 
@@ -790,13 +876,13 @@ public class frm_principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jp_dias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jp_dias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jp_meses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -806,6 +892,20 @@ public class frm_principal extends javax.swing.JFrame {
         jToolBar3.setFloatable(false);
         jToolBar3.setBorderPainted(false);
         jToolBar3.setOpaque(false);
+
+        jLabel13.setText("Traslados Pendientes:");
+        jToolBar3.add(jLabel13);
+
+        lbl_traslados_encontrados.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lbl_traslados_encontrados.setText("0");
+        jToolBar3.add(lbl_traslados_encontrados);
+
+        jLabel10.setText(" ");
+        jToolBar3.add(jLabel10);
+
+        jSeparator16.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator16.setPreferredSize(new java.awt.Dimension(6, 0));
+        jToolBar3.add(jSeparator16);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/user_thief_baldie.png"))); // NOI18N
         jLabel6.setText("Usuario: ");
@@ -822,7 +922,7 @@ public class frm_principal extends javax.swing.JFrame {
             .addComponent(jDesktopPane1)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 453, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -830,9 +930,9 @@ public class frm_principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jDesktopPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToolBar3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -899,6 +999,9 @@ public class frm_principal extends javax.swing.JFrame {
         c_empresa.setId(c_almacen.getEmpresa());
         c_empresa.validar_empresa();
 
+        c_permiso.setId_usuario(c_usuario.getId_usuario());
+        cargar_permisos();
+
         lbl_nom_tienda.setText(c_almacen.getNombre());
         lbl_empresa.setText(c_empresa.getRuc() + " | " + c_empresa.getRazon());
         lbl_usuario.setText(c_usuario.getUsername());
@@ -915,6 +1018,9 @@ public class frm_principal extends javax.swing.JFrame {
             jd_apertura.setLocationRelativeTo(null);
             jd_apertura.setVisible(true);
         }
+
+        //mostrar notificaciones
+        auto_notificar();
 
         c_grafica = new cl_grafica_mensual();
         c_grafica.llenar_series_diarias(jp_dias);
@@ -952,10 +1058,15 @@ public class frm_principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        Frame f = JOptionPane.getRootFrame();
+        /*        Frame f = JOptionPane.getRootFrame();
         frm_ver_mis_productos dialog = new frm_ver_mis_productos(f, true);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+         */
+
+//ahora se abre un jinternalfram
+        frm_ver_mis_productos2 formulario = new frm_ver_mis_productos2();
+        c_varios.llamar_ventana(formulario);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
@@ -1043,7 +1154,7 @@ public class frm_principal extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         Frame f = JOptionPane.getRootFrame();
-        rpt_reportes dialog = new rpt_reportes(f, true);
+        rpt_ventas dialog = new rpt_ventas(f, true);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -1052,6 +1163,13 @@ public class frm_principal extends javax.swing.JFrame {
         c_conectar.conectar();
         autoconectar();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        Frame f = JOptionPane.getRootFrame();
+        rpt_mercaderia dialog = new rpt_mercaderia(f, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton23ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1107,6 +1225,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -1117,8 +1236,10 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1135,6 +1256,8 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator12;
     private javax.swing.JToolBar.Separator jSeparator13;
     private javax.swing.JToolBar.Separator jSeparator14;
+    private javax.swing.JToolBar.Separator jSeparator15;
+    private javax.swing.JSeparator jSeparator16;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -1158,6 +1281,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JPanel jp_meses;
     private javax.swing.JLabel lbl_empresa;
     private javax.swing.JLabel lbl_nom_tienda;
+    public static javax.swing.JLabel lbl_traslados_encontrados;
     private javax.swing.JLabel lbl_usuario;
     private javax.swing.JPasswordField txt_contrasena;
     private javax.swing.JTextField txt_fecha;

@@ -29,6 +29,7 @@ public class m_empresas {
 
             String query = "select id_empresa, ruc, razon "
                     + "from empresa "
+                    + "where estado = 'ACTIVO' "
                     + "order by razon asc";
             ResultSet rs = c_conectar.consulta(st, query);
 

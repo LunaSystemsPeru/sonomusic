@@ -11,6 +11,7 @@ import clases.cl_varios;
 import forms.frm_reg_ingreso;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import sonomusic.frm_principal;
 
 /**
  *
@@ -178,10 +179,15 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
             }
         });
 
-        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FECHA", "PERIODO", "PROVEEDOR", "NRO DOCUMENTO" }));
+        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PERIODO", "FECHA", "PROVEEDOR", "NRO DOCUMENTO" }));
         cbx_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbx_buscarActionPerformed(evt);
+            }
+        });
+        cbx_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbx_buscarKeyPressed(evt);
             }
         });
 
@@ -218,6 +224,11 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
         btn_pdf.setFocusable(false);
         btn_pdf.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_pdf.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_pdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_pdfActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_pdf);
 
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
@@ -296,6 +307,16 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
             int tipo_busqueda = cbx_buscar.getSelectedIndex();
 
             if (tipo_busqueda == 0) {
+                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+                        + "from ingresos as i "
+                        + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
+                        + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
+                        + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
+                        + "where i.periodo = '" + buscar + "' "
+                        + "order by i.fecha asc, i.numero asc";
+            }
+
+            if (tipo_busqueda == 1) {
                 buscar = c_varios.fecha_myql(buscar);
                 query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
                         + "from ingresos as i "
@@ -304,16 +325,6 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
                         + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
                         + "where i.fecha = '" + buscar + "' "
                         + "order by i.numero asc";
-            }
-
-            if (tipo_busqueda == 1) {
-                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
-                        + "from ingresos as i "
-                        + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
-                        + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
-                        + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
-                        + "where i.periodo = '" + buscar + "' "
-                        + "order by i.fecha asc, i.numero asc";
             }
 
             if (tipo_busqueda == 2) {
@@ -355,29 +366,37 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_t_ingresosMouseClicked
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        if (fila_seleccionada > -1) {
-            int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Documento de Ingreso de Mercaderia?");
-            desactivar_botones();
+        frm_principal.c_permiso.setId_permiso(5);
+        boolean permitido = frm_principal.c_permiso.validar();
 
-            if (JOptionPane.OK_OPTION == confirmado) {
-                c_detalle.setId_ingreso(c_ingreso.getId_ingreso());
-                c_detalle.setPeriodo(c_ingreso.getPeriodo());
-                c_detalle.eliminar();
-                c_ingreso.eliminar();
+        if (permitido) {
+            if (fila_seleccionada > -1) {
+                int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Documento de Ingreso de Mercaderia?");
+                desactivar_botones();
 
-                String periodo = c_varios.obtener_periodo();
-                String query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
-                        + "from ingresos as i "
-                        + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
-                        + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
-                        + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
-                        + "where i.periodo = '" + periodo + "' ";
-                c_ingreso.mostrar(t_ingresos, query);
+                if (JOptionPane.OK_OPTION == confirmado) {
+                    c_detalle.setId_ingreso(c_ingreso.getId_ingreso());
+                    c_detalle.setPeriodo(c_ingreso.getPeriodo());
+                    c_detalle.eliminar();
+                    c_ingreso.eliminar();
+
+                    String periodo = c_varios.obtener_periodo();
+                    String query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+                            + "from ingresos as i "
+                            + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
+                            + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
+                            + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
+                            + "where i.periodo = '" + periodo + "' ";
+                    c_ingreso.mostrar(t_ingresos, query);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No ha seleccionado una fila");
+
             }
         } else {
-            JOptionPane.showMessageDialog(null, "No ha seleccionado una fila");
-
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
         }
+
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void btn_detalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detalleActionPerformed
@@ -391,6 +410,17 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
         c_detalle.mostrar_detalle(t_detalle);
         jd_detalle.setVisible(true);
     }//GEN-LAST:event_btn_detalleActionPerformed
+
+    private void cbx_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_buscarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txt_buscar.selectAll();
+            txt_buscar.requestFocus();
+        }
+    }//GEN-LAST:event_cbx_buscarKeyPressed
+
+    private void btn_pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pdfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_pdfActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

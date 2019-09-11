@@ -133,6 +133,34 @@ public class cl_ingresos {
     public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
+    
+    public boolean validar_ingreso() {
+        boolean existe = false;
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select * "
+                    + "from ingresos "
+                    + "where id_ingreso = '" + id_ingreso + "' and periodo = '" + periodo + "'";
+            System.out.println(query);
+            ResultSet rs = c_conectar.consulta(st, query);
+            if (rs.next()) {
+                existe = true;
+                fecha = rs.getString("fecha");
+                id_almacen = rs.getInt("id_almacen");
+                id_proveedor = rs.getInt("id_proveedor");
+                id_tido = rs.getInt("id_tido");
+                serie = rs.getString("serie");
+                numero = rs.getInt("numero");
+                total = rs.getDouble("total");
+                id_moneda = rs.getInt("id_moneda");
+                id_usuario = rs.getInt("id_usuarios");
+                tc = rs.getDouble("tc");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
+    }
 
     public boolean validar_documento() {
         boolean existe = false;
@@ -145,6 +173,26 @@ public class cl_ingresos {
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 existe = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
+    }
+    
+    public boolean validar_documento_kardex() {
+        boolean existe = false;
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select id_ingreso, periodo "
+                    + "from ingresos "
+                    + "where id_almacen = '" + id_almacen + "' and id_tido = '" + id_tido + "' and serie = '" + serie + "' and numero = '" + numero + "' and fecha = '"+fecha+"'";
+            System.out.println(query);
+            ResultSet rs = c_conectar.consulta(st, query);
+            if (rs.next()) {
+                existe = true;
+                this.id_ingreso = rs.getInt("id_ingreso");
+                this.periodo = rs.getInt("periodo");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

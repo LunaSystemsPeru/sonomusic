@@ -14,6 +14,11 @@ import clases.cl_varios;
 import forms.frm_reg_producto;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import sonomusic.frm_principal;
 
@@ -32,6 +37,7 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
     int id_usuario = frm_principal.c_usuario.getId_usuario();
     int fila_seleccionada = -1;
     int kardex_seleccionado;
+    int id_traslado = 0;
     String query;
 
     /**
@@ -341,6 +347,11 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
         btn_ver_pdf_traslado.setFocusable(false);
         btn_ver_pdf_traslado.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_ver_pdf_traslado.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_ver_pdf_traslado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ver_pdf_trasladoActionPerformed(evt);
+            }
+        });
         jToolBar3.add(btn_ver_pdf_traslado);
 
         btn_salir_traslado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
@@ -755,6 +766,8 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
                 cl_traslados c_traslado = new cl_traslados();
                 c_traslado.setId_traslado(c_kardexdetalle.getNumero());
                 c_traslado.validar_datos();
+                
+                id_traslado = c_traslado.getId_traslado();
 
                 cl_almacen c_tenvia = new cl_almacen();
                 c_tenvia.setId(c_traslado.getId_tienda_envia());
@@ -793,6 +806,25 @@ public class frm_ver_mis_productos extends javax.swing.JDialog {
     private void btn_salir_trasladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salir_trasladoActionPerformed
         jd_detalle_traslado.dispose();
     }//GEN-LAST:event_btn_salir_trasladoActionPerformed
+
+    private void btn_ver_pdf_trasladoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ver_pdf_trasladoActionPerformed
+         // TODO add your handling code here:
+        File miDir = new File(".");
+        try {
+            Map<String, Object> parametros = new HashMap<>();
+        String path = miDir.getCanonicalPath();
+         String direccion = path + "//reports//subreports//"; 
+         System.out.println(direccion); 
+         parametros.put("SUBREPORT_DIR", direccion); 
+         parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH); 
+         parametros.put("id_traslado", id_traslado); 
+         //c_varios.imp_reporte("rpt_documento_venta", parametros);
+               c_varios.ver_reporte("report_traslado", parametros); 
+       
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage()); 
+        }
+    }//GEN-LAST:event_btn_ver_pdf_trasladoActionPerformed
 
     /**
      * @param args the command line arguments

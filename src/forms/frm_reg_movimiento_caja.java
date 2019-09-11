@@ -5,6 +5,7 @@
  */
 package forms;
 
+import clases.cl_caja;
 import clases.cl_movimiento_caja;
 import clases.cl_varios;
 import java.awt.event.KeyEvent;
@@ -20,20 +21,63 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
     cl_movimiento_caja c_movimiento = new cl_movimiento_caja();
     cl_varios c_varios = new cl_varios();
 
+    cl_caja c_caja = new cl_caja();
+
     int id_almacen = frm_principal.c_almacen.getId();
     int id_usuario = frm_principal.c_usuario.getId_usuario();
+
+    ///variables globales
+    String query = "";
+    String fecha = "";
 
     /**
      * Creates new form frm_reg_movimiento_caja
      */
     public frm_reg_movimiento_caja() {
         initComponents();
-        String fecha = c_varios.getFechaActual();
-        String query = "select mc.id_movimiento, mc.ingresa, mc.retira, mc.motivo, u.username "
+        fecha = c_varios.getFechaActual();
+        query = "select mc.id_movimiento, mc.ingresa, mc.retira, mc.motivo, u.username "
                 + "from cajas_movimientos as mc "
                 + "inner join usuarios as u on u.id_usuarios = mc.id_usuarios "
                 + "where mc.fecha = '" + fecha + "' and mc.id_almacen = '" + id_almacen + "'";
         c_movimiento.mostrar(t_movimientos, query);
+
+        //mostrar resumen de caja
+        c_caja.setId_almacen(id_almacen);
+        c_caja.setFecha(fecha);
+        actualizar_caja();
+        cargar_permisos();
+    }
+
+    private void cargar_permisos() {
+        frm_principal.c_permiso.setId_permiso(22);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+            btn_limpiar_caja.setEnabled(true);
+        } else {
+            btn_limpiar_caja.setEnabled(false);
+        }
+    }
+
+    private void actualizar_caja() {
+        c_caja.validar_caja();
+        double apertura = c_caja.getM_apertura();
+        double tot_ingresos = c_caja.getO_ingresos();
+        double tot_egresos = c_caja.getGastos_varios();
+        double tot_venta = c_caja.getIng_venta() + c_caja.getCobro_venta() - c_caja.getDevolucion_ventas();
+        double tot_efectivo = apertura + tot_ingresos + tot_venta - tot_egresos;
+        double m_sistema = c_caja.getM_sistema();
+
+        if (m_sistema != tot_efectivo) {
+            //JOptionPane.showMessageDialog(null, "Sumatoria del Movimiento no coincide con base de datos \nSolo es Advertencia");
+        }
+
+        txt_apertura.setText(c_varios.formato_totales(apertura));
+        txt_totalingresos.setText(c_varios.formato_totales(tot_ingresos));
+        txt_totalegresos.setText(c_varios.formato_totales(tot_egresos));
+        txt_totalventas.setText(c_varios.formato_totales(tot_venta));
+        txt_efectivototal.setText(c_varios.formato_totales(c_caja.getM_sistema()));
     }
 
     /**
@@ -60,7 +104,21 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        btn_limpiar_caja = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txt_apertura = new javax.swing.JTextField();
+        txt_totalingresos = new javax.swing.JTextField();
+        txt_totalegresos = new javax.swing.JTextField();
+        txt_totalventas = new javax.swing.JTextField();
+        txt_efectivototal = new javax.swing.JTextField();
 
         jd_reg_movimiento.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jd_reg_movimiento.setTitle("Guardar Movimiento");
@@ -195,10 +253,26 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/banco.png"))); // NOI18N
         jButton3.setText("Deposito");
+        jButton3.setEnabled(false);
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton3);
+        jToolBar1.add(jSeparator1);
+
+        btn_limpiar_caja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/error.png"))); // NOI18N
+        btn_limpiar_caja.setText("Limpiar Dia");
+        btn_limpiar_caja.setEnabled(false);
+        btn_limpiar_caja.setFocusable(false);
+        btn_limpiar_caja.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_limpiar_caja.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_limpiar_caja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_limpiar_cajaActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_limpiar_caja);
+        jToolBar1.add(jSeparator2);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
         jButton2.setText("Salir");
@@ -212,22 +286,112 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jButton2);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Resumen de Movimiento de Dinero"));
+
+        jLabel4.setText("Apertura:");
+
+        jLabel5.setText("Total O. Ingresos:");
+
+        jLabel6.setText("Total Egresos:");
+
+        jLabel7.setText("Total Ventas:");
+
+        jLabel8.setText("Total Efectivo:");
+
+        txt_apertura.setEditable(false);
+        txt_apertura.setBackground(new java.awt.Color(255, 255, 255));
+        txt_apertura.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txt_totalingresos.setEditable(false);
+        txt_totalingresos.setBackground(new java.awt.Color(255, 255, 255));
+        txt_totalingresos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txt_totalegresos.setEditable(false);
+        txt_totalegresos.setBackground(new java.awt.Color(255, 255, 255));
+        txt_totalegresos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txt_totalventas.setEditable(false);
+        txt_totalventas.setBackground(new java.awt.Color(255, 255, 255));
+        txt_totalventas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txt_efectivototal.setEditable(false);
+        txt_efectivototal.setBackground(new java.awt.Color(255, 255, 255));
+        txt_efectivototal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_totalegresos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_totalingresos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_apertura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_totalventas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_efectivototal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_apertura, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_totalventas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_totalingresos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txt_totalegresos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_efectivototal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -268,6 +432,10 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
             if (c_varios.esDecimal(texto)) {
                 btn_j_guardar.setEnabled(true);
                 btn_j_guardar.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al ingresar el numero");
+                txt_monto.selectAll();
+                txt_monto.requestFocus();
             }
         }
     }//GEN-LAST:event_txt_montoKeyPressed
@@ -290,16 +458,14 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
         if (registrado) {
             jd_reg_movimiento.dispose();
             limpiar();
-            String fecha = c_varios.getFechaActual();
-            String query = "select mc.id_movimiento, mc.ingresa, mc.retira, mc.motivo, u.username "
-                    + "from cajas_movimientos as mc "
-                    + "inner join usuarios as u on u.id_usuarios = mc.id_usuarios "
-                    + "where mc.fecha = '" + fecha + "' and mc.id_almacen = '" + id_almacen + "'";
             c_movimiento.mostrar(t_movimientos, query);
+            actualizar_caja();
         }
     }//GEN-LAST:event_btn_j_guardarActionPerformed
 
-    private void limpiar(){
+    private void limpiar() {
+        c_movimiento.setIngresa(0);
+        c_movimiento.setRetirar(0);
         txt_motivo.setText("");
         txt_monto.setText("");
         cbx_tipo.setEnabled(false);
@@ -316,10 +482,26 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btn_limpiar_cajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiar_cajaActionPerformed
+        //eliminar todos los movimientos del dia
+        int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de eliminar sus movimiento del dia?");
+        btn_limpiar_caja.setEnabled(false);
+
+        if (JOptionPane.OK_OPTION == confirmado) {
+            c_movimiento.setFecha(c_varios.getFechaActual());
+            c_movimiento.setId_almacen(id_almacen);
+            if (c_movimiento.eliminar_dia()) {
+                c_movimiento.mostrar(t_movimientos, query);
+                actualizar_caja();
+            }
+        }
+    }//GEN-LAST:event_btn_limpiar_cajaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_j_guardar;
     private javax.swing.JButton btn_j_salir;
+    private javax.swing.JButton btn_limpiar_caja;
     private javax.swing.JComboBox<String> cbx_tipo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -327,12 +509,25 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JDialog jd_reg_movimiento;
     private javax.swing.JTable t_movimientos;
+    private javax.swing.JTextField txt_apertura;
+    private javax.swing.JTextField txt_efectivototal;
     private javax.swing.JTextField txt_monto;
     private javax.swing.JTextField txt_motivo;
+    private javax.swing.JTextField txt_totalegresos;
+    private javax.swing.JTextField txt_totalingresos;
+    private javax.swing.JTextField txt_totalventas;
     // End of variables declaration//GEN-END:variables
 }

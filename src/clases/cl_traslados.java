@@ -239,6 +239,28 @@ public class cl_traslados {
         }
     }
 
+    public int obtener_traslados_pendientes() {
+        int resultado = 0;
+
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select count(*) as encontrado "
+                    + "from traslados "
+                    + "where a_destino = '" + this.id_tienda_recibe + "' and estado = 1";
+            ResultSet rs = c_conectar.consulta(st, query);
+
+            if (rs.next()) {
+                resultado = rs.getInt("encontrado");
+            }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+        }
+
+        return resultado;
+    }
+
     public int obtener_codigo() {
         int resultado = 0;
 

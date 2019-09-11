@@ -10,6 +10,7 @@ import forms.frm_reg_producto;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import sonomusic.frm_principal;
 
 /**
  *
@@ -152,6 +153,11 @@ public class frm_ver_productos_todos extends javax.swing.JInternalFrame {
         btn_eliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_eliminar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         btn_eliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_eliminar);
 
         btn_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
@@ -271,14 +277,33 @@ public class frm_ver_productos_todos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_buscarKeyPressed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
-        desactivar_botones();
-        Frame f = JOptionPane.getRootFrame();
-        frm_reg_producto.c_producto.setId(c_producto.getId());
-        frm_reg_producto.registrar = false;
-        frm_reg_producto dialog = new frm_reg_producto(f, true);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        frm_principal.c_permiso.setId_permiso(10);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+
+            desactivar_botones();
+            Frame f = JOptionPane.getRootFrame();
+            frm_reg_producto.c_producto.setId(c_producto.getId());
+            frm_reg_producto.registrar = false;
+            frm_reg_producto dialog = new frm_reg_producto(f, true);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
+        }
     }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        frm_principal.c_permiso.setId_permiso(11);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -16,6 +16,8 @@ import clases.cl_venta;
 import clases.cl_venta_cupon;
 import clases_autocomplete.cla_mis_documentos;
 import clases_varios.leer_numeros;
+import forms.frm_mod_separacion;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +54,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     int id_usuario = frm_principal.c_usuario.getId_usuario();
 
     int fila_seleccionada = -1;
+    int fila_cobro = -1;
 
     String query = "";
 
@@ -105,6 +108,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             } else {
                 btn_entregar_productos.setEnabled(false);
             }
+            if (estado.equals("SEPARADO")) {
+                btn_mod_separacion.setEnabled(true);
+            } else {
+                btn_mod_separacion.setEnabled(false);
+            }
             btn_anular_venta.setEnabled(true);
             btn_imprimir.setEnabled(true);
         }
@@ -117,6 +125,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         btn_entregar_productos.setEnabled(false);
         btn_anular_venta.setEnabled(false);
         btn_imprimir.setEnabled(false);
+        btn_mod_separacion.setEnabled(false);
     }
 
     /**
@@ -152,7 +161,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         t_cobros = new javax.swing.JTable();
         jToolBar3 = new javax.swing.JToolBar();
         btn_jd_cobro_graba = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_eliminar_cobro = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         txt_jd_cobro_documento = new javax.swing.JTextField();
         txt_jd_cobro_cliente = new javax.swing.JTextField();
@@ -194,6 +203,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         btn_ver_detalle = new javax.swing.JButton();
         btn_ver_cobros = new javax.swing.JButton();
+        jSeparator5 = new javax.swing.JToolBar.Separator();
+        btn_mod_separacion = new javax.swing.JButton();
         btn_entregar_productos = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         btn_imprimir = new javax.swing.JButton();
@@ -202,6 +213,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         btn_ver_cupon = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton6 = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
 
         jd_anular_documento.setTitle("Eliminar Venta");
 
@@ -371,6 +383,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        t_cobros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_cobrosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(t_cobros);
 
         jToolBar3.setFloatable(false);
@@ -388,13 +405,18 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         });
         jToolBar3.add(btn_jd_cobro_graba);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
-        jButton2.setText("Eliminar");
-        jButton2.setEnabled(false);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar3.add(jButton2);
+        btn_eliminar_cobro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
+        btn_eliminar_cobro.setText("Eliminar");
+        btn_eliminar_cobro.setEnabled(false);
+        btn_eliminar_cobro.setFocusable(false);
+        btn_eliminar_cobro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_eliminar_cobro.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_eliminar_cobro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminar_cobroActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(btn_eliminar_cobro);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
         jButton3.setText("Salir");
@@ -677,10 +699,15 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         });
 
-        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENTE", "FECHA", "NRO. DOCUMENTO" }));
+        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FECHA", "CLIENTE", "NRO. DOCUMENTO" }));
         cbx_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbx_buscarActionPerformed(evt);
+            }
+        });
+        cbx_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbx_buscarKeyPressed(evt);
             }
         });
 
@@ -763,6 +790,20 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(btn_ver_cobros);
+        jToolBar1.add(jSeparator5);
+
+        btn_mod_separacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
+        btn_mod_separacion.setText("Cambiar Productos");
+        btn_mod_separacion.setEnabled(false);
+        btn_mod_separacion.setFocusable(false);
+        btn_mod_separacion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_mod_separacion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_mod_separacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mod_separacionActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_mod_separacion);
 
         btn_entregar_productos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/compra_producto.png"))); // NOI18N
         btn_entregar_productos.setText("Entregar Productos");
@@ -806,7 +847,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jToolBar1.add(btn_anular_venta);
 
         btn_ver_cupon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/comment.png"))); // NOI18N
-        btn_ver_cupon.setText("Ver Cupon");
+        btn_ver_cupon.setText("Ver Anulacion");
         btn_ver_cupon.setEnabled(false);
         btn_ver_cupon.setFocusable(false);
         btn_ver_cupon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -831,6 +872,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jButton6);
 
+        jLabel19.setText("Enter para Buscar             Escape para Limpiar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -840,7 +883,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1038, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_total_ventas, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -879,7 +923,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_total_ventas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_total_pagos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_total_pagos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
                 .addContainerGap())
         );
 
@@ -899,21 +944,28 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_t_ventasMouseClicked
 
     private void btn_anular_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anular_ventaActionPerformed
-        if (fila_seleccionada > -1) {
-            desactivar_botones();
+        frm_principal.c_permiso.setId_permiso(2);
+        boolean permitido = frm_principal.c_permiso.validar();
 
-            double total = Double.parseDouble(t_ventas.getValueAt(fila_seleccionada, 4).toString());
-            double pagado = Double.parseDouble(t_ventas.getValueAt(fila_seleccionada, 5).toString());
-            jd_anular_documento.setModal(true);
-            jd_anular_documento.setSize(691, 249);
-            jd_anular_documento.setLocationRelativeTo(null);
-            txt_jd_total.setText(c_varios.formato_numero(total));
-            txt_jd_pagado.setText(c_varios.formato_numero(pagado));
-            txt_jd_fecha.setText(c_varios.fecha_usuario(c_varios.getFechaActual()));
+        if (permitido) {
+            if (fila_seleccionada > -1) {
+                desactivar_botones();
 
-            txt_jd_motivo.requestFocus();
-            jd_anular_documento.setVisible(true);
+                double total = Double.parseDouble(t_ventas.getValueAt(fila_seleccionada, 4).toString());
+                double pagado = Double.parseDouble(t_ventas.getValueAt(fila_seleccionada, 5).toString());
+                jd_anular_documento.setModal(true);
+                jd_anular_documento.setSize(691, 249);
+                jd_anular_documento.setLocationRelativeTo(null);
+                txt_jd_total.setText(c_varios.formato_numero(total));
+                txt_jd_pagado.setText(c_varios.formato_numero(pagado));
+                txt_jd_fecha.setText(c_varios.fecha_usuario(c_varios.getFechaActual()));
 
+                txt_jd_motivo.requestFocus();
+                jd_anular_documento.setVisible(true);
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
         }
     }//GEN-LAST:event_btn_anular_ventaActionPerformed
 
@@ -955,9 +1007,9 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             c_cupon.registrar();
 
         }
-        
+
         c_venta.anular();
-        
+
         jd_anular_documento.dispose();
         c_venta.mostrar(t_ventas, query);
         //si es venta dar de baja
@@ -1120,16 +1172,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             if (texto.length() > 0) {
                 int tipo_buscar = cbx_buscar.getSelectedIndex();
                 if (tipo_buscar == 0) {
-                    query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
-                            + "from ventas as v "
-                            + "inner join clientes as c on c.id_cliente = v.id_cliente "
-                            + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
-                            + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
-                            + "where (c.nombre like '%" + texto + "%' or c.documento = '" + texto + "') and v.id_almacen = '" + id_almacen + "' "
-                            + "order by v.id_ventas asc";
-                }
-
-                if (tipo_buscar == 1) {
                     texto = c_varios.fecha_myql(texto);
                     query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
                             + "from ventas as v "
@@ -1139,6 +1181,15 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                             + "where v.fecha = '" + texto + "' and v.id_almacen = '" + id_almacen + "' "
                             + "order by v.id_ventas asc";
                     System.out.println(query);
+                }
+                if (tipo_buscar == 1) {
+                    query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
+                            + "from ventas as v "
+                            + "inner join clientes as c on c.id_cliente = v.id_cliente "
+                            + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
+                            + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
+                            + "where (c.nombre like '%" + texto + "%' or c.documento = '" + texto + "') and v.id_almacen = '" + id_almacen + "' "
+                            + "order by v.id_ventas asc";
                 }
                 if (tipo_buscar == 2) {
                     texto = c_varios.fecha_myql(texto);
@@ -1448,61 +1499,127 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         c_venta.setId_almacen(id_almacen);
         c_venta.validar_venta();
 
-        c_hash.setId_venta(id_venta);
-        c_hash.setId_almacen(id_almacen);
-        c_hash.validar_firma();
-
-        //imprimir boleta o factura
         leer_numeros c_letras = new leer_numeros();
         String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
         System.out.println(letras_numeros);
 
-        String url_codigo_qr = "http://www.lunasystemsperu.com/clientes/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
-        System.out.println(url_codigo_qr);
+        //imprimir boleta o factura
+        if (c_venta.getId_tido() == 1 || c_venta.getId_tido() == 2) {
+            c_hash.setId_venta(id_venta);
+            c_hash.setId_almacen(id_almacen);
+            c_hash.validar_firma();
+            String url_codigo_qr = "http://www.lunasystemsperu.com/clientes/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
+            System.out.println(url_codigo_qr);
 
-        File miDir = new File(".");
-        try {
-            Map<String, Object> parametros = new HashMap<>();
-            String path = miDir.getCanonicalPath();
-            String direccion = path + "//reports//subreports//";
+            File miDir = new File(".");
+            try {
+                Map<String, Object> parametros = new HashMap<>();
+                String path = miDir.getCanonicalPath();
+                String direccion = path + "//reports//subreports//";
 
-            System.out.println(direccion);
-            parametros.put("SUBREPORT_DIR", direccion);
-            parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
-            parametros.put("REPORT_LOCALE", Locale.ENGLISH);
-            parametros.put("p_id_venta", c_venta.getId_venta());
-            parametros.put("p_id_almacen", c_venta.getId_almacen());
-            parametros.put("p_letras_numero", letras_numeros);
-            parametros.put("p_codigo_qr", url_codigo_qr);
-            parametros.put("p_hash", c_hash.getHash());
-            //   c_varios.imp_reporte("rpt_documento_venta", parametros);
-            if (id_almacen == 1) {
-                c_varios.ver_reporte("rpt_documento_venta_rodson", parametros);
-            } else {
-                c_varios.ver_reporte("rpt_documento_venta", parametros);
+                System.out.println(direccion);
+                parametros.put("SUBREPORT_DIR", direccion);
+                parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
+                parametros.put("REPORT_LOCALE", Locale.ENGLISH);
+                parametros.put("p_id_venta", c_venta.getId_venta());
+                parametros.put("p_id_almacen", c_venta.getId_almacen());
+                parametros.put("p_letras_numero", letras_numeros);
+                parametros.put("p_codigo_qr", url_codigo_qr);
+                parametros.put("p_hash", c_hash.getHash());
+                //   c_varios.imp_reporte("rpt_documento_venta", parametros);
+                if (id_almacen == 1) {
+                    c_varios.ver_reporte("rpt_documento_venta_rodson", parametros);
+                } else {
+                    c_varios.ver_reporte("rpt_documento_venta", parametros);
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+        }
+
+        //imprimir si es nota de ventaonota de separacion
+        if (c_venta.getId_tido() == 6 || c_venta.getId_tido() == 7) {
+
+            File miDir = new File(".");
+            try {
+                Map<String, Object> parametros = new HashMap<>();
+                String path = miDir.getCanonicalPath();
+                String direccion = path + "//reports//subreports//";
+
+                System.out.println(direccion);
+                parametros.put("SUBREPORT_DIR", direccion);
+                parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
+                parametros.put("REPORT_LOCALE", Locale.ENGLISH);
+                parametros.put("p_id_venta", c_venta.getId_venta());
+                parametros.put("p_id_almacen", c_venta.getId_almacen());
+                parametros.put("p_letras_numero", letras_numeros);
+                //   c_varios.imp_reporte("rpt_documento_venta", parametros);
+                if (id_almacen == 1) {
+                    c_varios.ver_reporte("rpt_documento_venta_nota_rodson", parametros);
+                } else {
+                    c_varios.ver_reporte("rpt_documento_venta_nota", parametros);
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+            }
         }
     }//GEN-LAST:event_btn_imprimirActionPerformed
+
+    private void cbx_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_buscarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txt_buscar.requestFocus();
+        }
+    }//GEN-LAST:event_cbx_buscarKeyPressed
+
+    private void btn_mod_separacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mod_separacionActionPerformed
+
+        int id_venta = Integer.parseInt(t_ventas.getValueAt(fila_seleccionada, 8).toString());
+        Frame f = JOptionPane.getRootFrame();
+        frm_mod_separacion.c_venta.setId_venta(id_venta);
+        frm_mod_separacion dialog = new frm_mod_separacion(f, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btn_mod_separacionActionPerformed
+
+    private void t_cobrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_cobrosMouseClicked
+        fila_cobro = t_cobros.getSelectedRow();
+        btn_eliminar_cobro.setEnabled(true);
+    }//GEN-LAST:event_t_cobrosMouseClicked
+
+    private void btn_eliminar_cobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar_cobroActionPerformed
+        frm_principal.c_permiso.setId_permiso(2);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+            int id_cobro = Integer.parseInt(t_cobros.getValueAt(fila_cobro, 0).toString());
+            c_cobros.setId_cobro(id_cobro);
+            c_cobros.eliminar_cobro();
+            c_cobros.mostrar(t_cobros);
+
+            btn_jd_cobro_graba.setEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
+        }
+    }//GEN-LAST:event_btn_eliminar_cobroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_anular_venta;
     private javax.swing.JButton btn_cobro_guardar;
     private javax.swing.JButton btn_cobro_salir;
+    private javax.swing.JButton btn_eliminar_cobro;
     private javax.swing.JButton btn_entregar_productos;
     private javax.swing.JButton btn_grabar_venta;
     private javax.swing.JButton btn_imprimir;
     private javax.swing.JButton btn_jd_cobro_graba;
     private javax.swing.JButton btn_jd_grabar;
     private javax.swing.JButton btn_jd_salir;
+    private javax.swing.JButton btn_mod_separacion;
     private javax.swing.JButton btn_ver_cobros;
     private javax.swing.JButton btn_ver_cupon;
     private javax.swing.JButton btn_ver_detalle;
     private javax.swing.JComboBox<String> cbx_buscar;
     private javax.swing.JComboBox<String> cbx_doc_venta;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -1516,6 +1633,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1531,6 +1649,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;

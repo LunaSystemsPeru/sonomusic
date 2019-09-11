@@ -9,6 +9,7 @@ import clases.cl_conectar;
 import clases.cl_inventarios;
 import clases.cl_producto;
 import clases.cl_productos_almacen;
+import clases.cl_productos_empresa;
 import clases.cl_productos_inventarios;
 import clases.cl_varios;
 import clases_autocomplete.cla_producto;
@@ -34,12 +35,14 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
 
     cl_producto c_producto = new cl_producto();
     cl_productos_almacen c_producto_almacen = new cl_productos_almacen();
+    cl_productos_empresa c_producto_empresa = new cl_productos_empresa();
 
     cl_inventarios c_inventario = new cl_inventarios();
     cl_productos_inventarios c_detalle = new cl_productos_inventarios();
 
     int id_almacen = frm_principal.c_almacen.getId();
     int id_usuario = frm_principal.c_usuario.getId_usuario();
+    int id_empresa = frm_principal.c_empresa.getId();
 
     DefaultTableModel detalle;
     TextAutoCompleter tac_productos = null;
@@ -52,6 +55,7 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
     public frm_reg_inventario() {
         initComponents();
         c_producto_almacen.setAlmacen(id_almacen);
+        c_producto_empresa.setId_empresa(id_empresa);
         modelo_inventario();
         cargar_productos();
 
@@ -205,6 +209,8 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
+        lbl_ayuda = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txt_buscar_producto = new javax.swing.JTextField();
@@ -230,9 +236,14 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         txt_precio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txt_precio.setEnabled(false);
 
-        jLabel11.setText("Cantidad enviar:");
+        jLabel11.setText("Cantidad fisica:");
 
         txt_cantidad_enviar.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_cantidad_enviar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_cantidad_enviarFocusGained(evt);
+            }
+        });
         txt_cantidad_enviar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_cantidad_enviarKeyPressed(evt);
@@ -260,15 +271,16 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_producto))
                     .addGroup(jd_add_productoLayout.createSequentialGroup()
-                        .addGroup(jd_add_productoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jd_add_productoLayout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_cantidad_enviar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jd_add_productoLayout.createSequentialGroup()
+                        .addGroup(jd_add_productoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_add_productoLayout.createSequentialGroup()
                                 .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_cantidad_actual, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jd_add_productoLayout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(19, 19, 19)))
+                        .addGroup(jd_add_productoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txt_cantidad_enviar)
+                            .addComponent(txt_cantidad_actual, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 366, Short.MAX_VALUE)
                         .addGroup(jd_add_productoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_add_productoLayout.createSequentialGroup()
@@ -337,11 +349,20 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jButton2);
+        jToolBar1.add(jSeparator3);
+
+        lbl_ayuda.setText("jLabel2");
+        jToolBar1.add(lbl_ayuda);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar Producto"));
 
         jLabel1.setText("Buscar:");
 
+        txt_buscar_producto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_buscar_productoFocusGained(evt);
+            }
+        });
         txt_buscar_producto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_buscar_productoActionPerformed(evt);
@@ -470,11 +491,13 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
                     //validar que no existe en la tabla
                     if (valida_tabla(c_producto.getId())) {
                         c_producto.validar_id();
+                        c_producto_empresa.setId_producto(c_producto.getId());
+                        c_producto_empresa.obtener_datos();
                         jd_add_producto.setModal(true);
                         jd_add_producto.setSize(717, 164);
                         jd_add_producto.setLocationRelativeTo(null);
                         txt_producto.setText(c_producto.getDescripcion() + " " + c_producto.getMarca() + " " + c_producto.getModelo());
-                        txt_precio.setText(c_varios.formato_numero(c_producto.getPrecio()));
+                        txt_precio.setText(c_varios.formato_numero(c_producto_empresa.getPrecio()));
                         txt_cantidad_actual.setText(c_producto_almacen.getCantidad() + "");
                         txt_cantidad_enviar.setText("");
                         txt_cantidad_enviar.setEnabled(true);
@@ -483,12 +506,14 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
                     } else {
                         c_producto.setId(0);
                         c_producto_almacen.setProducto(0);
+                        c_producto_empresa.setId_producto(0);
                         limpiar_buscar();
                         JOptionPane.showMessageDialog(null, "ESTE PRODUCTO YA ESTA SELECCIONADO");
                     }
                 } else {
                     c_producto.setId(0);
                     c_producto_almacen.setProducto(0);
+                    c_producto_empresa.setId_producto(0);
                     limpiar_buscar();
                     JOptionPane.showMessageDialog(null, "ERROR AL SELECCIONAR PRODUCTO");
                 }
@@ -543,6 +568,14 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
+    private void txt_buscar_productoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_buscar_productoFocusGained
+        lbl_ayuda.setText("ESCAPE: LIMPIA TEXTO             ESCRIBA NOMBRE MARCA O MODELO DEL PRODUCTO Y PRESIONE ENTER");
+    }//GEN-LAST:event_txt_buscar_productoFocusGained
+
+    private void txt_cantidad_enviarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_cantidad_enviarFocusGained
+        lbl_ayuda.setText("ESCRIBA CANTIDAD ENCONTRADA EN FISICO Y PRESIONE ENTER");
+    }//GEN-LAST:event_txt_cantidad_enviarFocusGained
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
@@ -558,8 +591,10 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JDialog jd_add_producto;
+    private javax.swing.JLabel lbl_ayuda;
     private javax.swing.JTable t_inventario;
     private javax.swing.JTextField txt_buscar_producto;
     private javax.swing.JTextField txt_cantidad_actual;

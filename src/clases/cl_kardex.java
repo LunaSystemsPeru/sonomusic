@@ -280,7 +280,7 @@ public class cl_kardex {
                     + "where k.id_producto = '" + id_producto + "' and k.id_almacen = '" + id_almacen + "' "
                     + "order by k.fecha asc, k.id_kardex asc";
 
-            System.out.println(query);
+            //System.out.println(query);
             Statement st = c_conectar.conexion();
             ResultSet rs = c_conectar.consulta(st, query);
 
@@ -387,7 +387,7 @@ public class cl_kardex {
                 id_tido =rs.getInt("id_tido");
                 serie =rs.getString("serie_documento");
                 numero =rs.getInt("numero_documento");
-                id_usuario =rs.getInt("id_usario");
+                id_usuario =rs.getInt("id_usuarios");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

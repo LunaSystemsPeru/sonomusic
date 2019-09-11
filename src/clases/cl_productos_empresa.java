@@ -25,16 +25,24 @@
  */
 package clases;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author luis
  */
 public class cl_productos_empresa {
+
+    cl_conectar c_conectar = new cl_conectar();
+
     private int id_producto;
     private int id_empresa;
     private double precio;
     private double costo;
-    private int cantidad;
 
     public cl_productos_empresa() {
     }
@@ -71,14 +79,97 @@ public class cl_productos_empresa {
         this.costo = costo;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public void mostrar(JTable tabla) {
+        try {
+            DefaultTableModel tmodelo;
+            tmodelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int fila, int columna) {
+                    return false;
+                }
+            };
+            //    TableRowSorter sorter = new TableRowSorter(mostrar);
+            Statement st = c_conectar.conexion();
+            String query = "select e.id_empresa, e.razon, pe.precio "
+                    + "from productos_empresa as pe "
+                    + "inner join empresa as e on e.id_empresa = pe.id_empresa "
+                    + "where pe.id_producto = '" + id_producto + "'";
+            ResultSet rs = c_conectar.consulta(st, query);
+
+            //Establecer como cabezeras el nombre de las colimnas
+            tmodelo.addColumn("Id.");
+            tmodelo.addColumn("Empresa");//descripcion modelo serie
+            tmodelo.addColumn("Precio");
+
+            //Creando las filas para el JTable
+            while (rs.next()) {
+                Object[] fila = new Object[3];
+                fila[0] = rs.getObject("id_empresa");
+                fila[1] = rs.getString("razon");
+                fila[2] = rs.getDouble("precio");
+
+                tmodelo.addRow(fila);
+            }
+            c_conectar.cerrar(st);
+            c_conectar.cerrar(rs);
+            tabla.setModel(tmodelo);
+            tabla.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tabla.getColumnModel().getColumn(1).setPreferredWidth(400);
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(80);
+            //tabla.setDefaultRenderer(Object.class, new render_productos());
+            //   t_productos.setRowSorter(sorter);
+
+        } catch (SQLException e) {
+            System.out.print(e);
+        }
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public boolean obtener_datos() {
+        boolean existe = false;
+        try {
+
+            Statement st = c_conectar.conexion();
+            String query = "select * "
+                    + "from productos_empresa "
+                    + "where id_producto = '" + id_producto + "' and id_empresa= '" + id_empresa + "'";
+            //System.out.println(query);
+            ResultSet rs = c_conectar.consulta(st, query);
+            if (rs.next()) {
+                precio = rs.getDouble("precio");
+                existe = true;
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
     }
-    
-    
-    
+
+    public boolean insertar() {
+        boolean registrado = false;
+        Statement st = c_conectar.conexion();
+        String query = "insert productos_empresa "
+                + "values ('" + id_producto + "','" + id_empresa + "','" + precio + "','0')";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+        return registrado;
+    }
+
+    public boolean actualizar_precio() {
+        boolean registrado = false;
+        Statement st = c_conectar.conexion();
+        String query = "update productos_empresa"
+                + "set precio= '" + precio + "' "
+                + "where id_producto = '" + id_producto + "' and id_empresa= '" + id_empresa + "'";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+        return registrado;
+    }
+
 }

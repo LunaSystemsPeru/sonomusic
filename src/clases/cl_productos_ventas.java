@@ -106,8 +106,8 @@ public class cl_productos_ventas {
         c_conectar.cerrar(st);
         return registrado;
     }
-    
-    public int contar_lineas () {
+
+    public int contar_lineas() {
         int contar = 0;
         try {
             Statement st = c_conectar.conexion();
@@ -124,6 +124,71 @@ public class cl_productos_ventas {
             System.out.println(e.getMessage());
         }
         return contar;
+    }
+
+    public void mostrar_modificar(DefaultTableModel modelo) {
+        try {
+            //c_conectar.conectar();
+            String query = "select pv.id_producto, p.descripcion, p.marca, p.modelo, pv.cantidad, pv.precio "
+                    + "from productos_ventas as pv "
+                    + "inner join productos as p on p.id_producto = pv.id_producto "
+                    + "where id_ventas = '" + id_venta + "' and id_almacen = '" + id_almacen + "' "
+                    + "order by p.descripcion asc, p.modelo asc";
+            Statement st = c_conectar.conexion();
+            ResultSet rs = c_conectar.consulta(st, query);
+
+            //Creando las filas para el JTable
+            while (rs.next()) {
+                Object[] fila = new Object[5];
+                fila[0] = rs.getInt("id_producto");
+                fila[1] = (rs.getString("descripcion").trim() + " - " + rs.getString("marca").trim() + " - " + rs.getString("modelo").trim()).trim();
+                int pcantidad = rs.getInt("cantidad");
+                double pprecio = rs.getDouble("precio");
+                double pparcial = pcantidad * pprecio;
+                fila[2] = pcantidad;
+                fila[3] = pprecio;
+                fila[4] = pparcial;
+                modelo.addRow(fila);
+            }
+            c_conectar.cerrar(st);
+            c_conectar.cerrar(rs);
+        } catch (SQLException e) {
+            System.out.print(e);
+        }
+    }
+
+    public void mostrar_traslado(DefaultTableModel modelo) {
+        try {
+            //c_conectar.conectar();
+            String query = "select pv.id_producto, p.descripcion, p.marca, p.modelo, pa.cactual, pv.cantidad, pv.precio "
+                    + "from productos_ventas as pv "
+                    + "inner join productos_almacen as pa on pa.id_almacen = pv.id_almacen and pa.id_producto = pv.id_producto "
+                    + "inner join productos as p on p.id_producto = pv.id_producto "
+                    + "where pv.id_ventas = '" + id_venta + "' and pv.id_almacen = '" + id_almacen + "' "
+                    + "order by p.descripcion asc, p.modelo asc";
+            System.out.println(query);
+            Statement st = c_conectar.conexion();
+            ResultSet rs = c_conectar.consulta(st, query);
+
+            //Creando las filas para el JTable
+            while (rs.next()) {
+                Object[] fila = new Object[6];
+                fila[0] = rs.getInt("id_producto");
+                fila[1] = (rs.getString("descripcion").trim() + " " + rs.getString("modelo").trim()).trim();
+                fila[2] = rs.getString("marca").trim();
+                int pcantidad = rs.getInt("cantidad");
+                double pprecio = rs.getDouble("precio");
+                double pparcial = pcantidad * pprecio;
+                fila[3] = rs.getDouble("cactual");
+                fila[4] = pcantidad;
+                fila[5] = pprecio;
+                modelo.addRow(fila);
+            }
+            c_conectar.cerrar(st);
+            c_conectar.cerrar(rs);
+        } catch (SQLException e) {
+            System.out.print(e);
+        }
     }
 
     public void mostrar(JTable tabla) {

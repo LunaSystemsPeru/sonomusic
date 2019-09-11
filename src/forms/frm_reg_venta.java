@@ -12,6 +12,7 @@ import clases.cl_documentos_almacen;
 import clases.cl_guia_remision;
 import clases.cl_producto;
 import clases.cl_productos_almacen;
+import clases.cl_productos_empresa;
 import clases.cl_productos_ventas;
 import clases.cl_ubigeo;
 import clases.cl_varios;
@@ -53,6 +54,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     cl_productos_almacen c_producto_almacen = new cl_productos_almacen();
     cl_documentos_almacen c_doc_almacen = new cl_documentos_almacen();
     cl_documentos_almacen c_doc_guia;
+    cl_productos_empresa c_producto_empresa = new cl_productos_empresa();
 
     m_mis_documentos m_t_documentos = new m_mis_documentos();
     m_ubigeo m_ubigeo = new m_ubigeo();
@@ -89,12 +91,12 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     public frm_reg_venta() {
         initComponents();
         txt_fecha.setText(c_varios.fecha_usuario(c_varios.getFechaActual()));
+        c_producto_almacen.setAlmacen(id_almacen);
+        c_producto_empresa.setId_empresa(id_empresa);
         cargar_productos();
         modelo_venta();
 
         m_t_documentos.cbx_documentos_venta(cbx_tipo_doc);
-
-        c_producto_almacen.setAlmacen(id_almacen);
     }
 
     private void modelo_venta() {
@@ -191,6 +193,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                         System.out.println("producto seleccionado " + pnombre);
                         c_producto.setId(pcodigo);
                         c_producto_almacen.setProducto(pcodigo);
+                        c_producto_empresa.setId_producto(pcodigo);
                     } else {
                         System.out.println("El item es de un tipo desconocido");
                     }
@@ -200,9 +203,11 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             tac_productos.setMode(0);
             tac_productos.setCaseSensitive(false);
             Statement st = c_conectar.conexion();
-            String sql = "select p.descripcion, pa.cactual, p.precio, p.id_producto, p.marca, p.modelo "
+            String sql = "select p.descripcion, pa.cactual, pe.precio, p.id_producto, p.marca, p.modelo "
                     + "from productos as p "
                     + "inner join productos_almacen as pa on pa.id_producto = p.id_producto "
+                    + "inner join almacen as al on al.id_almacen = pa.id_almacen "
+                    + "inner join productos_empresa as pe on pe.id_empresa = al.id_empresa and pe.id_producto = pa.id_producto "
                     + "where pa.id_almacen = '" + id_almacen + "' and pa.cactual > 0";
             ResultSet rs = c_conectar.consulta(st, sql);
             while (rs.next()) {
@@ -228,24 +233,20 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
         int contar_filas = t_detalle.getRowCount();
         if (contar_filas == 0) {
             ingresar = true;
-        }
-
-        if (contar_filas > 0) {
+        } else {
             for (int j = 0; j < contar_filas; j++) {
                 int id_producto_fila = Integer.parseInt(t_detalle.getValueAt(j, 0).toString());
                 if (producto == id_producto_fila) {
-                    ingresar = false;
                     cuenta_iguales++;
                     JOptionPane.showMessageDialog(null, "El Producto a Ingresar ya existe en la lista");
-                } else {
-                    ingresar = true;
                 }
+            }
+
+            if (cuenta_iguales == 0) {
+                ingresar = true;
             }
         }
 
-        if (cuenta_iguales == 0) {
-            ingresar = true;
-        }
         return ingresar;
     }
 
@@ -383,7 +384,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
         c_venta.setTotal(final_total);
         c_venta.setId_tipo_venta(cbx_tipo_venta.getSelectedIndex() + 1);
         c_venta.setPagado(final_efectivo + final_tarjeta);
-        c_venta.setEstado(final_estado);
+        c_venta.setEstado(1);
         c_venta.setEnviado_sunat(0);
     }
 
@@ -1065,11 +1066,11 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             }
         });
         txt_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txt_cantidadKeyPressed(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_cantidadKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_cantidadKeyPressed(evt);
             }
         });
 
@@ -1224,6 +1225,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
         txt_dir_cliente.setEnabled(false);
 
         btn_crear_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
+        btn_crear_cliente.setToolTipText("Agregar Cliente");
         btn_crear_cliente.setEnabled(false);
         btn_crear_cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1283,7 +1285,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             }
         });
 
-        btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/find.png"))); // NOI18N
+        btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/reaload_16.png"))); // NOI18N
         btn_actualizar.setToolTipText("Actualizar Lista de Clientes");
         btn_actualizar.setEnabled(false);
         btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -1534,20 +1536,24 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                     //validar que no existe en la tabla
                     if (valida_tabla(c_producto.getId())) {
                         c_producto.validar_id();
+                        c_producto_empresa.obtener_datos();
                         btn_ver_tiendas.setEnabled(true);
-                        txt_precio.setText(c_varios.formato_numero(c_producto.getPrecio()));
+                        txt_precio.setText(c_varios.formato_numero(c_producto_empresa.getPrecio()));
                         txt_cactual.setText(c_producto_almacen.getCantidad() + "");
                         txt_cantidad.setText("1");
                         txt_cantidad.setEnabled(true);
+                        txt_cantidad.selectAll();
                         txt_cantidad.requestFocus();
                     } else {
                         c_producto.setId(0);
+                        c_producto_empresa.setId_empresa(0);
                         c_producto_almacen.setProducto(0);
                         limpiar_buscar();
                         JOptionPane.showMessageDialog(null, "ESTE PRODUCTO YA ESTA SELECCIONADO");
                     }
                 } else {
                     c_producto.setId(0);
+                    c_producto_empresa.setId_empresa(0);
                     c_producto_almacen.setProducto(0);
                     limpiar_buscar();
                     JOptionPane.showMessageDialog(null, "ERROR AL SELECCIONAR PRODUCTO");
@@ -1754,6 +1760,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
         frm_reg_cliente dialog = new frm_reg_cliente(f, true);
         frm_reg_cliente.accion = "registrar";
         frm_reg_cliente.origen = "reg_venta";
+        frm_reg_cliente.c_cliente.setCodigo(0);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_btn_crear_clienteActionPerformed
@@ -1932,7 +1939,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             double precio = Double.parseDouble(t_detalle.getValueAt(fila_seleccionada, 3).toString());
 
             jd_modificar_item.setModal(true);
-            jd_modificar_item.setSize(881, 210);
+            jd_modificar_item.setSize(881, 260);
             jd_modificar_item.setLocationRelativeTo(null);
 
             //cargar datos
@@ -1987,14 +1994,28 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_jd_precioKeyTyped
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-        int tipo = cbx_tipo_venta.getSelectedIndex() + 1;
-        //2 ES FACTURA
-        if (tipo == 2) {
-            cargar_clientes(2);
+
+        int tipo_venta = cbx_tipo_venta.getSelectedIndex() + 1;
+        cla_mis_documentos cla_tido = (cla_mis_documentos) cbx_tipo_doc.getSelectedItem();
+        int id_tido = cla_tido.getId_tido();
+        if (tipo_venta == 1) {
+            if (id_tido == 1) {
+                //ir a nombre cliente
+                limpiar_cliente();
+                cargar_clientes(3);
+            }
+
+            if (id_tido == 2) {
+                //ir a ruc cliente
+                limpiar_cliente();
+                cargar_clientes(2);
+
+            }
         }
-        //3 ES BOLETA
-        if (tipo == 3) {
-            cargar_clientes(1);
+        if (tipo_venta == 2) {
+            //ir a nombre cliente
+            limpiar_cliente();
+            cargar_clientes(3);
         }
     }//GEN-LAST:event_btn_actualizarActionPerformed
 

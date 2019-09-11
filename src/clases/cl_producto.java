@@ -210,6 +210,7 @@ public class cl_producto {
                 comision = rs.getDouble("comision");
                 estado = rs.getString("estado");
                 id_proveedor = rs.getInt("id_proveedor");
+                id_clasificacion = rs.getInt("clase");
                 ctotal = rs.getInt("ctotal");
                 existe = true;
             }
@@ -224,7 +225,7 @@ public class cl_producto {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "insert into productos "
-                + "values ('" + id + "', '" + descripcion + "', '" + marca + "', '" + modelo + "', '0', '" + precio + "', '0', '" + comision + "', "
+                + "values ('" + id + "', '" + descripcion + "', '" + marca + "', '" + modelo + "', '"+costo+"', '" + precio + "', '0', '" + comision + "', "
                 + "'" + id_clasificacion + "', '1', '" + id_proveedor + "')";
         System.out.println(query);
         int resultado = c_conectar.actualiza(st, query);
@@ -238,7 +239,7 @@ public class cl_producto {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "update productos "
-                + "set descripcion = '" + descripcion + "', marca = '" + marca + "', modelo = '" + modelo + "', precio = '" + precio + "', comision = '" + comision + "', "
+                + "set descripcion = '" + descripcion + "', marca = '" + marca + "', modelo = '" + modelo + "', precio = '" + precio + "', costo = '" + costo + "', comision = '" + comision + "', "
                 + "clase = '" + id_clasificacion + "' "
                 + "where id_producto = '" + id + "'";
         System.out.println(query);

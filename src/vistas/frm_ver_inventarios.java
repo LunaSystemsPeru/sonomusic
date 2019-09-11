@@ -261,9 +261,16 @@ public class frm_ver_inventarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_buscarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        frm_reg_inventario reg_inventario = new frm_reg_inventario();
-        c_varios.llamar_ventana(reg_inventario);
-        this.dispose();
+        frm_principal.c_permiso.setId_permiso(13);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+            frm_reg_inventario reg_inventario = new frm_reg_inventario();
+            c_varios.llamar_ventana(reg_inventario);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
+        }
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void t_inventariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_inventariosMouseClicked
@@ -288,14 +295,20 @@ public class frm_ver_inventarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_detalleActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Inventario?");
-        btn_detalle.setEnabled(false);
-        btn_eliminar.setEnabled(false);
+        frm_principal.c_permiso.setId_permiso(14);
+        boolean permitido = frm_principal.c_permiso.validar();
 
-        if (JOptionPane.OK_OPTION == confirmado) {
-            
+        if (permitido) {
+            int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Inventario?");
+            btn_detalle.setEnabled(false);
+            btn_eliminar.setEnabled(false);
+
+            if (JOptionPane.OK_OPTION == confirmado) {
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
         }
-
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
 

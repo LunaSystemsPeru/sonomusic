@@ -40,9 +40,10 @@ public class cl_grafica_mensual {
         XYSeries series = new XYSeries("S/");
         c_venta.setId_almacen(id_almacen);
         Integer[] valor_x = c_venta.ventas_diaras();
-        // System.out.println("canidad_items" + valor_x.length);
+        //System.out.println("canidad_items" + valor_x.length);
 
         for (int i = 1; i < valor_x.length; i++) {
+         //   System.out.println("valor de i =" + i +  " es = " + valor_x[i]+ "\n"); 
             int valor = 0;
             if (valor_x[i] != null) {
                 valor = valor_x[i];

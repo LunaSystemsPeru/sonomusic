@@ -128,9 +128,9 @@ public class cl_movimiento_caja {
             Statement st = c_conectar.conexion();
             ResultSet rs = c_conectar.consulta(st, query);
 
-            //Establecer como cabezeras el nombre de las colimnas
+            //Establecer como cabezeras el nombre de las columnas
             tmodelo.addColumn("Id");
-            tmodelo.addColumn("Descripcion");//descripcion modelo serie
+            tmodelo.addColumn("Descripcion");//motivo del movimiento
             tmodelo.addColumn("Ingresa");
             tmodelo.addColumn("Retira");
             tmodelo.addColumn("Saldo");
@@ -172,6 +172,19 @@ public class cl_movimiento_caja {
         } catch (SQLException e) {
             System.out.print(e);
         }
+    }
+
+    public boolean eliminar_dia() {
+        boolean registrado = false;
+        Statement st = c_conectar.conexion();
+        String query = "delete from cajas_movimientos "
+                + "where fecha = '" + this.fecha + "' and id_almacen = '" + this.id_almacen + "'";
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+        return registrado;
     }
 
 }

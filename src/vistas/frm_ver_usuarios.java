@@ -9,11 +9,14 @@ import clases.cl_almacen;
 import clases.cl_usuario;
 import clases.cl_varios;
 import clases_autocomplete.cla_almacen;
+import forms.frm_reg_permiso_usuario;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import json.cl_json_entidad;
 import models.m_almacen;
 import org.json.simple.parser.ParseException;
+import sonomusic.frm_principal;
 
 /**
  *
@@ -43,6 +46,19 @@ public class frm_ver_usuarios extends javax.swing.JInternalFrame {
                 + "where u.estado = 1 "
                 + "order by datos asc";
         c_usuario.mostrar(t_usuarios, query);
+        
+        cargar_permisos();
+    }
+    
+    private void cargar_permisos() {
+        frm_principal.c_permiso.setId_permiso(19);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+            btn_agregar.setEnabled(true);
+        } else {
+            btn_agregar.setEnabled(false);
+        }
     }
 
     private void activar_botones() {
@@ -435,6 +451,11 @@ public class frm_ver_usuarios extends javax.swing.JInternalFrame {
         btn_permisos.setEnabled(false);
         btn_permisos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_permisos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_permisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_permisosActionPerformed(evt);
+            }
+        });
         jToolBar2.add(btn_permisos);
 
         btn_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
@@ -508,14 +529,21 @@ public class frm_ver_usuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_cerrarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        jd_reg_usuario.setModal(true);
-        jd_reg_usuario.setSize(721, 500);
-        jd_reg_usuario.setLocationRelativeTo(null);
-        reiniciar_campos();
-        m_almacen m_almacen = new m_almacen();
-        m_almacen.cbx_todos_almacenes(cbx_tiendas);
-        c_usuario.setId_usuario(0);
-        jd_reg_usuario.setVisible(true);
+        frm_principal.c_permiso.setId_permiso(19);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+            jd_reg_usuario.setModal(true);
+            jd_reg_usuario.setSize(721, 500);
+            jd_reg_usuario.setLocationRelativeTo(null);
+            reiniciar_campos();
+            m_almacen m_almacen = new m_almacen();
+            m_almacen.cbx_todos_almacenes(cbx_tiendas);
+            c_usuario.setId_usuario(0);
+            jd_reg_usuario.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
+        }
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_j_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_j_cerrarActionPerformed
@@ -551,35 +579,42 @@ public class frm_ver_usuarios extends javax.swing.JInternalFrame {
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
         desactivar_botones();
-        c_usuario.setId_usuario(Integer.parseInt(t_usuarios.getValueAt(fila_seleccionada, 0).toString()));
-        c_usuario.validar_usuario();
+        frm_principal.c_permiso.setId_permiso(20);
+        boolean permitido = frm_principal.c_permiso.validar();
 
-        jd_reg_usuario.setModal(true);
-        jd_reg_usuario.setSize(721, 500);
-        jd_reg_usuario.setLocationRelativeTo(null);
+        if (permitido) {
+            c_usuario.setId_usuario(Integer.parseInt(t_usuarios.getValueAt(fila_seleccionada, 0).toString()));
+            c_usuario.validar_usuario();
 
-        m_almacen m_almacen = new m_almacen();
-        m_almacen.cbx_todos_almacenes(cbx_tiendas);
+            jd_reg_usuario.setModal(true);
+            jd_reg_usuario.setSize(721, 500);
+            jd_reg_usuario.setLocationRelativeTo(null);
 
-        activar_campos();
+            m_almacen m_almacen = new m_almacen();
+            m_almacen.cbx_todos_almacenes(cbx_tiendas);
 
-        txt_j_datos.setText(c_usuario.getNombre());
-        txt_j_celular.setText(c_usuario.getCelular());
-        txt_j_id.setText(c_usuario.getId_usuario() + "");
-        txt_j_documento.setText(c_usuario.getDocumento());
-        txt_j_email.setText(c_usuario.getEmail());
-        txt_j_usuario.setText(c_usuario.getUsername());
-        txt_j_contrasena.setText(c_usuario.getPassword());
-        c_almacen.setId(c_usuario.getId_almacen());
-        c_almacen.validar_almacen();
-        cbx_tiendas.getModel().setSelectedItem(new cla_almacen(c_almacen.getId(), c_almacen.getNombre()));
-        if (c_usuario.getEstado() == 1) {
-            chx_estado.setSelected(false);
+            activar_campos();
+
+            txt_j_datos.setText(c_usuario.getNombre());
+            txt_j_celular.setText(c_usuario.getCelular());
+            txt_j_id.setText(c_usuario.getId_usuario() + "");
+            txt_j_documento.setText(c_usuario.getDocumento());
+            txt_j_email.setText(c_usuario.getEmail());
+            txt_j_usuario.setText(c_usuario.getUsername());
+            txt_j_contrasena.setText(c_usuario.getPassword());
+            c_almacen.setId(c_usuario.getId_almacen());
+            c_almacen.validar_almacen();
+            cbx_tiendas.getModel().setSelectedItem(new cla_almacen(c_almacen.getId(), c_almacen.getNombre()));
+            if (c_usuario.getEstado() == 1) {
+                chx_estado.setSelected(false);
+            } else {
+                chx_estado.setSelected(true);
+            }
+
+            jd_reg_usuario.setVisible(true);
         } else {
-            chx_estado.setSelected(true);
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
         }
-
-        jd_reg_usuario.setVisible(true);
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void txt_j_emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_j_emailKeyPressed
@@ -692,6 +727,24 @@ public class frm_ver_usuarios extends javax.swing.JInternalFrame {
         }
         c_usuario.mostrar(t_usuarios, query);
     }//GEN-LAST:event_cbx_estadoActionPerformed
+
+    private void btn_permisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_permisosActionPerformed
+        //preguntar si tiene permiso
+        frm_principal.c_permiso.setId_permiso(21);
+        boolean permitido = frm_principal.c_permiso.validar();
+
+        if (permitido) {
+            //mostrar formulacion permisos por usuario
+            Frame f = JOptionPane.getRootFrame();
+            int id_usuario = Integer.parseInt(t_usuarios.getValueAt(fila_seleccionada, 0).toString());
+            frm_reg_permiso_usuario.id_usuario = id_usuario;
+            frm_reg_permiso_usuario dialog = new frm_reg_permiso_usuario(f, true);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
+        }
+    }//GEN-LAST:event_btn_permisosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

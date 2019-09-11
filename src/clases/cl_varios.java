@@ -169,8 +169,9 @@ public class cl_varios {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date fec = df.parse(fecha);
             m_fecha = dt.format(fec);
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
         return m_fecha;
     }
@@ -182,8 +183,9 @@ public class cl_varios {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date fec = dt.parse(fecha);
             m_fecha = df.format(fec);
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             System.out.println(ex);
+            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
         return m_fecha;
     }
@@ -198,6 +200,7 @@ public class cl_varios {
             calendar.add(Calendar.DAY_OF_YEAR, dias);  // numero de días a añadir, o restar en caso de días<0
         } catch (ParseException ex) {
             Logger.getLogger(cl_varios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getLocalizedMessage());
         }
         return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
     }
@@ -217,8 +220,8 @@ public class cl_varios {
     public void ver_reporte(String filename, Map<String, Object> parametros) {
         Connection st = con.conx();
 
-         String direccion = obtenerDireccionCarpeta();
-         
+        String direccion = obtenerDireccionCarpeta();
+
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("_dd_MM_yyyy_HH_mm_ss");
         String fechahora = hourdateFormat.format(date);
@@ -226,31 +229,37 @@ public class cl_varios {
         try {
             JasperReport jasperReport;
             JasperPrint jasperPrint;
-            jasperReport = JasperCompileManager.compileReport(direccion + "\\reports\\" + filename + ".jrxml");
+            jasperReport = JasperCompileManager.compileReport(direccion + File.separator + "reports" + File.separator + filename + ".jrxml");
             jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, st);
             JasperExportManager.exportReportToPdfFile(
-                    jasperPrint, direccion + "\\temp\\" + filename + fechahora + ".pdf");
+                    jasperPrint, direccion + File.separator + "temp" + File.separator + filename + fechahora + ".pdf");
 
             try {
 
-                File file = new File(direccion + "\\temp\\" + filename + fechahora + ".pdf");
+                File file = new File(direccion + File.separator + "temp" + File.separator + filename + fechahora + ".pdf");
                 Desktop.getDesktop().open(file);
             } catch (IOException e) {
                 System.out.print(e + " -- error io");
-                JOptionPane.showMessageDialog(null, "Error al Generar el PDF -- \n" + e);
+                JOptionPane.showMessageDialog(null, "Error al Generar el PDF -- \n" + e.getLocalizedMessage());
             }
 
         } catch (JRException ex) {
             System.out.print(ex + " -- error jre");
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error con el Reporte -- \n" + ex);
+            JOptionPane.showMessageDialog(null, "Error con el Reporte -- \n" + ex.getLocalizedMessage());
         }
     }
 
     public void ver_reporte_excel(String filename, Map<String, Object> parametros, String salida) {
         Connection st = con.conx();
 
-        String sourceFileName = "reports//" + filename + ".jasper";
+        String direccion = obtenerDireccionCarpeta();
+        
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("_dd_MM_yyyy_HH_mm_ss");
+        String fechahora = hourdateFormat.format(date);
+
+        String sourceFileName = "reports" + File.separator + filename + ".jasper";
         String printFileName = null;
 
         try {
@@ -267,17 +276,17 @@ public class cl_varios {
                 exporter.setParameter(JRXlsExporterParameter.IS_IGNORE_CELL_BORDER, false);
                 exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, false);
                 exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
-                        "C://" + salida + ".xls");
+                        "temp" + File.separator + salida + fechahora +  ".xls");
 
                 exporter.exportReport();
-                JOptionPane.showMessageDialog(null, "REPORTE GENERADO, REVISE EN EL DISCO C");
+                JOptionPane.showMessageDialog(null, "REPORTE GENERADO, \nREVISE EN la Carpeta " + direccion + "temp" + File.separator);
 
                 try {
-                    File file = new File("C://" + salida + ".xls");
+                    File file = new File("temp" + File.separator + salida + fechahora +  ".xls");
                     Desktop.getDesktop().open(file);
                 } catch (IOException e) {
                     System.out.print(e + " -- error io");
-                    JOptionPane.showMessageDialog(null, "Error al Generar el EXCEL -- \n" + e);
+                    JOptionPane.showMessageDialog(null, "Error al Generar el EXCEL -- \n" + e.getLocalizedMessage());
                 }
             }
         } catch (JRException e) {
@@ -288,7 +297,7 @@ public class cl_varios {
 
     public void imp_reporte(String filename, Map<String, Object> parametros) {
         Connection st = con.conx();
-        
+
         String direccion = obtenerDireccionCarpeta();
 
         System.out.println(direccion + "\\reports\\" + filename + ".jrxml");

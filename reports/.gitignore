@@ -1,4 +1,6 @@
-/rpt_documento_venta.jasper
-/rpt_documento_guia.jasper
-/rpt_documento_guia_rodson.jasper
-/rpt_documento_venta_rodson.jasper
+/rpt_productos_valorizados_tienda.jasper
+/rpt_productos_valorizados_empresa.jasper
+/rpt_productos_menor_cero.jasper
+/rpt_detalle_ventas_tienda.jasper
+/rpt_documento_venta_nota.jasper
+/rpt_documento_venta_nota_rodson.jasper

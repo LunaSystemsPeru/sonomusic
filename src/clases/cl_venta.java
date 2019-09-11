@@ -150,6 +150,7 @@ public class cl_venta {
             String query = "select * "
                     + "from ventas "
                     + "where id_almacen = '" + id_almacen + "' and id_ventas = '" + id_venta + "'";
+            System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 existe = true;
@@ -165,6 +166,25 @@ public class cl_venta {
                 pagado = rs.getDouble("pagado");
                 id_tipo_venta = rs.getInt("tipo_venta");
                 estado = rs.getInt("estado");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
+    }
+
+    public boolean validar_documento() {
+        boolean existe = false;
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select id_ventas "
+                    + "from ventas "
+                    + "where id_almacen = '" + id_almacen + "' and id_tido = '" + id_tido + "' and serie = '" + serie + "' and numero = '" + numero + "' and fecha = '" + fecha + "'";
+            //System.out.println(query);
+            ResultSet rs = c_conectar.consulta(st, query);
+            if (rs.next()) {
+                this.id_venta = rs.getInt("id_ventas");
+                existe = true;
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -336,8 +356,8 @@ public class cl_venta {
 
     public Integer[] ventas_diaras() {
         int total_mes = cl_varios.diasDelMes(c_varios.obtener_mes(), c_varios.obtener_anio());
-        Integer[] valor_x = new Integer[total_mes];
-        // System.out.println("total dias de este mes = " + total_mes);
+        Integer[] valor_x = new Integer[total_mes + 1];
+        //System.out.println("total dias de este mes = " + total_mes);
 
         try {
             Statement st = c_conectar.conexion();
@@ -345,7 +365,7 @@ public class cl_venta {
                     + "from ventas as v "
                     + "where v.id_almacen = '" + id_almacen + "' and month(v.fecha) = month(CURRENT_DATE()) and year(v.fecha) = year(CURRENT_DATE()) "
                     + "GROUP by day(v.fecha)";
-           //   System.out.println(query);
+            // System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
 
             while (rs.next()) {
@@ -359,7 +379,7 @@ public class cl_venta {
 
         return valor_x;
     }
-    
+
     public Integer[] ventas_mensuales() {
         Integer[] valor_x = new Integer[12];
         // System.out.println("total dias de este mes = " + total_mes);
@@ -370,7 +390,7 @@ public class cl_venta {
                     + "from ventas as v "
                     + "where v.id_almacen = '" + id_almacen + "' and year(v.fecha) = year(CURRENT_DATE()) "
                     + "GROUP by month(v.fecha)";
-           //   System.out.println(query);
+            //   System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
 
             while (rs.next()) {
@@ -384,5 +404,5 @@ public class cl_venta {
 
         return valor_x;
     }
-    
+
 }

@@ -127,6 +127,20 @@ public class cl_cobros_ventas {
         c_conectar.cerrar(st);
         return registrado;
     }
+    
+    public boolean eliminar_cobro() {
+        boolean registrado = false;
+        Statement st = c_conectar.conexion();
+        String query = "delete from ventas_cobros "
+                + "where id_almacen = '" + id_almacen + "' and id_ventas = '" + id_venta + "' and id_cobro = '"+id_cobro+"'";
+        int resultado = c_conectar.actualiza(st, query);
+        // System.out.println(query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+        return registrado;
+    }
 
     public void mostrar(JTable tabla) {
         DefaultTableModel modelo;

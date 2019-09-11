@@ -251,7 +251,7 @@ public class cl_productos_almacen {
             String query = "select * "
                     + "from productos_almacen "
                     + "where id_producto = '" + producto + "' and id_almacen = '" + almacen + "'";
-            //System.out.println(query);
+            System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
                 cantidad = rs.getInt("cactual");
@@ -286,7 +286,6 @@ public class cl_productos_almacen {
         String query = "update productos_almacen "
                 + "set cactual = '" + cantidad + "' "
                 + "where id_almacen = '" + almacen + "' and id_producto = '" + producto + "'";
-        System.out.println(query);
         //System.out.println(query);
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {

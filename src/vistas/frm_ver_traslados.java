@@ -10,6 +10,11 @@ import clases.cl_traslados;
 import clases.cl_varios;
 import forms.frm_reg_traslado;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import sonomusic.frm_principal;
 
@@ -337,7 +342,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
                         + "inner join almacen as ad on ad.id_almacen = t.a_destino "
                         + "inner join usuarios as uo on uo.id_usuarios = t.u_envia "
                         + "inner join usuarios as ud on ud.id_usuarios = t.u_recibe "
-                        + "where (t.a_origen = '" + id_almacen + "' or t.a_destino = '" + id_almacen + "') and concat(year(t.fecha), LPAD(month(t.fecha), 2, '0')) = '"+texto+"' "
+                        + "where (t.a_origen = '" + id_almacen + "' or t.a_destino = '" + id_almacen + "') and concat(year(t.fecha), LPAD(month(t.fecha), 2, '0')) = '" + texto + "' "
                         + "order by t.fecha desc, t.id_traslado desc";
             }
 
@@ -365,32 +370,57 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Traslado?");
-        desactivar_botones();
+        frm_principal.c_permiso.setId_permiso(12);
+        boolean permitido = frm_principal.c_permiso.validar();
 
-        if (JOptionPane.OK_OPTION == confirmado) {
-            int id_traslado = Integer.parseInt(t_traslados.getValueAt(fila_seleccionada, 8).toString());
-            c_traslado.setId_traslado(id_traslado);
-            c_detalle.setId_traslado(id_traslado);
-            c_detalle.eliminar();
+        if (permitido) {
 
-            c_traslado.eliminar();
+            int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Traslado?");
+            desactivar_botones();
 
-            String query = "select t.id_traslado, t.fecha, t.fecha_recepcion, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
-                    + "uo.username as usu_envia, ud.username as usu_recibe, t.u_envia, t.u_recibe, t.estado "
-                    + "from traslados as t "
-                    + "inner join almacen as ao on ao.id_almacen = t.a_origen "
-                    + "inner join almacen as ad on ad.id_almacen = t.a_destino "
-                    + "inner join usuarios as uo on uo.id_usuarios = t.u_envia "
-                    + "inner join usuarios as ud on ud.id_usuarios = t.u_recibe "
-                    + "where t.estado in(0,1) and (t.a_origen = '" + id_almacen + "' or t.a_destino = '" + id_almacen + "') "
-                    + "order by t.fecha desc, t.id_traslado desc";
-            c_traslado.mostrar(t_traslados, query);
+            if (JOptionPane.OK_OPTION == confirmado) {
+                int id_traslado = Integer.parseInt(t_traslados.getValueAt(fila_seleccionada, 8).toString());
+                c_traslado.setId_traslado(id_traslado);
+                c_detalle.setId_traslado(id_traslado);
+                c_detalle.eliminar();
+
+                c_traslado.eliminar();
+
+                String query = "select t.id_traslado, t.fecha, t.fecha_recepcion, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
+                        + "uo.username as usu_envia, ud.username as usu_recibe, t.u_envia, t.u_recibe, t.estado "
+                        + "from traslados as t "
+                        + "inner join almacen as ao on ao.id_almacen = t.a_origen "
+                        + "inner join almacen as ad on ad.id_almacen = t.a_destino "
+                        + "inner join usuarios as uo on uo.id_usuarios = t.u_envia "
+                        + "inner join usuarios as ud on ud.id_usuarios = t.u_recibe "
+                        + "where t.estado in(0,1) and (t.a_origen = '" + id_almacen + "' or t.a_destino = '" + id_almacen + "') "
+                        + "order by t.fecha desc, t.id_traslado desc";
+                c_traslado.mostrar(t_traslados, query);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Usted no tiene permiso para realizar esta operacion!!");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void btn_ver_pdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ver_pdfActionPerformed
+        int id_traslado = Integer.parseInt(t_traslados.getValueAt(fila_seleccionada, 0).toString());
         // TODO add your handling code here:
+        File miDir = new File(".");
+        try {
+            Map<String, Object> parametros = new HashMap<>();
+            String path = miDir.getCanonicalPath();
+            String direccion = path + "//reports//subreports//";
+            System.out.println(direccion);
+            parametros.put("SUBREPORT_DIR", direccion);
+            parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
+            parametros.put("id_traslado", id_traslado);
+            //c_varios.imp_reporte("rpt_documento_venta", parametros);
+            c_varios.ver_reporte("report_traslado", parametros);
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+        }
     }//GEN-LAST:event_btn_ver_pdfActionPerformed
 
 

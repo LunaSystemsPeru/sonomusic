@@ -872,7 +872,7 @@ public class frm_mod_separacion extends javax.swing.JDialog {
 
     private void btn_grabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_grabarActionPerformed
         //desea grabar los cambios
-        int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Guardar el Traslado?");
+        int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Guardar la Separacion?");
         btn_grabar.setEnabled(false);
 
         if (JOptionPane.OK_OPTION == confirmado) {
@@ -893,6 +893,8 @@ public class frm_mod_separacion extends javax.swing.JDialog {
 
                 c_detalle.registrar();
             }
+            
+            this.jButton2.doClick();
         }
     }//GEN-LAST:event_btn_grabarActionPerformed
 

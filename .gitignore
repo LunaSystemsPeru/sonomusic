@@ -1,3 +1,5 @@
-/build/built-jar.properties
-/nbproject/
-/dist/
+dist/
+nbdist/
+nbproject/private/
+build/
+nbbuild/

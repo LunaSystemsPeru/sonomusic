@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>New Data Adapter 1</name><driver>org.hsqldb.jdbcDriver</driver><username>root_lsp</username><password>root/*123</password><savePassword>true</savePassword><url>jdbc:hsqldb:192.168.1.6/new_sonomusic</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>

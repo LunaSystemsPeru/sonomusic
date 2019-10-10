@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>New Data Adapter 1</name><driver>com.mysql.jdbc.Driver</driver><username>root_lsp</username><password>root/*123</password><savePassword>true</savePassword><url>jdbc:mysql://192.168.1.6/new_sonomusic</url><database></database><serverAddress></serverAddress><classpath>C:\Users\Bruno\Documents\NetBeansProjects\sonomusic\libs\mysql-connector-java-5.1.23-bin.jar</classpath></jdbcDataAdapter>

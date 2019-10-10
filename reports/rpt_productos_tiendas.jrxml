@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_productos_por_almacen" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b4232741-aea4-47e8-a32d-fa4af48e4f08">
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_productos_por_almacen" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="b4232741-aea4-47e8-a32d-fa4af48e4f08">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="id_almacen" class="java.lang.String">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sonomusic_test"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="p_id_tienda" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -19,16 +22,40 @@
 FROM
      `productos_almacen` productos_almacen INNER JOIN `productos` productos ON productos_almacen.`id_producto` = productos.`id_producto`
 WHERE
-     productos_almacen.`id_almacen` = $P{id_almacen}]]>
+     productos_almacen.`id_almacen` = $P{p_id_tienda}]]>
 	</queryString>
-	<field name="productos_id_producto" class="java.lang.Integer"/>
-	<field name="productos_descripcion" class="java.lang.String"/>
-	<field name="productos_marca" class="java.lang.String"/>
-	<field name="productos_precio" class="java.lang.Double"/>
-	<field name="productos_almacen_cactual" class="java.lang.Integer"/>
-	<field name="productos_modelo" class="java.lang.String"/>
-	<field name="productos_almacen_id_almacen" class="java.lang.Integer"/>
-	<field name="productos_almacen_id_producto" class="java.lang.Integer"/>
+	<field name="productos_id_producto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="productos_id_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="productos_descripcion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productos_descripcion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="productos_marca" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productos_marca"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="productos_precio" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="productos_precio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="productos_almacen_cactual" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="productos_almacen_cactual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos_almacen"/>
+	</field>
+	<field name="productos_modelo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="productos_modelo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos"/>
+	</field>
+	<field name="productos_almacen_id_almacen" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="productos_almacen_id_almacen"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos_almacen"/>
+	</field>
+	<field name="productos_almacen_id_producto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="productos_almacen_id_producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productos_almacen"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -74,14 +101,14 @@ WHERE
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ CANTIDAD]]></text>
+				<text><![CDATA[CANTIDAD]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="395" y="0" width="56" height="20" uuid="00829893-4f06-4748-bb41-040b8e662fef"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ PRECIO]]></text>
+				<text><![CDATA[PRECIO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="452" y="0" width="48" height="20" uuid="aaccbc2e-2783-4146-b988-53f3fd8a14e2"/>
@@ -124,16 +151,6 @@ WHERE
 				<reportElement x="322" y="0" width="73" height="20" uuid="cfba17bb-0b98-4298-b517-8e43907926ad"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{productos_almacen_cactual}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="451" y="0" width="49" height="20" uuid="183d4a41-f6f8-4708-8ac4-a968ce36a0ca"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="500" y="0" width="55" height="20" uuid="fed88d2b-62bf-42f5-b1da-50cd97c4a06b"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

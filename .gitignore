@@ -3,7 +3,9 @@ nbdist/
 nbproject/private/
 build/
 nbbuild/
+reports/.settings/
 reports/.settings/*
 reports/*.project
 reports/.project
 reports/*.xml
+^temp/info.txt

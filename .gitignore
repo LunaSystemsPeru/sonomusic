@@ -3,3 +3,6 @@ nbdist/
 nbproject/private/
 build/
 nbbuild/
+reports/.settings/
+reports/.project
+reports/*.xml

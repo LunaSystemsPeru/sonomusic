@@ -1,1 +1,13 @@
-
+dist/
+nbdist/
+nbproject/private/
+build/
+nbbuild/
+reports/.settings/
+reports/.settings/*
+reports/*.project
+reports/.project
+reports/*.xml
+temp/*.xls
+temp/*.xlsx
+temp/*.pdf

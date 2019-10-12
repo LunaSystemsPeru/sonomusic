@@ -8,4 +8,6 @@ reports/.settings/*
 reports/*.project
 reports/.project
 reports/*.xml
-^temp/info.txt
+temp/*.xls
+temp/*.xlsx
+temp/*.pdf

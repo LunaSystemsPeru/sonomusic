@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_productos_cantidad_menor_o_igual_0" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="98d65fbe-3d86-41db-82eb-ef0d4883ef07">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NEW-SONOMUSIC-LOCAL"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sonomusic_test"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="p_id_tienda" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -24,7 +24,7 @@ FROM
      `productos_almacen` productos_almacen 
      inner join almacen as al on al.id_almacen = productos_almacen.id_almacen
      INNER JOIN `productos` productos ON productos_almacen.`id_producto` = productos.`id_producto`
-WHERE productos_almacen.`cactual`<='0' and productos_almacen.`id_almacen`=  $P{p_id_tienda} ]]>
+WHERE productos_almacen.`cactual`<='0' and productos_almacen.`id_almacen`=  $P{p_id_tienda}]]>
 	</queryString>
 	<field name="productos_descripcion" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="productos_descripcion"/>

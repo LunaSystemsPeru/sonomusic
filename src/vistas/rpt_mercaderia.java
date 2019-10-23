@@ -282,15 +282,12 @@ public class rpt_mercaderia extends javax.swing.JDialog {
             nombre_reporte = "rpt_productos_valorizados_tienda";
         }
         if (reporte == 1) {
-            nombre_reporte = "rpt_detalle_ventas_tienda";
-        }
-        if (reporte == 2) {
             nombre_reporte = "rpt_productos_tiendas";
         }
-        if (reporte == 3) {
+        if (reporte == 2) {
             nombre_reporte = "rpt_productos_menor_cero";
         }
-        if (reporte == 4) {
+        if (reporte == 3) {
             nombre_reporte = "rpt_productos_mayor_cero";
         }
 

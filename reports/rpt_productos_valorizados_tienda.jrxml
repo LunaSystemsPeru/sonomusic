@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptproducto_valorizado_por_empresa" pageWidth="900" pageHeight="555" orientation="Landscape" columnWidth="900" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0ef311f3-1e2d-4145-ac8a-700e69525709">
 	<property name="ireport.zoom" value="1.771561000000008"/>
 	<property name="ireport.x" value="968"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="servidor_lsp"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdaptermysql.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="p_id_tienda" class="java.lang.String"/>
 	<queryString>
@@ -60,7 +60,7 @@ FROM
 	<variable name="subtotalcosto" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[($F{productos_almacen_cactual} * $F{productos_costo})]]></variableExpression>
 	</variable>
-	<variable name="ganancia" class="java.lang.String">
+	<variable name="ganancia" class="java.lang.Double">
 		<variableExpression><![CDATA[($F{productos_precio} - $F{productos_costo}) * $F{productos_almacen_cactual}]]></variableExpression>
 	</variable>
 	<background>

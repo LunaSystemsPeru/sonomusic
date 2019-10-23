@@ -980,7 +980,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
                 c_kardexdetalle.setId_producto(c_kardex.getId_producto());
                 c_kardexdetalle.obtener_datos();
 
-                if (c_kardexdetalle.getId_tipo_movimiento() == 1) {
+                if (c_kardexdetalle.getId_tipo_movimiento() == 1 || c_kardexdetalle.getId_tipo_movimiento() == 5) {
                     cl_venta c_venta = new cl_venta();
                     cl_documento_sunat c_docsunat;
                     cl_cliente c_cliente;

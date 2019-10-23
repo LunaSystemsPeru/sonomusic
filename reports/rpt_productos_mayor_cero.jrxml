@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptt_mayor_cero" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9b408f1b-a81e-4768-b02f-02ba88900b32">
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptt_mayor_cero" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9b408f1b-a81e-4768-b02f-02ba88900b32">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="id_almacen" class="java.lang.String">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sonomusic_test"/>
+	<parameter name="p_id_tienda" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -18,7 +20,7 @@
      productos.`id_producto` AS productos_id_producto
 FROM
      `productos_almacen` productos_almacen INNER JOIN `productos` productos ON productos_almacen.`id_producto` = productos.`id_producto`
-WHERE productos_almacen.`cactual`>'0' and productos_almacen.`id_almacen`=$P{id_almacen}]]>
+WHERE productos_almacen.`cactual`>'0' and productos_almacen.`id_almacen`=$P{p_id_tienda}]]>
 	</queryString>
 	<field name="productos_descripcion" class="java.lang.String"/>
 	<field name="productos_marca" class="java.lang.String"/>

@@ -568,24 +568,25 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jLabel16.setText("Datos Documento:");
 
         txt_doc_venta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_doc_venta.setEnabled(false);
         txt_doc_venta.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 txt_doc_ventaInputMethodTextChanged(evt);
             }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
         });
         txt_doc_venta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_doc_ventaKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_doc_ventaKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_doc_ventaKeyTyped(evt);
+            }
         });
 
-        txt_datos_venta.setEditable(false);
         txt_datos_venta.setBackground(new java.awt.Color(255, 255, 255));
+        txt_datos_venta.setEnabled(false);
 
         txt_cliente_separacion.setEditable(false);
         txt_cliente_separacion.setBackground(new java.awt.Color(255, 255, 255));
@@ -596,6 +597,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
         btn_grabar_venta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/accept.png"))); // NOI18N
         btn_grabar_venta.setText("Entregar");
+        btn_grabar_venta.setEnabled(false);
         btn_grabar_venta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_grabar_ventaActionPerformed(evt);
@@ -1401,6 +1403,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_grabar_ventaActionPerformed
 
+    private void activar_entregar () { 
+        btn_grabar_venta.setEnabled(true);
+        btn_grabar_venta.requestFocus();
+    }
+    
     private void txt_doc_ventaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_doc_ventaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String documento = txt_doc_venta.getText();
@@ -1425,12 +1432,14 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                                 c_cliente.setDireccion("-");
                                 c_cliente.setTelefono("");
                                 c_cliente.registrar();
+                                activar_entregar();
                             } catch (ParseException e) {
                                 JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + e.getLocalizedMessage());
                             }
                         } else {
                             c_cliente.comprobar_cliente();
                             txt_datos_venta.setText(c_cliente.getNombre());
+                            activar_entregar();
                         }
 
                     }
@@ -1451,12 +1460,14 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                                 c_cliente.setDireccion(datos[1]);
                                 c_cliente.setTelefono("");
                                 c_cliente.registrar();
+                                activar_entregar();
                             } catch (ParseException e) {
                                 JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + e.getLocalizedMessage());
                             }
                         } else {
                             c_cliente.comprobar_cliente();
                             txt_datos_venta.setText(c_cliente.getNombre());
+                            activar_entregar();
                         }
                     }
 
@@ -1480,8 +1491,16 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             cla_mis_documentos c_dcumento = (cla_mis_documentos) cbx_doc_venta.getSelectedItem();
             if (c_dcumento.getId_tido() == 6) {
+                txt_doc_venta.setText("");
+                txt_datos_venta.setText("");
+                txt_doc_venta.setEnabled(false);
+                btn_grabar_venta.setEnabled(true);
                 btn_grabar_venta.requestFocus();
             } else {
+                btn_grabar_venta.setEnabled(false);
+                txt_doc_venta.setText("");
+                txt_datos_venta.setText("");
+                txt_doc_venta.setEnabled(true);
                 txt_doc_venta.selectAll();
                 txt_doc_venta.requestFocus();
             }

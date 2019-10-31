@@ -742,12 +742,18 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_jd_cantidadKeyTyped(evt);
             }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_jd_cantidadKeyPressed(evt);
+            }
         });
 
         txt_jd_precio.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_jd_precio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_jd_precioKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_jd_precioKeyPressed(evt);
             }
         });
 
@@ -2256,6 +2262,22 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     private void txt_placa_vehiculoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_placa_vehiculoKeyTyped
         c_varios.limitar_caracteres(evt, txt_placa_vehiculo, 8);
     }//GEN-LAST:event_txt_placa_vehiculoKeyTyped
+
+    private void txt_jd_cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jd_cantidadKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (txt_jd_cantidad.getText().length()> 0) {
+                txt_jd_precio.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txt_jd_cantidadKeyPressed
+
+    private void txt_jd_precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jd_precioKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (txt_jd_precio.getText().length()> 0) {
+                btn_jd_actualizar.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txt_jd_precioKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

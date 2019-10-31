@@ -45,6 +45,7 @@ import vistas.frm_ver_traslados;
 import vistas.frm_ver_usuarios;
 import vistas.frm_ver_ventas;
 import vistas.rpt_mercaderia;
+import vistas.rpt_graficas_tienda;
 import vistas.rpt_ventas;
 
 /**
@@ -218,6 +219,7 @@ public class frm_principal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jSeparator10 = new javax.swing.JToolBar.Separator();
         jButton8 = new javax.swing.JButton();
+        jButton24 = new javax.swing.JButton();
         jSeparator14 = new javax.swing.JToolBar.Separator();
         jButton9 = new javax.swing.JButton();
         jToolBar5 = new javax.swing.JToolBar();
@@ -609,8 +611,8 @@ public class frm_principal extends javax.swing.JFrame {
         jToolBar4.add(jButton1);
         jToolBar4.add(jSeparator10);
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard-512.png"))); // NOI18N
-        jButton8.setText("Reportes");
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/seo_web-68-512.png"))); // NOI18N
+        jButton8.setText("Graficas");
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -620,6 +622,18 @@ public class frm_principal extends javax.swing.JFrame {
             }
         });
         jToolBar4.add(jButton8);
+
+        jButton24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard-512.png"))); // NOI18N
+        jButton24.setText("Reportes");
+        jButton24.setFocusable(false);
+        jButton24.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton24.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(jButton24);
         jToolBar4.add(jSeparator14);
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iconfinder_computer_connection_1421640.png"))); // NOI18N
@@ -1154,7 +1168,7 @@ public class frm_principal extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         Frame f = JOptionPane.getRootFrame();
-        rpt_ventas dialog = new rpt_ventas(f, true);
+        rpt_graficas_tienda dialog = new rpt_graficas_tienda(f, true);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -1170,6 +1184,13 @@ public class frm_principal extends javax.swing.JFrame {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        Frame f = JOptionPane.getRootFrame();
+        rpt_ventas dialog = new rpt_ventas(f, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton24ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1226,6 +1247,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

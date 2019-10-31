@@ -18,14 +18,17 @@
      productos_almacen.`cactual` AS productos_almacen_cactual,
      productos.`modelo` AS productos_modelo,
      productos_almacen.`id_almacen` AS productos_almacen_id_almacen,
-     productos_almacen.`id_producto` AS productos_almacen_id_producto
+     productos_almacen.`id_producto` AS productos_almacen_id_producto, 
+     al.nombre as almacen_nombre
 
 FROM
      `productos_almacen` productos_almacen INNER JOIN `productos` productos ON productos_almacen.`id_producto` = productos.`id_producto`
 
+inner join 
+almacen as al on al.id_almacen = productos_almacen.id_almacen
 WHERE
-     productos_almacen.`id_almacen` = $P{p_id_tienda}
-ORDER BY  productos.descripcion ASC    ]]>
+     productos_almacen.`id_almacen` = 3
+ORDER BY  productos.descripcion ASC]]>
 	</queryString>
 	<field name="productos_id_producto" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="productos_id_producto"/>
@@ -59,22 +62,19 @@ ORDER BY  productos.descripcion ASC    ]]>
 		<property name="com.jaspersoft.studio.field.label" value="productos_almacen_id_producto"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="productos_almacen"/>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
 	<title>
 		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="1" width="555" height="20" uuid="f11fea8c-d0d1-4cbe-b6a3-240722ccd7a2"/>
+				<reportElement x="0" y="1" width="540" height="20" uuid="f11fea8c-d0d1-4cbe-b6a3-240722ccd7a2"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TODOS LOS PRODUCTOS DE ALMACEN]]></text>
+				<text><![CDATA[LISTADO DE PRODUCTOS DE TIENDA]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="21" splitType="Stretch"/>
+		<band height="61" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
@@ -83,7 +83,7 @@ ORDER BY  productos.descripcion ASC    ]]>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CODIGO]]></text>
+				<text><![CDATA[COD.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="49" y="0" width="172" height="20" uuid="3aaa7081-7df5-4f7d-909c-95e9adf8f29d"/>
@@ -104,7 +104,7 @@ ORDER BY  productos.descripcion ASC    ]]>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CANTIDAD]]></text>
+				<text><![CDATA[C.SIST.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="395" y="0" width="56" height="20" uuid="00829893-4f06-4748-bb41-040b8e662fef"/>
@@ -114,18 +114,11 @@ ORDER BY  productos.descripcion ASC    ]]>
 				<text><![CDATA[PRECIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="452" y="0" width="48" height="20" uuid="aaccbc2e-2783-4146-b988-53f3fd8a14e2"/>
+				<reportElement x="452" y="0" width="103" height="20" uuid="aaccbc2e-2783-4146-b988-53f3fd8a14e2"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[BUENO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="500" y="0" width="55" height="20" uuid="b02e92f7-2c41-4937-9980-b541f4a0f144"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MALO]]></text>
+				<text><![CDATA[OBSERVACIONES]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -157,7 +150,4 @@ ORDER BY  productos.descripcion ASC    ]]>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="24" splitType="Stretch"/>
-	</columnFooter>
 </jasperReport>

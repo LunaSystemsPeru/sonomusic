@@ -569,23 +569,15 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
         txt_doc_venta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_doc_venta.setEnabled(false);
-        txt_doc_venta.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txt_doc_ventaInputMethodTextChanged(evt);
-            }
-        });
         txt_doc_venta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txt_doc_ventaKeyPressed(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_doc_ventaKeyTyped(evt);
             }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_doc_ventaKeyPressed(evt);
+            }
         });
 
-        txt_datos_venta.setBackground(new java.awt.Color(255, 255, 255));
         txt_datos_venta.setEnabled(false);
 
         txt_cliente_separacion.setEditable(false);
@@ -1305,7 +1297,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         c_venta.setFecha(c_varios.getFechaActual());
 
         c_venta.setId_usuario(c_separacion.getId_usuario());
-        c_venta.setId_cliente(c_cliente.getCodigo());
+        //c_venta.setId_cliente(c_cliente.getCodigo());
 
         //obtener documento seleccionado por cliente y sus valores de serie y numero
         cla_mis_documentos c_dcumento = (cla_mis_documentos) cbx_doc_venta.getSelectedItem();
@@ -1320,7 +1312,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         c_venta.setNumero(c_doc_almacen.getNumero());
         c_venta.setTotal(c_separacion.getTotal());
         c_venta.setId_tipo_venta(1);
-        c_venta.setPagado(c_separacion.getTotal());
+        c_venta.setPagado(0);
         c_venta.setEstado(1);
         c_venta.setEnviado_sunat(0);
 
@@ -1351,49 +1343,51 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 System.out.println(e.getLocalizedMessage());
             }
 
-            //generar documento electronico
-            try {
-                //Ponemos a "Dormir" el programa durante los ms que queremos
-                Thread.sleep(5 * 1000);
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            }
-
-            String[] envio_sunat;
-            envio_sunat = cl_envio_server.enviar_documento(c_venta.getId_venta(), c_venta.getId_tido(), c_venta.getId_almacen());
-
-            String nombre_archivo = envio_sunat[0];
-            String url_codigo_qr = envio_sunat[2];
-            String hash = envio_sunat[3];
-            String estatus = envio_sunat[5];
-            if (estatus.equals("error")) {
-                JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
-            } else {
-                //imprimir boleta o factura
-                leer_numeros c_letras = new leer_numeros();
-                String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
-                System.out.println(letras_numeros);
-                System.out.println(url_codigo_qr);
-
-                File miDir = new File(".");
+            if (c_venta.getId_tido() != 6) {
+                //generar documento electronico
                 try {
-                    Map<String, Object> parametros = new HashMap<>();
-                    String path = miDir.getCanonicalPath();
-                    String direccion = path + "//reports//subreports//";
+                    //Ponemos a "Dormir" el programa durante los ms que queremos
+                    Thread.sleep(5 * 1000);
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                }
 
-                    System.out.println(direccion);
-                    parametros.put("SUBREPORT_DIR", direccion);
-                    parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
-                    parametros.put("REPORT_LOCALE", Locale.ENGLISH);
-                    parametros.put("p_id_venta", c_venta.getId_venta());
-                    parametros.put("p_id_almacen", c_venta.getId_almacen());
-                    parametros.put("p_letras_numero", letras_numeros);
-                    parametros.put("p_codigo_qr", url_codigo_qr);
-                    parametros.put("p_hash", hash);
-                    //c_varios.imp_reporte("rpt_documento_venta", parametros);
-                    c_varios.ver_reporte("rpt_documento_venta", parametros);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+                String[] envio_sunat;
+                envio_sunat = cl_envio_server.enviar_documento(c_venta.getId_venta(), c_venta.getId_tido(), c_venta.getId_almacen());
+
+                String nombre_archivo = envio_sunat[0];
+                String url_codigo_qr = envio_sunat[2];
+                String hash = envio_sunat[3];
+                String estatus = envio_sunat[5];
+                if (estatus.equals("error")) {
+                    JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
+                } else {
+                    //imprimir boleta o factura
+                    leer_numeros c_letras = new leer_numeros();
+                    String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
+                    System.out.println(letras_numeros);
+                    System.out.println(url_codigo_qr);
+
+                    File miDir = new File(".");
+                    try {
+                        Map<String, Object> parametros = new HashMap<>();
+                        String path = miDir.getCanonicalPath();
+                        String direccion = path + "//reports//subreports//";
+
+                        System.out.println(direccion);
+                        parametros.put("SUBREPORT_DIR", direccion);
+                        parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
+                        parametros.put("REPORT_LOCALE", Locale.ENGLISH);
+                        parametros.put("p_id_venta", c_venta.getId_venta());
+                        parametros.put("p_id_almacen", c_venta.getId_almacen());
+                        parametros.put("p_letras_numero", letras_numeros);
+                        parametros.put("p_codigo_qr", url_codigo_qr);
+                        parametros.put("p_hash", hash);
+                        //c_varios.imp_reporte("rpt_documento_venta", parametros);
+                        c_varios.ver_reporte("rpt_documento_venta", parametros);
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+                    }
                 }
             }
 
@@ -1403,11 +1397,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_grabar_ventaActionPerformed
 
-    private void activar_entregar () { 
+    private void activar_entregar() {
         btn_grabar_venta.setEnabled(true);
         btn_grabar_venta.requestFocus();
     }
-    
+
     private void txt_doc_ventaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_doc_ventaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String documento = txt_doc_venta.getText();
@@ -1490,7 +1484,9 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private void cbx_doc_ventaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_doc_ventaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             cla_mis_documentos c_dcumento = (cla_mis_documentos) cbx_doc_venta.getSelectedItem();
+            c_venta.setId_tido(c_dcumento.getId_tido());
             if (c_dcumento.getId_tido() == 6) {
+                c_venta.setId_cliente(0);
                 txt_doc_venta.setText("");
                 txt_datos_venta.setText("");
                 txt_doc_venta.setEnabled(false);
@@ -1506,10 +1502,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_cbx_doc_ventaKeyPressed
-
-    private void txt_doc_ventaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txt_doc_ventaInputMethodTextChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_doc_ventaInputMethodTextChanged
 
     private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed
         //cargar datos venta

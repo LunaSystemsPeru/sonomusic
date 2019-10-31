@@ -175,6 +175,7 @@ public class frm_reg_movimiento_caja extends javax.swing.JInternalFrame {
         jLabel3.setText("Monto:");
 
         cbx_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "INGRESA", "RETIRA" }));
+        cbx_tipo.setSelectedIndex(1);
         cbx_tipo.setEnabled(false);
         cbx_tipo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {

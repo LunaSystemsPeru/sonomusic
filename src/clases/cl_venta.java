@@ -363,7 +363,7 @@ public class cl_venta {
             Statement st = c_conectar.conexion();
             String query = "select day(v.fecha) as dia, sum(v.total) as total_dia "
                     + "from ventas as v "
-                    + "where v.id_almacen = '" + id_almacen + "' and month(v.fecha) = month(CURRENT_DATE()) and year(v.fecha) = year(CURRENT_DATE()) "
+                    + "where v.id_almacen = '" + id_almacen + "' and month(v.fecha) = month(CURRENT_DATE()) and year(v.fecha) = year(CURRENT_DATE()) and v.tipo_venta = 1 and v.estado != 3 "
                     + "GROUP by day(v.fecha)";
             // System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
@@ -388,7 +388,7 @@ public class cl_venta {
             Statement st = c_conectar.conexion();
             String query = "select month(v.fecha) as mes, sum(v.total) as total_mes "
                     + "from ventas as v "
-                    + "where v.id_almacen = '" + id_almacen + "' and year(v.fecha) = year(CURRENT_DATE()) "
+                    + "where v.id_almacen = '" + id_almacen + "' and year(v.fecha) = year(CURRENT_DATE()) and v.tipo_venta = 1 and v.estado != 3 "
                     + "GROUP by month(v.fecha)";
             //   System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);

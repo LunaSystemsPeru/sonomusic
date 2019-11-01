@@ -47,7 +47,11 @@ public class rpt_ventas extends javax.swing.JDialog {
         if (reporte == 0) {
             nombre_reporte = "rpt_ganancias_ventas_tiendas";
         }
-        
+
+        if (reporte == 1) {
+            nombre_reporte = "rpt_ventas_tienda";
+        }
+
         String fecha_inicio = c_varios.fecha_myql(txt_fecha_inicio_tienda.getText());
         String fecha_fin = c_varios.fecha_myql(txt_fecha_fin_tienda.getText());
         //ver reporte en pdf;        
@@ -75,6 +79,43 @@ public class rpt_ventas extends javax.swing.JDialog {
         }
     }
 
+    private void generar_reporte_empresa() {
+        btn_generar_empresa.setEnabled(false);
+        txt_fecha_fin_empresa.requestFocus();
+        cla_empresa cla_empresa = (cla_empresa) cbx_empresa.getSelectedItem();
+        int reporte = cbx_reporte_empresa.getSelectedIndex();
+        String nombre_reporte = "";
+        if (reporte == 0) {
+            nombre_reporte = "rpt_ventas_empresa";
+        }
+
+        String fecha_inicio = c_varios.fecha_myql(txt_fecha_inicio_empresa.getText());
+        String fecha_fin = c_varios.fecha_myql(txt_fecha_fin_empresa.getText());
+        //ver reporte en pdf;        
+        File miDir = new File(".");
+        try {
+            Map<String, Object> parametros = new HashMap<>();
+            String path = miDir.getCanonicalPath();
+            String direccion = path + File.separator + "reports" + File.separator + "subreports" + File.separator;
+
+            System.out.println(direccion);
+            parametros.put("SUBREPORT_DIR", direccion);
+            parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
+            parametros.put("REPORT_LOCALE", Locale.ENGLISH);
+            parametros.put("p_id_empresa", cla_empresa.getId_empresa());
+            parametros.put("p_fecha_inicio", fecha_inicio);
+            parametros.put("p_fecha_fin", fecha_fin);
+            // if (tipo == 1) {
+            //     c_varios.ver_reporte_excel(nombre_reporte, parametros, nombre_reporte);
+            // }
+            // if (tipo == 2) {
+            c_varios.ver_reporte(nombre_reporte, parametros);
+            // }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,11 +129,11 @@ public class rpt_ventas extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         cbx_reporte_empresa = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        btn_generar_empresa = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        txt_fecha_inicio_empresa = new javax.swing.JFormattedTextField();
+        txt_fecha_fin_empresa = new javax.swing.JFormattedTextField();
         jLabel9 = new javax.swing.JLabel();
         cbx_empresa = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
@@ -111,31 +152,58 @@ public class rpt_ventas extends javax.swing.JDialog {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Seleccionar Reportes"));
 
-        cbx_reporte_empresa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Utilidad x Venta", "Venta Detallada" }));
+        cbx_reporte_empresa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista de Ventas para SUNAT" }));
+        cbx_reporte_empresa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbx_reporte_empresaKeyPressed(evt);
+            }
+        });
 
-        jButton2.setText("Generar");
+        btn_generar_empresa.setText("Generar");
+        btn_generar_empresa.setEnabled(false);
+        btn_generar_empresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_generar_empresaActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Fecha de Inicio:");
 
         jLabel8.setText("Fecha de fin:");
 
         try {
-            jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txt_fecha_inicio_empresa.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_fecha_inicio_empresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_fecha_inicio_empresa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_fecha_inicio_empresaKeyPressed(evt);
+            }
+        });
 
         try {
-            jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txt_fecha_fin_empresa.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_fecha_fin_empresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_fecha_fin_empresa.setEnabled(false);
+        txt_fecha_fin_empresa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_fecha_fin_empresaKeyPressed(evt);
+            }
+        });
 
         jLabel9.setText("Empresa");
 
         cbx_empresa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbx_empresa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbx_empresaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -147,15 +215,15 @@ public class rpt_ventas extends javax.swing.JDialog {
                     .addComponent(cbx_reporte_empresa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btn_generar_empresa))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jFormattedTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                            .addComponent(jFormattedTextField4))
+                            .addComponent(txt_fecha_inicio_empresa, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                            .addComponent(txt_fecha_fin_empresa))
                         .addGap(0, 195, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -175,13 +243,13 @@ public class rpt_ventas extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_fecha_inicio_empresa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_fecha_fin_empresa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_generar_empresa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -381,6 +449,40 @@ public class rpt_ventas extends javax.swing.JDialog {
         generar_reporte_tienda();
     }//GEN-LAST:event_btn_generar_tiendaActionPerformed
 
+    private void cbx_reporte_empresaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_reporte_empresaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            cbx_empresa.requestFocus();
+        }
+    }//GEN-LAST:event_cbx_reporte_empresaKeyPressed
+
+    private void cbx_empresaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_empresaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txt_fecha_inicio_empresa.requestFocus();
+        }
+    }//GEN-LAST:event_cbx_empresaKeyPressed
+
+    private void txt_fecha_inicio_empresaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_fecha_inicio_empresaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (txt_fecha_inicio_empresa.getText().length() == 10) {
+                txt_fecha_fin_empresa.setEnabled(true);
+                txt_fecha_fin_empresa.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txt_fecha_inicio_empresaKeyPressed
+
+    private void txt_fecha_fin_empresaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_fecha_fin_empresaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (txt_fecha_fin_empresa.getText().length() == 10) {
+                btn_generar_empresa.setEnabled(true);
+                btn_generar_empresa.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_txt_fecha_fin_empresaKeyPressed
+
+    private void btn_generar_empresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_empresaActionPerformed
+        generar_reporte_empresa();
+    }//GEN-LAST:event_btn_generar_empresaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -424,14 +526,12 @@ public class rpt_ventas extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_generar_empresa;
     private javax.swing.JButton btn_generar_tienda;
     private javax.swing.JComboBox<String> cbx_empresa;
     private javax.swing.JComboBox<String> cbx_reporte_empresa;
     private javax.swing.JComboBox<String> cbx_reporte_tienda;
     private javax.swing.JComboBox<String> cbx_tienda;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
@@ -443,7 +543,9 @@ public class rpt_ventas extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JFormattedTextField txt_fecha_fin_empresa;
     private javax.swing.JFormattedTextField txt_fecha_fin_tienda;
+    private javax.swing.JFormattedTextField txt_fecha_inicio_empresa;
     private javax.swing.JFormattedTextField txt_fecha_inicio_tienda;
     // End of variables declaration//GEN-END:variables
 }

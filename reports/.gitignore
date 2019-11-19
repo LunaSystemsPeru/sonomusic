@@ -2,3 +2,5 @@
 /rpt_ganancias_ventas_tiendas.jasper
 /rpt_ventas_tienda.jasper
 /rpt_ventas_empresa.jasper
+/rpt_productos_menor_cero.jasper
+/rpt_productos_mayor_cero.jasper

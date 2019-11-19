@@ -510,6 +510,8 @@ public class frm_reg_producto extends javax.swing.JDialog {
                     c_producto_empresa.setPrecio(precio);
                     c_producto_empresa.insertar();
                 }
+
+                JOptionPane.showMessageDialog(null, "<html>el codigo del producto es: <h1>" + c_producto.getId() + "</h1></html>");
             } else {
                 realizado = c_producto.modificar();
             }

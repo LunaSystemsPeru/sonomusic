@@ -279,7 +279,7 @@ public class cl_varios {
                         "temp" + File.separator + salida + fechahora +  ".xls");
 
                 exporter.exportReport();
-                JOptionPane.showMessageDialog(null, "REPORTE GENERADO, \nREVISE EN la Carpeta " + direccion + "temp" + File.separator);
+                JOptionPane.showMessageDialog(null, "REPORTE GENERADO, \nREVISE EN la Carpeta " + direccion  + File.separator+ "temp" + File.separator);
 
                 try {
                     File file = new File("temp" + File.separator + salida + fechahora +  ".xls");

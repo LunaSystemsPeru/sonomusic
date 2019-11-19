@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import javax.swing.JOptionPane;
+import nicon.notify.core.Notification;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -191,12 +193,21 @@ public class cl_json_entidad {
         //estructurs cuando es uno simple
         //aprendi de aqui
         //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
-        JSONObject result = (JSONObject) jsonObject.get("result");
-        //System.out.println("razon social: " + result.get("RazonSocial"));
-        datos[0] = result.get("RazonSocial").toString();
-        datos[1] = result.get("Direccion").toString();
-        datos[2] = result.get("Condicion").toString();
-        datos[3] = result.get("Estado").toString();
+        if (estatus) {
+            JSONObject result = (JSONObject) jsonObject.get("result");
+            //System.out.println("razon social: " + result.get("RazonSocial"));
+            datos[0] = result.get("RazonSocial").toString();
+            datos[1] = result.get("Direccion").toString();
+            datos[2] = result.get("Condicion").toString();
+            datos[3] = result.get("Estado").toString();
+        } else {
+            Notification.show("Busqueda Externa", (String) jsonObject.get("msg"));
+            datos[0] = "";
+            datos[1] = "";
+            datos[2] = "";
+            datos[3] = "";
+            JOptionPane.showMessageDialog(null, "Error al buscar los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
         return datos;
     }
 

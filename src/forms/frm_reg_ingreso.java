@@ -52,7 +52,8 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
 
     DefaultTableModel detalle;
     TextAutoCompleter tac_productos = null;
-    
+    TextAutoCompleter tac_proveedores = null;
+
     int fila_seleccionada;
     int id_empresa = frm_principal.c_empresa.getId();
 
@@ -98,6 +99,29 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
         c_varios.derecha_celda(t_detalle, 6);
     }
 
+    private void cargar_proveedores() {
+        try {
+            if (tac_proveedores != null) {
+                tac_productos.removeAllItems();
+            }
+            tac_productos = new TextAutoCompleter(txt_ruc_proveedor);
+
+            tac_productos.setMode(0);
+            tac_productos.setCaseSensitive(false);
+            Statement st = c_conectar.conexion();
+            String sql = "select nro_documento from proveedor";
+            ResultSet rs = c_conectar.consulta(st, sql);
+            while (rs.next()) {
+                tac_productos.addItem(rs.getString("nro_documento"));
+            }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error " + e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
     private void cargar_productos() {
         try {
             if (tac_productos != null) {
@@ -125,7 +149,7 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
             Statement st = c_conectar.conexion();
             String sql = "select p.descripcion, pe.precio, p.costo, p.id_producto, p.marca, p.modelo "
                     + "from productos as p "
-                    + "inner join productos_empresa as pe on pe.id_empresa = '"+id_empresa+"' and pe.id_producto = p.id_producto ";
+                    + "inner join productos_empresa as pe on pe.id_empresa = '" + id_empresa + "' and pe.id_producto = p.id_producto ";
             ResultSet rs = c_conectar.consulta(st, sql);
             while (rs.next()) {
                 int id_producto = rs.getInt("id_producto");
@@ -216,7 +240,7 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
         txt_numero = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txt_ruc_proveedor = new javax.swing.JTextField();
-        btn_buscar_proveedor = new javax.swing.JButton();
+        btn_modificar_proveedor = new javax.swing.JButton();
         btn_add_proveedor = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -314,9 +338,14 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
             }
         });
 
-        btn_buscar_proveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/find.png"))); // NOI18N
-        btn_buscar_proveedor.setToolTipText("Buscar Proveedor");
-        btn_buscar_proveedor.setEnabled(false);
+        btn_modificar_proveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
+        btn_modificar_proveedor.setToolTipText("Buscar Proveedor");
+        btn_modificar_proveedor.setEnabled(false);
+        btn_modificar_proveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificar_proveedorActionPerformed(evt);
+            }
+        });
 
         btn_add_proveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         btn_add_proveedor.setToolTipText("agregar Proveedor");
@@ -396,7 +425,7 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btn_add_proveedor)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btn_buscar_proveedor)))
+                            .addComponent(btn_modificar_proveedor)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -427,7 +456,7 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btn_add_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_buscar_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_modificar_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txt_ruc_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -571,12 +600,12 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_buscar_productos, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_buscar_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_recargar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_add_producto)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -722,19 +751,17 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -799,9 +826,10 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
     private void txt_numeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numeroKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_numero.getText().length() > 0) {
+                cargar_proveedores();
                 txt_ruc_proveedor.setEnabled(true);
                 btn_add_proveedor.setEnabled(true);
-                btn_buscar_proveedor.setEnabled(true);
+                btn_modificar_proveedor.setEnabled(false);
                 txt_ruc_proveedor.requestFocus();
             }
         }
@@ -826,16 +854,18 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
                         c_proveedor.cargar_datos();
                     }
                     txt_razon_social.setText(c_proveedor.getRazon_social());
+                    btn_add_proveedor.setEnabled(false);
+                    btn_modificar_proveedor.setEnabled(true);
                     cbx_tienda.removeAllItems();
                     m_almacen.cbx_todos_almacenes(cbx_tienda);
                     cbx_tienda.setEnabled(true);
                     cbx_tienda.requestFocus();
                 } else {
                     Frame f = JOptionPane.getRootFrame();
+                    frm_reg_proveedor.registrar = true;
+                    frm_reg_proveedor.origen = "reg_ingreso";
                     frm_reg_proveedor dialog = new frm_reg_proveedor(f, true);
                     frm_reg_proveedor.txt_ndoc.setText(c_proveedor.getRuc());
-                    frm_reg_proveedor.accion = "registrar";
-                    frm_reg_proveedor.origen = "reg_ingreso";
                     dialog.setLocationRelativeTo(null);
                     dialog.setVisible(true);
                 }
@@ -1008,7 +1038,7 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
         detalle.addRow(fila);
         calcular_total();
         limpiar_buscar();
-       // btn_guardar.setEnabled(true);
+        // btn_guardar.setEnabled(true);
     }//GEN-LAST:event_btn_agregar_productoActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
@@ -1052,10 +1082,10 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
 
     private void btn_add_proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_proveedorActionPerformed
         Frame f = JOptionPane.getRootFrame();
+        frm_reg_proveedor.registrar = true;
+        frm_reg_proveedor.origen = "reg_ingreso";
         frm_reg_proveedor dialog = new frm_reg_proveedor(f, true);
         frm_reg_proveedor.txt_ndoc.setText(c_proveedor.getRuc());
-        frm_reg_proveedor.accion = "registrar";
-        frm_reg_proveedor.origen = "reg_ingreso";
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_btn_add_proveedorActionPerformed
@@ -1080,11 +1110,21 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void t_detalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_detalleMouseClicked
-        if (evt.getClickCount()== 2) {
+        if (evt.getClickCount() == 2) {
             fila_seleccionada = t_detalle.getSelectedRow();
             jButton7.setEnabled(true);
         }
     }//GEN-LAST:event_t_detalleMouseClicked
+
+    private void btn_modificar_proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificar_proveedorActionPerformed
+        Frame f = JOptionPane.getRootFrame();
+        frm_reg_proveedor.registrar = false;
+        frm_reg_proveedor.c_proveedor.setId_proveedor(c_proveedor.getId_proveedor());
+        frm_reg_proveedor.origen = "reg_ingreso";
+        frm_reg_proveedor dialog = new frm_reg_proveedor(f, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btn_modificar_proveedorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1092,8 +1132,8 @@ public class frm_reg_ingreso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_add_proveedor;
     private javax.swing.JButton btn_agregar_producto;
     private javax.swing.JButton btn_buscar_producto;
-    private javax.swing.JButton btn_buscar_proveedor;
     private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_modificar_proveedor;
     private javax.swing.JButton btn_recargar;
     private javax.swing.JButton btn_salir;
     private javax.swing.JComboBox<String> cbx_moneda;

@@ -10,6 +10,7 @@ import clases.cl_varios;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import json.cl_json_entidad;
+import nicon.notify.core.Notification;
 
 /**
  *
@@ -18,10 +19,10 @@ import json.cl_json_entidad;
 public class frm_reg_proveedor extends javax.swing.JDialog {
 
     cl_varios c_varios = new cl_varios();
-    cl_proveedor c_proveedor = new cl_proveedor();
+    public static cl_proveedor c_proveedor = new cl_proveedor();
 
     public static String origen = "";
-    public static String accion = "";
+    public static boolean registrar = true;
 
     /**
      * Creates new form frm_reg_proveedor
@@ -29,6 +30,81 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
     public frm_reg_proveedor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        System.out.println("que hare " + registrar );
+
+        if (!registrar) {
+            c_proveedor.cargar_datos();
+            txt_condicion.setText(c_proveedor.getCondicion());
+            txt_nom.setText(c_proveedor.getRazon_social());
+            txt_dir.setText(c_proveedor.getDireccion());
+            txt_estado.setText(c_proveedor.getEstado());
+            txt_ndoc.setText(c_proveedor.getRuc());
+            jButton1.setEnabled(true);
+            txt_ndoc.setEnabled(true);
+            txt_nom.setEnabled(true);
+            txt_dir.setEnabled(true);
+            txt_estado.setEnabled(true);
+            txt_condicion.setEnabled(true);
+            btn_guardar.setEnabled(true);
+        } else {
+            jButton1.setEnabled(false);
+        }
+    }
+
+    private void obtenerDatos() {
+        String documento = txt_ndoc.getText();
+        if (documento.length() > 0) {
+            switch (documento.length()) {
+                case 8:
+                    System.out.println("buscar dni");
+                    Notification.show("Proveedor", "Buscando datos en RENIEC");
+                    try {
+                        String json = cl_json_entidad.getJSONDNI_LUNASYSTEMS(documento);
+                        //Lo mostramos
+                        String datos = cl_json_entidad.showJSONDNIL(json);
+                        txt_nom.setText(datos);
+                        txt_condicion.setText("HABIDO");
+                        txt_estado.setText("ACTIVO");
+                        if (txt_nom.getText().length() > 0) {
+                            txt_dir.setText("");
+                            txt_dir.setEnabled(true);
+                            txt_dir.requestFocus();
+                        }
+
+                    } catch (org.json.simple.parser.ParseException ex) {
+                        JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + ex.getLocalizedMessage());
+                    }
+                    break;
+                case 11:
+                    System.out.println("buscar ruc");
+                    Notification.show("Proveedor", "Buscando datos en SUNAT");
+                    try {
+                        String json = cl_json_entidad.getJSONRUC_LUNASYSTEMS(documento);
+                        //Lo mostramos
+                        String[] datos = cl_json_entidad.showJSONRUC_JMP(json);
+                        txt_nom.setText(datos[0]);
+                        txt_dir.setText(datos[1]);
+                        txt_condicion.setText(datos[2]);
+                        txt_estado.setText(datos[3]);
+                        if (txt_nom.getText().length() > 0) {
+                            btn_guardar.setEnabled(true);
+                            btn_guardar.requestFocus();
+                        }
+
+                    } catch (org.json.simple.parser.ParseException ex) {
+                        JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + ex.getLocalizedMessage());
+                    }
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "NRO DEL DOCUMENTO DEL PROVEEDOR ES INCORRECTO");
+                    txt_ndoc.requestFocus();
+                    break;
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "INGRESE DOCUMENTO DEL PROVEEDOR");
+        }
     }
 
     /**
@@ -55,6 +131,7 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         txt_condicion = new javax.swing.JTextField();
         txt_estado = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrar Proveedores");
@@ -132,6 +209,15 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
 
         txt_estado.setEnabled(false);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/error.png"))); // NOI18N
+        jButton1.setText("Volver a Obtener Datos!");
+        jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -153,11 +239,14 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
                             .addComponent(txt_nom)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_ndoc, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(txt_estado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                        .addComponent(txt_condicion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
-                                .addGap(0, 283, Short.MAX_VALUE))))
+                                        .addComponent(txt_condicion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txt_ndoc, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1)))
+                                .addGap(0, 52, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -172,7 +261,8 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_ndoc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_ndoc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,46 +292,7 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
 
     private void txt_ndocKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ndocKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String documento = txt_ndoc.getText();
-            if (documento.length() > 0) {
-                if (documento.length() == 8) {
-                    System.out.println("buscar dni");
-                    try {
-                        String json = cl_json_entidad.getJSONDNI_LUNASYSTEMS(documento);
-                        //Lo mostramos
-                        String datos = cl_json_entidad.showJSONDNIL(json);
-                        txt_nom.setText(datos);
-                        txt_condicion.setText("HABIDO");
-                        txt_estado.setText("ACTIVO");
-                        txt_dir.setText("");
-                        txt_dir.setEnabled(true);
-                        txt_dir.requestFocus();
-
-                    } catch (org.json.simple.parser.ParseException ex) {
-                        JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + ex.getLocalizedMessage());
-                    }
-                }
-                if (documento.length() == 11) {
-                    System.out.println("buscar ruc");
-                    try {
-                        String json = cl_json_entidad.getJSONRUC_LUNASYSTEMS(documento);
-                        //Lo mostramos
-                        String[] datos = cl_json_entidad.showJSONRUC_JMP(json);
-                        txt_nom.setText(datos[0]);
-                        txt_dir.setText(datos[1]);
-                        txt_condicion.setText(datos[2]);
-                        txt_estado.setText(datos[3]);
-                        btn_guardar.setEnabled(true);
-                        btn_guardar.requestFocus();
-
-                    } catch (org.json.simple.parser.ParseException ex) {
-                        JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + ex.getLocalizedMessage());
-                    }
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "INGRESE DOCUMENTO DEL PROVEEDOR");
-            }
+            obtenerDatos();
         }
     }//GEN-LAST:event_txt_ndocKeyPressed
 
@@ -283,15 +334,27 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
         c_proveedor.setDireccion(txt_dir.getText());
         c_proveedor.setRazon_social(txt_nom.getText());
         c_proveedor.setRuc(txt_ndoc.getText());
-        c_proveedor.obtener_codigo();
 
-        boolean registrado = c_proveedor.registrar();
+        boolean registrado = false;
+        if (registrar) {
+            c_proveedor.obtener_codigo();
+            registrado = c_proveedor.registrar();
+        } else {
+            registrado = c_proveedor.modificar();
+        }
+
         if (registrado) {
             this.dispose();
             origen = "";
-            accion = "";
+            registrar = true;
+        } else {
+            JOptionPane.showMessageDialog(null, "ERRROR!!! EN PROVEEDOR");
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        obtenerDatos();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,6 +401,7 @@ public class frm_reg_proveedor extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_salir;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

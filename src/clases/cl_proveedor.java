@@ -126,8 +126,8 @@ public class cl_proveedor {
         c_conectar.cerrar(st);
         return registrado;
     }
-    
-     public void obtener_codigo() {
+
+    public void obtener_codigo() {
         try {
             Statement st = c_conectar.conexion();
             String query = "select ifnull(max(id_proveedor) + 1, 1) as codigo "
@@ -166,6 +166,21 @@ public class cl_proveedor {
             System.out.println(e.getLocalizedMessage());
         }
         return existe;
+    }
+
+    public boolean modificar() {
+        boolean registrado = false;
+        Statement st = c_conectar.conexion();
+        String query = "update proveedor "
+                + "set nro_documento = '" + ruc + "', razon_social = '" + razon_social + "', direccion = '" + direccion + "', condicion = '" + condicion + "', estado = '" + estado + "' "
+                + "where id_proveedor = '" + id_proveedor + "'";
+        System.out.println(query);
+        int resultado = c_conectar.actualiza(st, query);
+        if (resultado > -1) {
+            registrado = true;
+        }
+        c_conectar.cerrar(st);
+        return registrado;
     }
 
     public void mostrar(JTable tabla, String query) {

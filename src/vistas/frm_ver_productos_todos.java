@@ -66,6 +66,7 @@ public class frm_ver_productos_todos extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         t_productos = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
+        btn_agregar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
         btn_ubicar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
@@ -120,6 +121,18 @@ public class frm_ver_productos_todos extends javax.swing.JInternalFrame {
 
         jToolBar1.setFloatable(false);
         jToolBar1.setOpaque(false);
+
+        btn_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
+        btn_agregar.setText("Agregar");
+        btn_agregar.setFocusable(false);
+        btn_agregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_agregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_agregar);
 
         btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btn_modificar.setText("Modificar");
@@ -305,8 +318,17 @@ public class frm_ver_productos_todos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        Frame f = JOptionPane.getRootFrame();
+        frm_reg_producto.registrar = true;
+        frm_reg_producto dialog = new frm_reg_producto(f, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_cerrar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;

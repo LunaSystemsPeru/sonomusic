@@ -183,6 +183,8 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         btn_agregar.setEnabled(false);
         txt_buscar_producto.requestFocus();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -206,7 +208,7 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         btn_guardar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton1 = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
@@ -330,12 +332,18 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         jToolBar1.add(btn_guardar);
         jToolBar1.add(jSeparator1);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
-        jButton1.setText("Eliminar");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.setEnabled(false);
+        btn_eliminar.setFocusable(false);
+        btn_eliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_eliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_eliminar);
         jToolBar1.add(jSeparator2);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
@@ -406,6 +414,11 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        t_inventario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                t_inventarioMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(t_inventario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -576,11 +589,29 @@ public class frm_reg_inventario extends javax.swing.JInternalFrame {
         lbl_ayuda.setText("ESCRIBA CANTIDAD ENCONTRADA EN FISICO Y PRESIONE ENTER");
     }//GEN-LAST:event_txt_cantidad_enviarFocusGained
 
+    private void t_inventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_inventarioMouseClicked
+        if (evt.getClickCount() == 2) {
+            fila_seleccionada = t_inventario.getSelectedRow();
+            btn_eliminar.setEnabled(true);
+        }
+    }//GEN-LAST:event_t_inventarioMouseClicked
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        btn_eliminar.setEnabled(false);
+        int confirmado = JOptionPane.showConfirmDialog(null, "¿Esta Seguro de Eliminar el Producto Seleccionado?");
+
+        if (JOptionPane.OK_OPTION == confirmado) {
+            detalle.removeRow(fila_seleccionada);
+            txt_buscar_producto.setText("");
+            txt_buscar_producto.requestFocus();
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_guardar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

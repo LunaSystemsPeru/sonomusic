@@ -552,7 +552,7 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -674,6 +674,7 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
         c_empresa.setId(c_almacen.getEmpresa());
         c_empresa.validar_empresa();
         cbx_j_empresa.getModel().setSelectedItem(new cla_empresa(c_empresa.getId(), c_empresa.getRuc(), c_empresa.getRazon()));
+        btn_j_grabar.setEnabled(true);
 
         jd_reg_tienda.setVisible(true);
     }//GEN-LAST:event_btn_modificarActionPerformed

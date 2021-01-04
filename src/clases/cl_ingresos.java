@@ -133,7 +133,7 @@ public class cl_ingresos {
     public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
-    
+
     public boolean validar_ingreso() {
         boolean existe = false;
         try {
@@ -179,14 +179,14 @@ public class cl_ingresos {
         }
         return existe;
     }
-    
+
     public boolean validar_documento_kardex() {
         boolean existe = false;
         try {
             Statement st = c_conectar.conexion();
             String query = "select id_ingreso, periodo "
                     + "from ingresos "
-                    + "where id_almacen = '" + id_almacen + "' and id_tido = '" + id_tido + "' and serie = '" + serie + "' and numero = '" + numero + "' and fecha = '"+fecha+"'";
+                    + "where id_almacen = '" + id_almacen + "' and id_tido = '" + id_tido + "' and serie = '" + serie + "' and numero = '" + numero + "' and fecha = '" + fecha + "'";
             System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
             if (rs.next()) {
@@ -235,20 +235,22 @@ public class cl_ingresos {
             tmodelo.addColumn("Proveedor");
             tmodelo.addColumn("Total");
             tmodelo.addColumn("Usuario");
-            tmodelo.addColumn("_periodo");
-            tmodelo.addColumn("_idingreso");
+            tmodelo.addColumn("Tienda");
+            tmodelo.addColumn(""); //periodo
+            tmodelo.addColumn(""); //idingreso
 
             //Creando las filas para el JTable
             while (rs.next()) {
-                Object[] fila = new Object[8];
+                Object[] fila = new Object[9];
                 fila[0] = rs.getString("periodo") + c_varios.ceros_izquieda_letras(4, rs.getString("id_ingreso"));
                 fila[1] = rs.getString("fecha");
                 fila[2] = rs.getString("abreviado") + " | " + c_varios.ceros_izquieda_letras(4, rs.getString("serie")) + " - " + c_varios.ceros_izquieda_numero(7, rs.getInt("numero"));
                 fila[3] = rs.getString("nro_documento") + " | " + rs.getString("razon_social");
                 fila[4] = c_varios.formato_numero(rs.getDouble("total"));
                 fila[5] = rs.getString("username");
-                fila[6] = rs.getInt("periodo");
-                fila[7] = rs.getInt("id_ingreso");
+                fila[6] = rs.getString("nomalmacen");
+                fila[7] = rs.getInt("periodo");
+                fila[8] = rs.getInt("id_ingreso");
 
                 tmodelo.addRow(fila);
             }
@@ -260,9 +262,14 @@ public class cl_ingresos {
             tabla.getColumnModel().getColumn(2).setPreferredWidth(150);
             tabla.getColumnModel().getColumn(3).setPreferredWidth(450);
             tabla.getColumnModel().getColumn(4).setPreferredWidth(80);
-            tabla.getColumnModel().getColumn(5).setPreferredWidth(120);
-            tabla.getColumnModel().getColumn(6).setPreferredWidth(90);
-            tabla.getColumnModel().getColumn(7).setPreferredWidth(80);
+            tabla.getColumnModel().getColumn(5).setPreferredWidth(100);
+            tabla.getColumnModel().getColumn(6).setPreferredWidth(150);
+            tabla.getColumnModel().getColumn(7).setPreferredWidth(0);
+            tabla.getColumnModel().getColumn(8).setPreferredWidth(0);
+            tabla.getTableHeader().getColumnModel().getColumn(7).setMinWidth(0);
+            tabla.getTableHeader().getColumnModel().getColumn(7).setMaxWidth(0);
+            tabla.getTableHeader().getColumnModel().getColumn(8).setMinWidth(0);
+            tabla.getTableHeader().getColumnModel().getColumn(8).setMaxWidth(0);
             tabla.setRowSorter(sorter);
 
         } catch (SQLException e) {

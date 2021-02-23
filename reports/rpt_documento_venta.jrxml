@@ -357,7 +357,7 @@ where v.id_ventas = $P{p_id_venta} and v.id_almacen = $P{p_id_almacen}]]>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nom_producto} + " " + $F{marca} + " " + $F{modelo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{marca} + " | " + $F{modelo} + " | " + $F{nom_producto}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="45" height="14" uuid="83af5b3b-63b3-4c28-84ac-994648670633">

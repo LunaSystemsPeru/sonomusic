@@ -28,12 +28,14 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
     public frm_ver_ingresos() {
         initComponents();
         String periodo = c_varios.obtener_periodo();
-        String query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+        String query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username, a.nombre as nomalmacen "
                 + "from ingresos as i "
                 + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
                 + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
+                + "inner join almacen as a on a.id_almacen = i.id_almacen "
                 + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
                 + "where i.periodo = '" + periodo + "' ";
+        System.out.println(query);
         c_ingreso.mostrar(t_ingresos, query);
     }
 
@@ -307,41 +309,45 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
             int tipo_busqueda = cbx_buscar.getSelectedIndex();
 
             if (tipo_busqueda == 0) {
-                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username, a.nombre as nomalmacen "
                         + "from ingresos as i "
                         + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
                         + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
                         + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
+                        + "inner join almacen as a on a.id_almacen = i.id_almacen "
                         + "where i.periodo = '" + buscar + "' "
                         + "order by i.fecha asc, i.numero asc";
             }
 
             if (tipo_busqueda == 1) {
                 buscar = c_varios.fecha_myql(buscar);
-                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username, a.nombre as nomalmacen "
                         + "from ingresos as i "
                         + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
                         + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
                         + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
+                        + "inner join almacen as a on a.id_almacen = i.id_almacen "
                         + "where i.fecha = '" + buscar + "' "
                         + "order by i.numero asc";
             }
 
             if (tipo_busqueda == 2) {
-                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username, a.nombre as nomalmacen "
                         + "from ingresos as i "
                         + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
                         + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
                         + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
+                        + "inner join almacen as a on a.id_almacen = i.id_almacen "
                         + "where p.nro_documento = '" + buscar + "' or p.razon_social like '%" + buscar + "%' "
                         + "order by i.fecha asc";
             }
             if (tipo_busqueda == 3) {
-                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+                query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username, a.nombre as nomalmacen "
                         + "from ingresos as i "
                         + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
                         + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
                         + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
+                        + "inner join almacen as a on a.id_almacen = i.id_almacen "
                         + "where i.numero = '" + buscar + "' "
                         + "order by i.fecha asc";
             }
@@ -358,8 +364,8 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
         if (evt.getClickCount() == 2) {
             activar_botones();
             fila_seleccionada = t_ingresos.getSelectedRow();
-            c_ingreso.setPeriodo(Integer.parseInt(t_ingresos.getValueAt(fila_seleccionada, 6).toString()));
-            c_ingreso.setId_ingreso(Integer.parseInt(t_ingresos.getValueAt(fila_seleccionada, 7).toString()));
+            c_ingreso.setPeriodo(Integer.parseInt(t_ingresos.getValueAt(fila_seleccionada, 7).toString()));
+            c_ingreso.setId_ingreso(Integer.parseInt(t_ingresos.getValueAt(fila_seleccionada, 8).toString()));
             c_detalle.setId_ingreso(c_ingreso.getId_ingreso());
             c_detalle.setPeriodo(c_ingreso.getPeriodo());
         }
@@ -381,11 +387,12 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
                     c_ingreso.eliminar();
 
                     String periodo = c_varios.obtener_periodo();
-                    String query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username "
+                    String query = "select i.periodo, i.id_ingreso, i.fecha, p.nro_documento, p.razon_social, ds.abreviado, i.serie, i.numero, i.total, u.username, a.nombre as nomalmacen "
                             + "from ingresos as i "
                             + "inner join proveedor as p on p.id_proveedor = i.id_proveedor "
                             + "inner join documentos_sunat as ds on ds.id_tido = i.id_tido "
                             + "inner join usuarios as u on u.id_usuarios = i.id_usuarios "
+                            + "inner join almacen as a on a.id_almacen = i.id_almacen "
                             + "where i.periodo = '" + periodo + "' ";
                     c_ingreso.mostrar(t_ingresos, query);
                 }

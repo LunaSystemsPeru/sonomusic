@@ -32,20 +32,21 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            //String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             //Añadimos la cabecera
-            con.setRequestMethod("POST");
+            con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
             // Enviamos la petición por POST
             con.setDoOutput(true);
             //Capturamos la respuesta del servidor
             int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
+            System.out.println("\nSending 'GET' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
             //if (responseCode != 200) {
@@ -196,10 +197,10 @@ public class cl_json_entidad {
         if (estatus) {
             JSONObject result = (JSONObject) jsonObject.get("result");
             //System.out.println("razon social: " + result.get("RazonSocial"));
-            datos[0] = result.get("RazonSocial").toString();
-            datos[1] = result.get("Direccion").toString();
-            datos[2] = result.get("Condicion").toString();
-            datos[3] = result.get("Estado").toString();
+            datos[0] = result.get("razon_social").toString();
+            datos[1] = result.get("direccion").toString();
+            datos[2] = "HABIDO";
+            datos[3] = result.get("estado").toString();
         } else {
             Notification.show("Busqueda Externa", (String) jsonObject.get("msg"));
             datos[0] = "";

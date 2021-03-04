@@ -207,8 +207,6 @@ public class frm_principal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         lbl_empresa = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        jp_meses = new javax.swing.JPanel();
-        jp_dias = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jToolBar4 = new javax.swing.JToolBar();
         jButton5 = new javax.swing.JButton();
@@ -252,6 +250,7 @@ public class frm_principal extends javax.swing.JFrame {
         jSeparator13 = new javax.swing.JToolBar.Separator();
         jButton21 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
         jToolBar3 = new javax.swing.JToolBar();
         jLabel13 = new javax.swing.JLabel();
         lbl_traslados_encontrados = new javax.swing.JLabel();
@@ -528,31 +527,8 @@ public class frm_principal extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jp_meses.setPreferredSize(new java.awt.Dimension(419, 309));
-
-        javax.swing.GroupLayout jp_mesesLayout = new javax.swing.GroupLayout(jp_meses);
-        jp_meses.setLayout(jp_mesesLayout);
-        jp_mesesLayout.setHorizontalGroup(
-            jp_mesesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
-        );
-        jp_mesesLayout.setVerticalGroup(
-            jp_mesesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jp_diasLayout = new javax.swing.GroupLayout(jp_dias);
-        jp_dias.setLayout(jp_diasLayout);
-        jp_diasLayout.setHorizontalGroup(
-            jp_diasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
-        );
-        jp_diasLayout.setVerticalGroup(
-            jp_diasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 309, Short.MAX_VALUE)
-        );
-
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
         jToolBar4.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar4.setBorder(null);
@@ -877,30 +853,22 @@ public class frm_principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Configuracion", jToolBar6);
 
-        jDesktopPane1.setLayer(jp_meses, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jp_dias, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jTabbedPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTabbedPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jp_meses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jp_dias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane2)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jp_dias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jp_meses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
         );
 
         jToolBar3.setFloatable(false);
@@ -1036,9 +1004,10 @@ public class frm_principal extends javax.swing.JFrame {
         //mostrar notificaciones
         auto_notificar();
 
-        c_grafica = new cl_grafica_mensual();
+        /*c_grafica = new cl_grafica_mensual();
         c_grafica.llenar_series_diarias(jp_dias);
         c_grafica.llenar_series_mensuales(jp_meses);
+        */
     }//GEN-LAST:event_btn_ingresarActionPerformed
 
     private void txt_contrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_contrasenaKeyPressed
@@ -1289,6 +1258,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator8;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    public static javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
@@ -1299,8 +1269,6 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JDialog jd_apertura;
     private javax.swing.JDialog jd_formato;
     private javax.swing.JDialog jd_login;
-    private javax.swing.JPanel jp_dias;
-    private javax.swing.JPanel jp_meses;
     private javax.swing.JLabel lbl_empresa;
     private javax.swing.JLabel lbl_nom_tienda;
     public static javax.swing.JLabel lbl_traslados_encontrados;

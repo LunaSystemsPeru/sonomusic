@@ -17,6 +17,7 @@ import clases.cl_venta_cupon;
 import clases_autocomplete.cla_mis_documentos;
 import clases_varios.leer_numeros;
 import forms.frm_mod_separacion;
+import forms.frm_reg_nota_venta;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -99,6 +100,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             btn_entregar_productos.setEnabled(false);
             btn_anular_venta.setEnabled(false);
             btn_imprimir.setEnabled(false);
+            jButton1.setEnabled(false);
         } else {
             btn_ver_cupon.setEnabled(false);
             btn_ver_detalle.setEnabled(true);
@@ -113,6 +115,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             } else {
                 btn_mod_separacion.setEnabled(false);
             }
+            jButton1.setEnabled(true);
             btn_anular_venta.setEnabled(true);
             btn_imprimir.setEnabled(true);
         }
@@ -204,6 +207,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         btn_ver_detalle = new javax.swing.JButton();
         btn_ver_cobros = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
+        jButton1 = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JToolBar.Separator();
         btn_mod_separacion = new javax.swing.JButton();
         btn_entregar_productos = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
@@ -581,10 +586,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         txt_datos_venta.setEnabled(false);
 
         txt_cliente_separacion.setEditable(false);
-        txt_cliente_separacion.setBackground(new java.awt.Color(255, 255, 255));
 
         txt_fecha_separacion.setEditable(false);
-        txt_fecha_separacion.setBackground(new java.awt.Color(255, 255, 255));
         txt_fecha_separacion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btn_grabar_venta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/accept.png"))); // NOI18N
@@ -599,13 +602,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jLabel17.setText("Nota de Separacion:");
 
         txt_doc_separacion.setEditable(false);
-        txt_doc_separacion.setBackground(new java.awt.Color(255, 255, 255));
         txt_doc_separacion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel18.setText("Total Separacion:");
 
         txt_total_separacion.setEditable(false);
-        txt_total_separacion.setBackground(new java.awt.Color(255, 255, 255));
         txt_total_separacion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         javax.swing.GroupLayout jd_entrega_separacionLayout = new javax.swing.GroupLayout(jd_entrega_separacion.getContentPane());
@@ -785,6 +786,20 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(btn_ver_cobros);
         jToolBar1.add(jSeparator5);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/deposito.png"))); // NOI18N
+        jButton1.setText("Gen Nota de Credito");
+        jButton1.setEnabled(false);
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+        jToolBar1.add(jSeparator6);
 
         btn_mod_separacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application_edit.png"))); // NOI18N
         btn_mod_separacion.setText("Cambiar Productos");
@@ -1613,6 +1628,14 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_eliminar_cobroActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//cargar datos
+            int id_venta = Integer.parseInt(t_ventas.getValueAt(fila_seleccionada, 8).toString());
+            frm_reg_nota_venta.venta.setId_venta(id_venta);
+            frm_reg_nota_venta formulario = new frm_reg_nota_venta();
+            c_varios.llamar_ventana(formulario);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_anular_venta;
@@ -1631,6 +1654,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_ver_detalle;
     private javax.swing.JComboBox<String> cbx_buscar;
     private javax.swing.JComboBox<String> cbx_doc_venta;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -1661,6 +1685,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;

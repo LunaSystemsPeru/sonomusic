@@ -5,6 +5,7 @@
  */
 package clases;
 
+import clases_varios.Cross;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -24,8 +25,11 @@ import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -40,6 +44,7 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import sonomusic.frm_principal;
 
 /**
  *
@@ -79,7 +84,7 @@ public class cl_varios {
         return numero;
     }
 
-    public void llamar_ventana(JInternalFrame ventana) {
+    public void llamar_ventana_normal(JInternalFrame ventana) {
         if (mostrar(ventana)) {
             sonomusic.frm_principal.jDesktopPane1.add(ventana);
             ventana.show();
@@ -94,6 +99,30 @@ public class cl_varios {
                     (desktopSize.height - jInternalFrameSize.height) / 2);
 
         }
+    }
+    
+    public void llamar_ventana(JInternalFrame ventana) {
+     
+       
+        JButton btnClose = new JButton("x");
+
+        Dimension desktopSize = frm_principal.jDesktopPane1.getSize();
+        frm_principal.jTabbedPane2.setSize(frm_principal.jDesktopPane1.getSize());
+        Dimension jInternalFrameSize = ventana.getSize();
+
+        ventana.setLocation((desktopSize.width - jInternalFrameSize.width) / 2,
+                (desktopSize.height - jInternalFrameSize.height) / 2);
+        frm_principal.jTabbedPane2.add(ventana);
+        int contar = frm_principal.jTabbedPane2.getComponentCount() - 2;
+        if (contar < 0) {
+            contar = 0;
+        }
+
+        frm_principal.jTabbedPane2.setTitleAt(contar, ventana.getTitle());
+        frm_principal.jTabbedPane2.setTabComponentAt(contar, new Cross(frm_principal.jTabbedPane2.getTitleAt(contar))); //agrega titulo y boton X.
+        frm_principal.jTabbedPane2.requestFocus();
+        frm_principal.jTabbedPane2.setSelectedIndex(contar);
+
     }
 
     public void solo_numeros(KeyEvent evt) {

@@ -67,7 +67,7 @@ public class cl_documentos_almacen {
             Statement st = c_conectar.conexion();
             String query = "select * "
                     + "from documentos_almacen "
-                    + "where id_tido = '" + id_tido + "' and id_almacen = '"+id_almacen+"'";
+                    + "where id_tido = '" + id_tido + "' and id_almacen = '"+id_almacen+"' and serie = '"+this.serie+"'";
             //System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
 

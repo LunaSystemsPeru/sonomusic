@@ -34,6 +34,9 @@ public class cl_envio_server {
         if (tipo_documento == 2) {
             url = SERVER_PATH + "factura.php?id_venta=" + id_venta + "&id_almacen=" + id_almacen;
         }
+        if (tipo_documento == 3) {
+            url = SERVER_PATH + "nota_credito.php?id_venta=" + id_venta + "&id_almacen=" + id_almacen;
+        }
         
         if (tipo_documento == 5) {
             url = SERVER_PATH + "guia-remision.php?id_venta=" + id_venta + "&id_almacen=" + id_almacen;

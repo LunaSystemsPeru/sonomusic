@@ -2216,7 +2216,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 try {
                     String json = cl_json_entidad.getJSONDNI_LUNASYSTEMS(dni);
                     //Lo mostramos
-                    String datos = cl_json_entidad.showJSONDNIL(json);
+                    String datos = cl_json_entidad.showJSONDNI(json);
                     JOptionPane.showMessageDialog(null, "DATOS ENCONTRADOS: " + datos);
                 } catch (ParseException e) {
                     JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR DNI " + e.getLocalizedMessage());

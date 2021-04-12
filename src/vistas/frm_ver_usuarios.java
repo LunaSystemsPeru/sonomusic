@@ -557,7 +557,7 @@ public class frm_ver_usuarios extends javax.swing.JInternalFrame {
                 try {
                     String json = cl_json_entidad.getJSONDNI_LUNASYSTEMS(documento);
                     //Lo mostramos
-                    String datos = cl_json_entidad.showJSONDNIL(json);
+                    String datos = cl_json_entidad.showJSONDNI(json);
                     txt_j_datos.setText(datos);
                     txt_j_datos.setEnabled(true);
                     txt_j_email.setEnabled(true);

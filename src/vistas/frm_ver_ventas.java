@@ -1434,7 +1434,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                             try {
                                 String json = cl_json_entidad.getJSONDNI_LUNASYSTEMS(documento);
                                 //Lo mostramos
-                                String datos = cl_json_entidad.showJSONDNIL(json);
+                                String datos = cl_json_entidad.showJSONDNI(json);
                                 txt_datos_venta.setText(datos);
                                 c_cliente.obtener_codigo();
                                 c_cliente.setNombre(datos);

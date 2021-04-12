@@ -32,8 +32,8 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            //String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
-            String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
+            String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            //String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -123,7 +123,8 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            String url = SERVER_PATH + "consultas_json/composer/consultas_dni_JMP.php?dni=" + dni;
+            //String url = SERVER_PATH + "consultas_json/composer/consultas_dni_JMP.php?dni=" + dni;
+            String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaDNI.php?dni=" + dni;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -212,49 +213,13 @@ public class cl_json_entidad {
         return datos;
     }
 
-    public static String[] showJSONDNI(String json) throws ParseException {
-        String[] datos = new String[2];
-        System.out.println("INFORMACIÓN OBTENIDA DE LA BASE DE DATOS:");
-
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(json);
-        JSONArray array = new JSONArray();
-        array.add(obj);
-
-        //Iterar el array y extraer la información
-        for (Object array_json : array) {
-            JSONObject row = (JSONObject) array_json;
-            String dni = (String) row.get("dni");
-            String nombres = (String) row.get("apellido_paterno") + ' ' + (String) row.get("apellido_materno") + ' ' + (String) row.get("nombres");
-            //Mostrar la información en pantalla
-            datos[0] = dni;
-            datos[1] = nombres;
-        }
-        return datos;
-    }
-
-    public static String showJSONDNIL(String json) throws ParseException {
-        String nombres = "";
+   public static String showJSONDNI(String json) throws ParseException {
+        String datos= "";
         System.out.println("INFORMACIÓN OBTENIDA DE LA BASE DE DATOS:");
 
         JSONParser Jparser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) Jparser.parse(json);
-        boolean estatus = (Boolean) jsonObject.get("success");
-        //array cuando es repetitivo
-        //estructurs cuando es uno simple
-        //aprendi de aqui
-        //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
-        String source = (String) jsonObject.get("source");
-        JSONObject result = (JSONObject) jsonObject.get("result");
-        if (source.equals("padron_jne")) {
-            nombres = result.get("apellidos").toString() + " " + result.get("Nombres").toString();
-        }
-        if (source.equals("essalud")) {
-            nombres = result.get("ApellidoPaterno").toString() + " " + result.get("ApellidoMaterno").toString() + " " + result.get("Nombres").toString();
-        }
-        if (!estatus) {
-            nombres = "ERROR AL ENCONTRAR NOMBRE";
-        }
-        return nombres;
+        JSONObject result = (JSONObject) Jparser.parse(json);       //jsonObject
+        datos = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
+        return datos;
     }
 }

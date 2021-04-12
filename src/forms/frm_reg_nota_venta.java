@@ -8,12 +8,14 @@ package forms;
 import clases.cl_cliente;
 import clases.cl_documento_sunat;
 import clases.cl_documentos_almacen;
+import clases.cl_producto;
 import clases.cl_productos_ventas;
 import clases.cl_varios;
 import clases.cl_venta;
 import clases.cl_venta_relacionada;
 import clases_autocomplete.cla_mis_documentos;
 import clases_autocomplete.cla_motivo_nota;
+import clases_hilos.cl_enviar_venta;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -40,7 +42,7 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
 
     cl_venta ventanota = new cl_venta();
     cl_venta_relacionada relacion = new cl_venta_relacionada();
-    
+
     int idalmacen = frm_principal.c_almacen.getId();
 
     /**
@@ -70,7 +72,7 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
 
                 detalle.setId_venta(venta.getId_venta());
                 detalle.setId_almacen(venta.getId_almacen());
-                detalle.mostrar(jTable1);
+                detalle.mostrar(t_detalle);
 
                 model_misdocumentos.cbx_documentos_nota(jComboBox1);
 
@@ -78,11 +80,12 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
 
                 model_motivo.setIdtido(object.getId_tido());
                 model_motivo.cbx_motivo(jComboBox2);
-                
+
                 tidonota.setId_almacen(idalmacen);
                 tidonota.setId_tido(object.getId_tido());
+                tidonota.setSerie(venta.getSerie());
                 tidonota.comprobar_documento();
-                
+
                 jTextField5.setText(tidonota.getSerie());
                 jTextField6.setText(tidonota.getNumero() + "");
                 sumarFilas();
@@ -107,12 +110,12 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
         }
         return date2;
     }
-    
-    private void sumarFilas () {
-        int nrofilas = jTable1.getRowCount();
+
+    private void sumarFilas() {
+        int nrofilas = t_detalle.getRowCount();
         double total = 0;
         for (int i = 0; i < nrofilas; i++) {
-            total += Double.parseDouble(jTable1.getValueAt(i, 5).toString());
+            total += Double.parseDouble(t_detalle.getValueAt(i, 5).toString());
         }
         jTextField8.setText(varios.formato_totales(total));
     }
@@ -152,9 +155,10 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        t_detalle = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setTitle("Generar Nota Modificatoria");
 
@@ -332,7 +336,7 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle de Productos"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        t_detalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -343,7 +347,7 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(t_detalle);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -376,6 +380,14 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jButton1);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
+        jButton2.setText("Eliminar Producto");
+        jButton2.setEnabled(false);
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -422,30 +434,53 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
         ventanota.setNumero(tidonota.getNumero());
         ventanota.setSerie(tidonota.getSerie());
         ventanota.setTotal(venta.getTotal());
-        
+
         ventanota.obtener_codigo();
-        
+
         ventanota.registrar();
-        
+
+        cl_productos_ventas c_detalle = new cl_productos_ventas();
+        cl_producto c_producto = new cl_producto();
+
+        int contar_tabla = t_detalle.getRowCount();
+        for (int i = 0; i < contar_tabla; i++) {
+            c_detalle.setId_almacen(ventanota.getId_almacen());
+            c_detalle.setId_venta(ventanota.getId_venta());
+            c_detalle.setId_producto(Integer.parseInt(t_detalle.getValueAt(i, 0).toString()));
+            c_detalle.setCantidad(Integer.parseInt(t_detalle.getValueAt(i, 2).toString()));
+            c_producto.setId(c_detalle.getId_producto());
+            c_producto.validar_id();
+            c_detalle.setCosto(c_producto.getCosto());
+            c_detalle.setPrecio(Double.parseDouble(t_detalle.getValueAt(i, 3).toString()));
+
+            c_detalle.registrar();
+        }
+
         //guardar en documento relacion
         //para saber a que documento afecta
-        
         cla_motivo_nota object = (cla_motivo_nota) jComboBox2.getSelectedItem();
-        
+
         relacion.setIdalmacen(idalmacen);
         relacion.setIdventa(ventanota.getId_venta());
         relacion.setIddocrelacionado(venta.getId_venta());
         relacion.setIdmotivo(object.getId());
         relacion.insertar();
-        
+
+        cl_enviar_venta c_enviar = new cl_enviar_venta();
+        c_enviar.setGuia(1);
+        c_enviar.setId_venta(ventanota.getId_venta());
+        c_enviar.setId_almacen(ventanota.getId_almacen());
+        c_enviar.start();
+
         this.dispose();
         jButton1.setEnabled(false);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private com.toedter.calendar.JDateChooser jDateChooser2;
@@ -464,7 +499,6 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -474,5 +508,6 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable t_detalle;
     // End of variables declaration//GEN-END:variables
 }

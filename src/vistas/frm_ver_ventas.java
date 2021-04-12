@@ -1629,7 +1629,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_eliminar_cobroActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//cargar datos
+            //cargar datos
             int id_venta = Integer.parseInt(t_ventas.getValueAt(fila_seleccionada, 8).toString());
             frm_reg_nota_venta.venta.setId_venta(id_venta);
             frm_reg_nota_venta formulario = new frm_reg_nota_venta();

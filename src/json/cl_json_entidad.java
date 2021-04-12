@@ -32,8 +32,8 @@ public class cl_json_entidad {
 
         try {
             //Generar la URL
-            String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
-            //String url = "http://api.sunat.binvoice.net/consulta.php?nruc=" + ruc;
+            //String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaRUC.php?ruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -63,53 +63,6 @@ public class cl_json_entidad {
             //cerramos la conexión
             in.close();
             // }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return response.toString();
-    }
-
-    public static String getJSONRUC_NUBEFACT(String ruc) {
-
-        StringBuffer response = null;
-
-        try {
-            //Generar la URL
-            String url = "http://www.conmetal.pe/erp/ajax_post/consulta_ruc_nubefact.php?ruc=" + ruc;
-            //Creamos un nuevo objeto URL con la url donde pedir el JSON
-            URL obj = new URL(url);
-            //Creamos un objeto de conexión
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            //Añadimos la cabecera
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", USER_AGENT);
-            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-            // Enviamos la petición por POST
-            con.setDoOutput(true);
-            //Capturamos la respuesta del servidor
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'POST' request to URL : " + url);
-            System.out.println("Response Code : " + responseCode);
-            //JOptionPane.showMessageDialog(null, "Respuesta del servidor: " + responseCode);
-
-            if (responseCode == 200) {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                //Mostramos la respuesta del servidor por consola
-                System.out.println("Respuesta del servidor: " + response);
-                System.out.println();
-                //cerramos la conexión
-                in.close();
-            } else {
-                response = null;
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,8 +139,8 @@ public class cl_json_entidad {
         System.out.println("INFORMACIÓN OBTENIDA DE LA BASE DE DATOS:");
 
         JSONParser Jparser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) Jparser.parse(json);
-        boolean estatus = (Boolean) jsonObject.get("success");
+        JSONObject result = (JSONObject) Jparser.parse(json); //jsonObject
+        //boolean estatus = (Boolean) jsonObject.get("success");
 
         //System.out.println("el estado es: " + estatus);
         //JSONArray result = (JSONArray) jsonObject.get("result");
@@ -195,21 +148,21 @@ public class cl_json_entidad {
         //estructurs cuando es uno simple
         //aprendi de aqui
         //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
-        if (estatus) {
-            JSONObject result = (JSONObject) jsonObject.get("result");
+        //if (estatus) {
+        //    JSONObject result = (JSONObject) jsonObject.get("result");
             //System.out.println("razon social: " + result.get("RazonSocial"));
-            datos[0] = result.get("razon_social").toString();
+            datos[0] = result.get("razonSocial").toString();
             datos[1] = result.get("direccion").toString();
-            datos[2] = "HABIDO";
+            datos[2] = result.get("condicion").toString();
             datos[3] = result.get("estado").toString();
-        } else {
-            Notification.show("Busqueda Externa", (String) jsonObject.get("msg"));
-            datos[0] = "";
-            datos[1] = "";
-            datos[2] = "";
-            datos[3] = "";
-            JOptionPane.showMessageDialog(null, "Error al buscar los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
+        //        } else {
+        //            Notification.show("Busqueda Externa", (String) jsonObject.get("msg"));
+        //            datos[0] = "";
+        //            datos[1] = "";
+        //            datos[2] = "";
+        //            datos[3] = "";
+        //            JOptionPane.showMessageDialog(null, "Error al buscar los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        //        }
         return datos;
     }
 

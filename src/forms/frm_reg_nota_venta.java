@@ -84,7 +84,7 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
                 tidonota.setId_almacen(idalmacen);
                 tidonota.setId_tido(object.getId_tido());
                 tidonota.setSerie(venta.getSerie());
-                tidonota.comprobar_documento();
+                tidonota.comprobar_documento_serie();
 
                 jTextField5.setText(tidonota.getSerie());
                 jTextField6.setText(tidonota.getNumero() + "");

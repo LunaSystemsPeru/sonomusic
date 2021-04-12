@@ -67,6 +67,31 @@ public class cl_documentos_almacen {
             Statement st = c_conectar.conexion();
             String query = "select * "
                     + "from documentos_almacen "
+                    + "where id_tido = '" + id_tido + "' and id_almacen = '"+id_almacen+"'";
+            //System.out.println(query);
+            ResultSet rs = c_conectar.consulta(st, query);
+
+            while (rs.next()) {
+                existe = true;
+                serie = rs.getString("serie");
+                numero = rs.getInt("numero");
+            }
+            c_conectar.cerrar(rs);
+            c_conectar.cerrar(st);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+        }
+
+        return existe;
+    }
+    
+    public boolean comprobar_documento_serie() {
+        boolean existe = false;
+
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select * "
+                    + "from documentos_almacen "
                     + "where id_tido = '" + id_tido + "' and id_almacen = '"+id_almacen+"' and serie = '"+this.serie+"'";
             //System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);

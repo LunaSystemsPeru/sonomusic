@@ -81,7 +81,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
                 + "from productos_almacen as pa "
                 + "inner join productos as p on p.id_producto = pa.id_producto "
                 + "where pa.id_almacen = '" + id_almacen + "' "
-                + "order by p.descripcion asc , p.marca asc "
+                + "order by p.modelo asc, p.descripcion asc , p.marca asc "
                 + "limit 0";
         c_mis_productos.mis_productos(query, jTable1);
     }
@@ -796,6 +796,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTable1.setShowVerticalLines(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -854,7 +855,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
             jd_kardex.setSize(840, 480);
             jd_kardex.setLocationRelativeTo(null);
             int id_producto = Integer.parseInt(jTable1.getValueAt(fila_seleccionada, 0).toString());
-            String producto = jTable1.getValueAt(fila_seleccionada, 1).toString() + " " + jTable1.getValueAt(fila_seleccionada, 2).toString();
+            String producto = jTable1.getValueAt(fila_seleccionada, 1).toString() + " " + jTable1.getValueAt(fila_seleccionada, 2).toString()+ " " + jTable1.getValueAt(fila_seleccionada, 3).toString();
             txt_kardex_descripcion.setText(producto);
             c_kardex.setId_producto(id_producto);
             c_kardex.setId_almacen(id_almacen);
@@ -902,9 +903,9 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
                 //lenar datos dle producto
                 int id_producto = Integer.parseInt(jTable1.getValueAt(fila_seleccionada, 0).toString());
                 c_mis_productos.setProducto(id_producto);
-                String producto = jTable1.getValueAt(fila_seleccionada, 1).toString() + " " + jTable1.getValueAt(fila_seleccionada, 2).toString();
-                double precio = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 4).toString());
-                double cantidad = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 3).toString());
+                String producto = jTable1.getValueAt(fila_seleccionada, 1).toString() + " " + jTable1.getValueAt(fila_seleccionada, 2).toString() + " " + jTable1.getValueAt(fila_seleccionada, 3).toString();
+                double precio = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 5).toString());
+                double cantidad = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 4).toString());
                 txt_producto_kardex.setText(producto);
                 txt_precio_kardex.setText(c_varios.formato_totales(precio));
                 txt_cantidad_tienda.setText(c_varios.formato_totales(cantidad));
@@ -935,7 +936,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
                         + "from productos_almacen as pa "
                         + "inner join productos as p on p.id_producto = pa.id_producto "
                         + "where pa.id_almacen = '" + id_almacen + "'  "
-                        + "order by p.descripcion asc , p.marca asc";
+                        + "order by p.modelo asc, p.descripcion asc , p.marca asc";
                 c_mis_productos.mis_productos(query, jTable1);
             }
             String buscar = txt_buscar.getText().trim();
@@ -944,7 +945,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
                         + "from productos_almacen as pa "
                         + "inner join productos as p on p.id_producto = pa.id_producto "
                         + "where pa.id_almacen = '" + id_almacen + "' and (p.descripcion like '%" + buscar + "%' or p.marca like '%" + buscar + "%' or p.modelo like '%" + buscar + "%' or p.id_producto = '" + buscar + "' ) "
-                        + "order by p.descripcion asc , p.marca asc";
+                        + "order by p.modelo asc, p.descripcion asc , p.marca asc";
                 c_mis_productos.mis_productos(query, jTable1);
             }
         }
@@ -1125,8 +1126,8 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        double cantidad = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 3).toString());
-        double precio = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 4).toString());
+        double cantidad = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 4).toString());
+        double precio = Double.parseDouble(jTable1.getValueAt(fila_seleccionada, 5).toString());
         int stock = this.c_kardex.obtener_suma_kardex();
 
         c_kardex.obtener_codigo();

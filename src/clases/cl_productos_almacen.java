@@ -138,6 +138,7 @@ public class cl_productos_almacen {
             ResultSet rs = c_conectar.consulta(st, query);
             //Establecer como cabezeras el nombre de las colimnas
             mostrar.addColumn("Id");
+            mostrar.addColumn("Modelo");
             mostrar.addColumn("Descripcion");
             mostrar.addColumn("Marca");
             mostrar.addColumn("Cant. Act.");
@@ -147,15 +148,16 @@ public class cl_productos_almacen {
             mostrar.addColumn("Ult. Salida");
 
             //Creando las filas para el JTable
-            Object[] fila = new Object[8];
+            Object[] fila = new Object[9];
             while (rs.next()) {
 
                 fila[0] = rs.getString("id_producto");
-                fila[1] = (rs.getString("descripcion").trim() + " " + rs.getString("modelo").trim()).trim();
-                fila[2] = rs.getString("marca").trim();
-                fila[3] = rs.getInt("cactual");
-                fila[4] = c_varios.formato_numero(rs.getDouble("precio"));
-                fila[5] = rs.getDouble("comision");
+                fila[1] = rs.getString("modelo").trim();  //c_varios.ceros_izquieda_numero(4,rs.getString("modelo").trim().length());
+                fila[2] = rs.getString("descripcion").trim();
+                fila[3] = rs.getString("marca").trim();
+                fila[4] = rs.getInt("cactual");
+                fila[5] = c_varios.formato_numero(rs.getDouble("precio"));
+                fila[6] = rs.getDouble("comision");
                 String fingreso = rs.getString("f_infreso");
                 if (fingreso.equals("1000-01-01")) {
                     fingreso = "-";
@@ -164,22 +166,23 @@ public class cl_productos_almacen {
                 if (fsalida.equals("1000-01-01")) {
                     fsalida = "-";
                 }
-                fila[6] = fingreso;
-                fila[7] = fsalida;
+                fila[7] = fingreso;
+                fila[8] = fsalida;
 
                 mostrar.addRow(fila);
             }
             c_conectar.cerrar(st);
             c_conectar.cerrar(rs);
             tabla.setModel(mostrar);
-            tabla.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tabla.getColumnModel().getColumn(1).setPreferredWidth(450);
-            tabla.getColumnModel().getColumn(2).setPreferredWidth(80);
-            tabla.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tabla.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tabla.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(500);
+            tabla.getColumnModel().getColumn(3).setPreferredWidth(100);
             tabla.getColumnModel().getColumn(4).setPreferredWidth(50);
-            tabla.getColumnModel().getColumn(5).setPreferredWidth(50);
-            tabla.getColumnModel().getColumn(6).setPreferredWidth(80);
+            tabla.getColumnModel().getColumn(5).setPreferredWidth(70);
+            tabla.getColumnModel().getColumn(6).setPreferredWidth(50);
             tabla.getColumnModel().getColumn(7).setPreferredWidth(80);
+            tabla.getColumnModel().getColumn(8).setPreferredWidth(80);
             tabla.setDefaultRenderer(Object.class, new render_mis_productos());
             mostrar.fireTableDataChanged();
             tabla.setRowSorter(sorter);

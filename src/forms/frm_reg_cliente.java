@@ -100,17 +100,16 @@ public class frm_reg_cliente extends javax.swing.JDialog {
 
         txt_ndoc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ndoc.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_ndocKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_ndocKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_ndocKeyTyped(evt);
             }
         });
 
         jLabel4.setText("Direccion:");
 
-        txt_nom.setEnabled(false);
         txt_nom.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_nomKeyPressed(evt);
@@ -120,7 +119,6 @@ public class frm_reg_cliente extends javax.swing.JDialog {
             }
         });
 
-        txt_dir.setEnabled(false);
         txt_dir.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_dirKeyPressed(evt);
@@ -136,7 +134,6 @@ public class frm_reg_cliente extends javax.swing.JDialog {
 
         btn_reg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/accept.png"))); // NOI18N
         btn_reg.setText("Grabar");
-        btn_reg.setEnabled(false);
         btn_reg.setFocusable(false);
         btn_reg.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_reg.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -164,14 +161,12 @@ public class frm_reg_cliente extends javax.swing.JDialog {
 
         jLabel5.setText("Email:");
 
-        txt_celular.setEnabled(false);
         txt_celular.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_celularKeyPressed(evt);
             }
         });
 
-        txt_email.setEnabled(false);
         txt_email.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_emailKeyPressed(evt);
@@ -180,7 +175,6 @@ public class frm_reg_cliente extends javax.swing.JDialog {
 
         jLabel6.setText("Datos del Cliente:");
 
-        txt_telefono.setEnabled(false);
         txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txt_telefonoKeyPressed(evt);

@@ -18,11 +18,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class render_mis_productos extends DefaultTableCellRenderer {
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
-        if (Integer.parseInt(table.getValueAt(row, 3).toString()) <= 0) {
+        if (Integer.parseInt(table.getValueAt(row, 4).toString()) <= 0) {
             setBackground(Color.red);
             setForeground(Color.white);
         } else {
-            String fsalida = String.valueOf(table.getValueAt(row, 7));
+            String fsalida = String.valueOf(table.getValueAt(row, 8));
             if (fsalida.equals("-")) {
                 setBackground(Color.green);
                 setForeground(Color.black);
@@ -39,10 +39,10 @@ public class render_mis_productos extends DefaultTableCellRenderer {
             setHorizontalAlignment(SwingConstants.LEFT);
         }
         if (column == 2) {
-            setHorizontalAlignment(SwingConstants.CENTER);
+            setHorizontalAlignment(SwingConstants.LEFT);
         }
         if (column == 3) {
-            setHorizontalAlignment(SwingConstants.RIGHT);
+            setHorizontalAlignment(SwingConstants.CENTER);
         }
         if (column == 4) {
             setHorizontalAlignment(SwingConstants.RIGHT);
@@ -51,9 +51,12 @@ public class render_mis_productos extends DefaultTableCellRenderer {
             setHorizontalAlignment(SwingConstants.RIGHT);
         }
         if (column == 6) {
-            setHorizontalAlignment(SwingConstants.CENTER);
+            setHorizontalAlignment(SwingConstants.RIGHT);
         }
         if (column == 7) {
+            setHorizontalAlignment(SwingConstants.CENTER);
+        }
+        if (column == 8) {
             setHorizontalAlignment(SwingConstants.CENTER);
         }
 

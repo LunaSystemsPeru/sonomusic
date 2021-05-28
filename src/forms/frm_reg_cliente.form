@@ -130,9 +130,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_nom">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
       <Events>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_nomKeyPressed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_nomKeyTyped"/>
@@ -142,9 +139,6 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_dir">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
       <Events>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_dirKeyPressed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_dirKeyTyped"/>
@@ -171,7 +165,6 @@
               <Image iconType="3" name="/icons/accept.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Grabar"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -209,17 +202,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_celular">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
       <Events>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_celularKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_email">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
       <Events>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_emailKeyPressed"/>
       </Events>
@@ -232,9 +219,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_telefono">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
       <Events>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_telefonoKeyPressed"/>
       </Events>

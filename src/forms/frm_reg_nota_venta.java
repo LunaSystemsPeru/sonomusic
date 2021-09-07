@@ -443,7 +443,7 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
         cl_producto c_producto = new cl_producto();
 
         int contar_tabla = t_detalle.getRowCount();
-        for (int i = 0; i < contar_tabla; i++) {
+         for (int i = 0; i < contar_tabla; i++) {
             c_detalle.setId_almacen(ventanota.getId_almacen());
             c_detalle.setId_venta(ventanota.getId_venta());
             c_detalle.setId_producto(Integer.parseInt(t_detalle.getValueAt(i, 0).toString()));
@@ -455,6 +455,7 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
 
             c_detalle.registrar();
         }
+        
 
         //guardar en documento relacion
         //para saber a que documento afecta
@@ -466,12 +467,14 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
         relacion.setIdmotivo(object.getId());
         relacion.insertar();
 
+        
+        //enviar a sunat
         cl_enviar_venta c_enviar = new cl_enviar_venta();
         c_enviar.setGuia(1);
         c_enviar.setId_venta(ventanota.getId_venta());
         c_enviar.setId_almacen(ventanota.getId_almacen());
         c_enviar.start();
-
+        
         this.dispose();
         jButton1.setEnabled(false);
 

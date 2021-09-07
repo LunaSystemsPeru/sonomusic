@@ -228,8 +228,8 @@ public class cl_productos_ventas {
                 double pprecio = rs.getDouble("precio");
                 double pparcial = pcantidad * pprecio;
                 fila[3] = pcantidad;
-                fila[4] = c_varios.formato_totales(pprecio);
-                fila[5] = c_varios.formato_totales(pparcial);
+                fila[4] = c_varios.formato_numero(pprecio);
+                fila[5] = c_varios.formato_numero(pparcial);
                 modelo.addRow(fila);
             }
             c_conectar.cerrar(st);

@@ -465,7 +465,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="169" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="168" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jPanel2" max="32767" attributes="0"/>
               </Group>
@@ -498,15 +498,19 @@
                           <Component id="jLabel3" max="32767" attributes="0"/>
                           <Component id="jLabel4" min="-2" pref="129" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="cbx_tiendas" alignment="0" pref="180" max="32767" attributes="0"/>
-                      <Component id="txt_origen" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txt_fecha" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txt_envia" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txt_recibe" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txt_fecha_recibe" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="cbx_tiendas" alignment="0" pref="180" max="32767" attributes="0"/>
+                          <Component id="txt_origen" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txt_fecha" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txt_envia" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txt_recibe" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txt_fecha_recibe" alignment="0" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -545,7 +549,12 @@
                       <Component id="jLabel6" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="txt_fecha_recibe" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="64" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel20" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jCheckBox1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="44" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -630,6 +639,16 @@
           <Events>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_fechaKeyPressed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel20">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Guia de Remision:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Generar"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

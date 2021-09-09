@@ -41,11 +41,9 @@ public class cl_guia_remision_traslado {
 
     private int id_traslado;
     private int id_almacen;
-    private int id_empresa;
     private String serie;
     private int numero;
-    private String llegada;
-    private String ubigeo;
+    private String id_almacen_llegada;
     private String ruc_transporte;
     private String razon_transporte;
     private String dni_chofer;
@@ -71,14 +69,6 @@ public class cl_guia_remision_traslado {
         this.id_almacen = id_almacen;
     }
 
-    public int getId_empresa() {
-        return id_empresa;
-    }
-
-    public void setId_empresa(int id_empresa) {
-        this.id_empresa = id_empresa;
-    }
-
     public String getSerie() {
         return serie;
     }
@@ -95,20 +85,12 @@ public class cl_guia_remision_traslado {
         this.numero = numero;
     }
 
-    public String getLlegada() {
-        return llegada;
+    public String getId_almacen_llegada() {
+        return id_almacen_llegada;
     }
 
-    public void setLlegada(String llegada) {
-        this.llegada = llegada;
-    }
-
-    public String getUbigeo() {
-        return ubigeo;
-    }
-
-    public void setUbigeo(String ubigeo) {
-        this.ubigeo = ubigeo;
+    public void setId_almacen_llegada(String id_almacen_llegada) {
+        this.id_almacen_llegada = id_almacen_llegada;
     }
 
     public String getRuc_transporte() {
@@ -155,7 +137,7 @@ public class cl_guia_remision_traslado {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "insert into guia_remision_traslado "
-                + "Values ('" + id_almacen + "', '" + id_traslado + "', '" + id_empresa + "', '" + llegada + "', '" + ubigeo + "','" + ruc_transporte + "', "
+                + "Values ('" + id_almacen + "', '" + id_traslado + "', '" + id_almacen_llegada + "','" + ruc_transporte + "', "
                 + "'" + razon_transporte + "','" + dni_chofer + "','" + placa + "', '" + serie + "', '" + numero + "', '')";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
@@ -164,7 +146,7 @@ public class cl_guia_remision_traslado {
         c_conectar.cerrar(st);
         return registrado;
     }
-    
+
     public void mostrar(JTable tabla, String query) {
         try {
             DefaultTableModel modelo = new DefaultTableModel() {
@@ -176,9 +158,9 @@ public class cl_guia_remision_traslado {
             modelo.addColumn("Id");
             modelo.addColumn("Fecha");
             modelo.addColumn("Nro Guia");
-            modelo.addColumn("Razon Social");
-            modelo.addColumn("Nro Factura");
-            modelo.addColumn("Usuario");
+            modelo.addColumn("Tienda Origen");
+            modelo.addColumn("Tienda Destino");
+            modelo.addColumn("Transportista");
             modelo.addColumn("Hash");
 
             Statement st = c_conectar.conexion();

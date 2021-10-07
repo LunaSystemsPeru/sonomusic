@@ -8,6 +8,8 @@ package forms;
 import clases.cl_almacen;
 import clases.cl_cliente;
 import clases.cl_conectar;
+import clases.cl_documentos_almacen;
+import clases.cl_guia_remision_traslado;
 import clases.cl_producto;
 import clases.cl_productos_almacen;
 import clases.cl_productos_empresa;
@@ -27,7 +29,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import json.cl_json_entidad;
 import models.m_almacen;
+import org.json.simple.parser.ParseException;
 import sonomusic.frm_principal;
 import vistas.frm_ver_traslados;
 
@@ -44,6 +48,8 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
     cl_productos_almacen c_producto_almacen = new cl_productos_almacen();
     cl_productos_empresa c_producto_empresa = new cl_productos_empresa();
     cl_productos_traslado c_detalle = new cl_productos_traslado();
+    cl_documentos_almacen c_doc_almacen = new cl_documentos_almacen();
+    cl_guia_remision_traslado c_guia = new cl_guia_remision_traslado();
     cl_venta c_venta;
 
     cl_usuario c_usuario = new cl_usuario();
@@ -84,7 +90,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
 
             m_almacen.cbx_almacenes(cbx_tiendas);
             cbx_tiendas.requestFocus();
-            btn_cargar_productos.setEnabled(true);
+//            btn_cargar_productos.setEnabled(true);
         }
         if (tipo_operacion == 2) {
             c_traslado.validar_datos();
@@ -280,6 +286,11 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
     }
 
     private void llenar() {
+        if (jCheckBox1.isSelected()) {
+            c_traslado.setGuiaemitida(1);
+        } else {
+            c_traslado.setGuiaemitida(0);
+        }
         c_traslado.setId_traslado(c_traslado.obtener_codigo());
         c_traslado.setEstado(1);
         c_traslado.setId_usuario_envia(id_usuario);
@@ -287,6 +298,23 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         c_traslado.setId_tienda_envia(id_almacen);
         c_traslado.setId_usuario_recibe(id_usuario);
         c_traslado.setObservaciones("");
+    }
+
+    private void llenarGuia() {
+        //cargar datos de comprobante
+        c_doc_almacen.setId_tido(5);
+        c_doc_almacen.setId_almacen(id_almacen);
+        c_doc_almacen.comprobar_documento();
+
+        c_guia.setId_almacen(id_almacen);
+        c_guia.setId_almacen_llegada(c_traslado.getId_tienda_recibe() + "");
+        c_guia.setId_traslado(c_traslado.getId_traslado());
+        c_guia.setNumero(c_doc_almacen.getNumero());
+        c_guia.setSerie(c_doc_almacen.getSerie());
+        c_guia.setDni_chofer(jTextField3.getText());
+        c_guia.setPlaca(jTextField4.getText());
+        c_guia.setRuc_transporte(jTextField1.getText());
+        c_guia.setRazon_transporte(jTextField2.getText());
     }
 
     private void llenar_detalle() {
@@ -341,6 +369,24 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         txt_cliente_venta = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jd_datos_guia = new javax.swing.JDialog();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -361,7 +407,6 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         btn_enviar = new javax.swing.JButton();
         btn_recibir = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        btn_cargar_productos = new javax.swing.JButton();
         btn_verificar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         btn_salir = new javax.swing.JButton();
@@ -646,6 +691,177 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(102, 102, 255));
+        jLabel21.setText("Seleccione la mejor opcion haciendo clic en el boton");
+
+        jLabel23.setText("Se tiene el dato del transportista?");
+
+        jButton4.setText("Si, lo tengo");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("No lo tengo");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Yo hare el transporte");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Transportista"));
+
+        jLabel22.setText("RUC Transportista:");
+
+        jLabel24.setText("Razon Social:");
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setEnabled(false);
+
+        jTextField2.setEnabled(false);
+
+        jButton7.setText("Comprobar RUC");
+        jButton7.setEnabled(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField2)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Vehiculo"));
+
+        jLabel25.setText("DNI del Chofer::");
+
+        jLabel26.setText("Nro Placa:");
+
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField3.setEnabled(false);
+
+        jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField4.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                    .addComponent(jTextField4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
+
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clipboard_text.png"))); // NOI18N
+        jButton8.setText("Guardar y Generar Guia");
+        jButton8.setEnabled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_datos_guiaLayout = new javax.swing.GroupLayout(jd_datos_guia.getContentPane());
+        jd_datos_guia.getContentPane().setLayout(jd_datos_guiaLayout);
+        jd_datos_guiaLayout.setHorizontalGroup(
+            jd_datos_guiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_datos_guiaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_datos_guiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_datos_guiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel21)
+                        .addGroup(jd_datos_guiaLayout.createSequentialGroup()
+                            .addComponent(jLabel23)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButton4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton6))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        jd_datos_guiaLayout.setVerticalGroup(
+            jd_datos_guiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_datos_guiaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jd_datos_guiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         setTitle("Registrar Traslados a otras Tiendas");
         setToolTipText("");
 
@@ -714,15 +930,14 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jCheckBox1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cbx_tiendas, 0, 180, Short.MAX_VALUE)
-                        .addComponent(txt_origen)
-                        .addComponent(txt_fecha)
-                        .addComponent(txt_envia)
-                        .addComponent(txt_recibe)
-                        .addComponent(txt_fecha_recibe)))
+                    .addComponent(cbx_tiendas, 0, 189, Short.MAX_VALUE)
+                    .addComponent(txt_origen)
+                    .addComponent(txt_fecha)
+                    .addComponent(txt_envia)
+                    .addComponent(txt_recibe)
+                    .addComponent(txt_fecha_recibe))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -756,7 +971,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         jToolBar1.setFloatable(false);
@@ -801,19 +1016,6 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(btn_recibir);
         jToolBar1.add(jSeparator1);
-
-        btn_cargar_productos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/currency.png"))); // NOI18N
-        btn_cargar_productos.setText("Desde Venta");
-        btn_cargar_productos.setEnabled(false);
-        btn_cargar_productos.setFocusable(false);
-        btn_cargar_productos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_cargar_productos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btn_cargar_productos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cargar_productosActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btn_cargar_productos);
 
         btn_verificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/error.png"))); // NOI18N
         btn_verificar.setText("verificar Cantidad");
@@ -877,7 +1079,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -916,7 +1118,7 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 168, Short.MAX_VALUE))
+                        .addGap(0, 177, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -940,7 +1142,6 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
             c_envia_tienda.validar_almacen();
             //     if (c_envia_tienda.getEmpresa() == id_empresa) {
             c_traslado.setId_tienda_recibe(id_tienda);
-            btn_cargar_productos.setEnabled(false);
             if (tipo_traslado == 3) {
                 btn_guardar.setEnabled(true);
                 btn_guardar.requestFocus();
@@ -1081,19 +1282,30 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         btn_enviar.setEnabled(false);
 
         if (JOptionPane.OK_OPTION == confirmado) {
-            c_detalle.setId_traslado(c_traslado.getId_traslado());
-            c_detalle.eliminar();
+            //si no esta seleccionado que quiere guia enviar directamente
+            if (jCheckBox1.isSelected()) {
+                //abrir jpanel de datos de guia
+                jd_datos_guia.setModal(true);
+                jd_datos_guia.setSize(521, 385);
+                jd_datos_guia.setLocationRelativeTo(null);
+                jd_datos_guia.setVisible(true);
+            } else {
+                //enviar mercaderia sin guia
+                c_detalle.setId_traslado(c_traslado.getId_traslado());
+                c_detalle.eliminar();
 
-            c_traslado.setEstado(1);
-            boolean registrar = c_traslado.enviar_traslado();
+                c_traslado.setEstado(1);
+                boolean registrar = c_traslado.enviar_traslado();
 
-            if (registrar) {
+                if (registrar) {
 
-                llenar_detalle();
-                frm_ver_traslados formulario = new frm_ver_traslados();
-                c_varios.llamar_ventana(formulario);
-                this.dispose();
+                    llenar_detalle();
+                    frm_ver_traslados formulario = new frm_ver_traslados();
+                    c_varios.llamar_ventana(formulario);
+                    this.dispose();
+                }
             }
+
         }
     }//GEN-LAST:event_btn_enviarActionPerformed
 
@@ -1250,24 +1462,25 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         btn_enviar.setEnabled(false);
 
         if (JOptionPane.OK_OPTION == confirmado) {
-            llenar();
-            boolean registrar = c_traslado.registrar_borrador();
+            if (jCheckBox1.isSelected()) {
+                //abrir jpanel de datos de guia
+                jd_datos_guia.setModal(true);
+                jd_datos_guia.setSize(521, 385);
+                jd_datos_guia.setLocationRelativeTo(null);
+                jd_datos_guia.setVisible(true);
+            } else {
+                llenar();
+                boolean registrar = c_traslado.registrar_borrador();
 
-            if (registrar) {
-                llenar_detalle();
-                frm_ver_traslados formulario = new frm_ver_traslados();
-                c_varios.llamar_ventana(formulario);
-                this.dispose();
+                if (registrar) {
+                    llenar_detalle();
+                    frm_ver_traslados formulario = new frm_ver_traslados();
+                    c_varios.llamar_ventana(formulario);
+                    this.dispose();
+                }
             }
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
-
-    private void btn_cargar_productosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cargar_productosActionPerformed
-        jd_cargar_venta.setModal(true);
-        jd_cargar_venta.setSize(509, 179);
-        jd_cargar_venta.setLocationRelativeTo(null);
-        jd_cargar_venta.setVisible(true);
-    }//GEN-LAST:event_btn_cargar_productosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String id_ventas = txt_id_venta.getText();
@@ -1311,10 +1524,65 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
         limpiar_buscar();
     }//GEN-LAST:event_btn_eliminar_productoActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        //eliminar datos de prodctos, de repente agrego mas productos o cambio cantidades
+        llenar();
+        boolean registrar = c_traslado.registrar_borrador();
+
+        if (registrar) {
+            llenar_detalle();
+        }
+        
+        //cargar los datos de la guia si es que lo tienen
+        llenarGuia();
+        c_guia.registrar();
+
+        //enviar datos al servidor para generar el xml
+        
+        jd_datos_guia.setVisible(false);
+        
+        frm_ver_traslados formulario = new frm_ver_traslados();
+        c_varios.llamar_ventana(formulario);
+        this.dispose();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jButton8.setEnabled(true);
+        jTextField1.setText(frm_principal.c_empresa.getRuc());
+        jTextField2.setText(frm_principal.c_empresa.getRazon());
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        jButton8.setEnabled(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jTextField1.setEnabled(true);
+        jTextField2.setEnabled(true);
+        jTextField3.setEnabled(true);
+        jTextField4.setEnabled(true);
+        jButton8.setEnabled(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        System.out.println("buscar ruc");
+        String documento = jTextField1.getText().trim();
+        try {
+            String json = cl_json_entidad.getJSONRUC_LUNASYSTEMS(documento);
+            //Lo mostramos
+            String[] datos = cl_json_entidad.showJSONRUC_JMP(json);
+            jTextField2.setText(datos[1]);
+            jTextField3.requestFocus();
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR RUC " + e.getLocalizedMessage());
+        }
+
+    }//GEN-LAST:event_jButton7ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_cargar_productos;
     private javax.swing.JButton btn_eliminar_producto;
     private javax.swing.JButton btn_enviar;
     private javax.swing.JButton btn_guardar;
@@ -1325,6 +1593,11 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbx_tiendas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1339,6 +1612,12 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1348,12 +1627,19 @@ public class frm_reg_traslado extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JDialog jd_add_producto;
     private javax.swing.JDialog jd_cargar_venta;
+    private javax.swing.JDialog jd_datos_guia;
     private javax.swing.JDialog jd_recibir_producto;
     private javax.swing.JTable t_traslado;
     private javax.swing.JTextField txt_buscar_producto;

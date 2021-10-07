@@ -6,7 +6,7 @@
 package vistas;
 
 import clases.cl_cliente;
-import clases.cl_guia_remision;
+import clases.cl_guia_remision_venta;
 import clases.cl_varios;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -25,7 +25,7 @@ public class frm_ver_guias_remision extends javax.swing.JInternalFrame {
 
     cl_varios c_varios = new cl_varios();
 
-    cl_guia_remision c_guia = new cl_guia_remision();
+    cl_guia_remision_venta c_guia = new cl_guia_remision_venta();
     int id_almacen = frm_principal.c_almacen.getId();
     int id_venta;
     int fila_seleccionada = 0;

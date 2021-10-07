@@ -35,7 +35,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luis
  */
-public class cl_guia_remision {
+public class cl_guia_remision_venta {
 
     cl_conectar c_conectar = new cl_conectar();
 
@@ -52,7 +52,7 @@ public class cl_guia_remision {
     private String placa;
     private String hash;
 
-    public cl_guia_remision() {
+    public cl_guia_remision_venta() {
     }
 
     public int getId_venta() {

@@ -9,7 +9,7 @@ import clases.cl_cliente;
 import clases.cl_cobros_ventas;
 import clases.cl_conectar;
 import clases.cl_documentos_almacen;
-import clases.cl_guia_remision;
+import clases.cl_guia_remision_venta;
 import clases.cl_producto;
 import clases.cl_productos_almacen;
 import clases.cl_productos_empresa;
@@ -60,7 +60,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     m_ubigeo m_ubigeo = new m_ubigeo();
 
     cl_ubigeo c_ubigeo;
-    cl_guia_remision c_guia;
+    cl_guia_remision_venta c_guia;
 
     cl_venta c_venta = new cl_venta();
     cl_productos_ventas c_detalle = new cl_productos_ventas();
@@ -1847,7 +1847,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                         int emite_guia = cbx_guia.getSelectedIndex();
 
                         if (emite_guia == 0) {
-                            c_guia = new cl_guia_remision();
+                            c_guia = new cl_guia_remision_venta();
                             c_guia.setId_almacen(c_venta.getId_almacen());
                             c_guia.setId_venta(c_venta.getId_venta());
                             c_guia.setId_empresa(id_empresa);

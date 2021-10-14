@@ -168,12 +168,12 @@ public class cl_guia_remision_traslado {
 
             while (rs.next()) {
                 Object[] fila = new Object[7];
-                fila[0] = rs.getString("id_venta");
+                fila[0] = rs.getString("id_traslado");
                 fila[1] = rs.getString("fecha");
                 fila[2] = rs.getString("serie") + "-" + rs.getString("numero");
-                fila[3] = rs.getString("nombre");
-                fila[4] = rs.getString("serventa") + "-" + rs.getString("numventa");
-                fila[5] = rs.getString("username");
+                fila[3] = rs.getString("torigen");
+                fila[4] = rs.getString("tdestino");
+                fila[5] = rs.getString("ructransporte");
                 fila[6] = rs.getString("hash");
                 modelo.addRow(fila);
             }

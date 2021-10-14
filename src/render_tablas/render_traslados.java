@@ -19,7 +19,7 @@ public class render_traslados extends DefaultTableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
-        switch (String.valueOf(table.getValueAt(row, 7))) {
+        switch (String.valueOf(table.getValueAt(row, 8))) {
             case "CON OBSERVACIONES":
                 setBackground(Color.green);
                 setForeground(Color.black);
@@ -48,8 +48,8 @@ public class render_traslados extends DefaultTableCellRenderer {
         if (column == 1) {
             setHorizontalAlignment(SwingConstants.CENTER);
         }
-        if (column == 2) {
-            setHorizontalAlignment(SwingConstants.LEFT);
+         if (column == 2) {
+            setHorizontalAlignment(SwingConstants.CENTER);
         }
         if (column == 3) {
             setHorizontalAlignment(SwingConstants.LEFT);
@@ -61,7 +61,7 @@ public class render_traslados extends DefaultTableCellRenderer {
             setHorizontalAlignment(SwingConstants.LEFT);
         }
         if (column == 6) {
-            setHorizontalAlignment(SwingConstants.CENTER);
+            setHorizontalAlignment(SwingConstants.LEFT);
         }
         if (column == 7) {
             setHorizontalAlignment(SwingConstants.CENTER);

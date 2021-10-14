@@ -37,7 +37,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
     public frm_ver_traslados() {
         initComponents();
 
-        String query = "select t.id_traslado, t.fecha, t.fecha_recepcion, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
+        String query = "select t.id_traslado, t.fecha, t.fecha_recepcion, t.guia_emitida, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
                 + "uo.username as usu_envia, ud.username as usu_recibe, t.u_envia, t.u_recibe, t.estado "
                 + "from traslados as t "
                 + "inner join almacen as ao on ao.id_almacen = t.a_origen "
@@ -311,7 +311,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
 
             if (tipo_buscar == 0) {
                 texto = c_varios.fecha_myql(texto);
-                query = "select t.id_traslado, t.fecha, t.fecha_recepcion, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
+                query = "select t.id_traslado, t.fecha, t.fecha_recepcion, t.guia_emitida, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
                         + "uo.username as usu_envia, ud.username as usu_recibe, t.u_envia, t.u_recibe, t.estado "
                         + "from traslados as t "
                         + "inner join almacen as ao on ao.id_almacen = t.a_origen "
@@ -323,7 +323,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
             }
 
             if (tipo_buscar == 1) {
-                query = "select t.id_traslado, t.fecha, t.fecha_recepcion, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
+                query = "select t.id_traslado, t.fecha, t.fecha_recepcion, t.guia_emitida, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
                         + "uo.username as usu_envia, ud.username as usu_recibe, t.u_envia, t.u_recibe, t.estado "
                         + "from traslados as t "
                         + "inner join almacen as ao on ao.id_almacen = t.a_origen "
@@ -335,7 +335,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
             }
 
             if (tipo_buscar == 2) {
-                query = "select t.id_traslado, t.fecha, t.fecha_recepcion, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
+                query = "select t.id_traslado, t.fecha, t.fecha_recepcion, t.guia_emitida, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
                         + "uo.username as usu_envia, ud.username as usu_recibe, t.u_envia, t.u_recibe, t.estado "
                         + "from traslados as t "
                         + "inner join almacen as ao on ao.id_almacen = t.a_origen "
@@ -386,7 +386,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
 
                 c_traslado.eliminar();
 
-                String query = "select t.id_traslado, t.fecha, t.fecha_recepcion, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
+                String query = "select t.id_traslado, t.fecha, t.fecha_recepcion, t.guia_emitida, ao.nombre as tienda_origen, ad.nombre as tienda_destino, "
                         + "uo.username as usu_envia, ud.username as usu_recibe, t.u_envia, t.u_recibe, t.estado "
                         + "from traslados as t "
                         + "inner join almacen as ao on ao.id_almacen = t.a_origen "

@@ -28,6 +28,7 @@ public class cl_traslados {
     private int id_usuario_envia;
     private int id_usuario_recibe;
     private int estado;
+    private int guiaemitida;
     private String fecha_envio;
     private String fecha_recepcion;
     private String observaciones;
@@ -108,12 +109,21 @@ public class cl_traslados {
 
     }
 
+    public int getGuiaemitida() {
+        return guiaemitida;
+    }
+
+    public void setGuiaemitida(int guiaemitida) {
+        this.guiaemitida = guiaemitida;
+    }
+    
+
     public boolean registrar_borrador() {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "insert into traslados "
                 + "Values ('" + id_traslado + "', '" + fecha_envio + "', '" + fecha_recepcion + "', '" + id_tienda_envia + "', '" + id_tienda_recibe + "', "
-                + "'" + id_usuario_envia + "', '" + id_usuario_recibe + "', '" + observaciones + "', '" + estado + "')";
+                + "'" + id_usuario_envia + "', '" + id_usuario_recibe + "', '" + observaciones + "', '" + estado + "', '" + guiaemitida + "')";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;
@@ -126,7 +136,9 @@ public class cl_traslados {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "update traslados "
-                + "set fecha = now(), estado = '" + estado + "' "
+                + "set fecha = now(), "
+                + "estado = '" + estado + "', "
+                + "guia_emitida = '"+guiaemitida+"' "
                 + "where id_traslado = '" + id_traslado + "'";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
@@ -167,6 +179,7 @@ public class cl_traslados {
             //Establecer como cabezeras el nombre de las colimnas
             modelo.addColumn("Id");
             modelo.addColumn("Fecha");
+            modelo.addColumn("Tiene Guia?");
             modelo.addColumn("T. Origen");
             modelo.addColumn("t. Destino");
             modelo.addColumn("Usu. Envia");
@@ -177,12 +190,18 @@ public class cl_traslados {
 
             //Creando las filas para el JTable
             while (rs.next()) {
-                Object[] fila = new Object[9];
+                Object[] fila = new Object[10];
+                
                 String codigo = c_varios.ceros_izquieda_numero(3, rs.getInt("id_traslado"));
+                String tieneguia = "NO";
+                if (rs.getInt("guia_emitida") == 1) {
+                    tieneguia = "SI";
+                }
                 fila[0] = codigo;
                 fila[1] = rs.getString("fecha");
-                fila[2] = rs.getString("tienda_origen");
-                fila[3] = rs.getString("tienda_destino");
+                fila[2] = tieneguia;
+                fila[3] = rs.getString("tienda_origen");
+                fila[4] = rs.getString("tienda_destino");
                 int tusuenvia = rs.getInt("u_envia");
                 int tusurecibe = rs.getInt("u_recibe");
                 String strecibe;
@@ -191,8 +210,8 @@ public class cl_traslados {
                 } else {
                     strecibe = rs.getString("usu_recibe");
                 }
-                fila[4] = rs.getString("usu_envia");
-                fila[5] = strecibe;
+                fila[5] = rs.getString("usu_envia");
+                fila[6] = strecibe;
 
                 int testado = rs.getInt("estado");
                 String sestado;
@@ -216,9 +235,9 @@ public class cl_traslados {
                         sestado = "CON OBSERVACIONES";
                         break;
                 }
-                fila[6] = tfecha;
-                fila[7] = sestado;
-                fila[8] = rs.getInt("id_traslado");
+                fila[7] = tfecha;
+                fila[8] = sestado;
+                fila[9] = rs.getInt("id_traslado");
 
                 modelo.addRow(fila);
             }
@@ -227,12 +246,13 @@ public class cl_traslados {
             tabla.setModel(modelo);
             tabla.getColumnModel().getColumn(0).setPreferredWidth(60);
             tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
-            tabla.getColumnModel().getColumn(2).setPreferredWidth(80);
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(50);
             tabla.getColumnModel().getColumn(3).setPreferredWidth(80);
-            tabla.getColumnModel().getColumn(4).setPreferredWidth(70);
+            tabla.getColumnModel().getColumn(4).setPreferredWidth(80);
             tabla.getColumnModel().getColumn(5).setPreferredWidth(70);
             tabla.getColumnModel().getColumn(6).setPreferredWidth(70);
             tabla.getColumnModel().getColumn(7).setPreferredWidth(70);
+            tabla.getColumnModel().getColumn(8).setPreferredWidth(70);
             tabla.setDefaultRenderer(Object.class, new render_traslados());
         } catch (SQLException e) {
             System.out.print(e);

@@ -98,7 +98,7 @@ public class cl_guia_remision_traslado {
     }
 
     public void setRuc_transporte(String ruc_transporte) {
-        this.ruc_transporte = ruc_transporte;
+        this.ruc_transporte = ruc_transporte.trim();
     }
 
     public String getRazon_transporte() {
@@ -106,7 +106,7 @@ public class cl_guia_remision_traslado {
     }
 
     public void setRazon_transporte(String razon_transporte) {
-        this.razon_transporte = razon_transporte;
+        this.razon_transporte = razon_transporte.trim().toUpperCase();
     }
 
     public String getDni_chofer() {
@@ -114,7 +114,7 @@ public class cl_guia_remision_traslado {
     }
 
     public void setDni_chofer(String dni_chofer) {
-        this.dni_chofer = dni_chofer;
+        this.dni_chofer = dni_chofer.trim();
     }
 
     public String getPlaca() {
@@ -136,9 +136,9 @@ public class cl_guia_remision_traslado {
     public boolean registrar() {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
-        String query = "insert into guia_remision_traslado "
-                + "Values ('" + id_almacen + "', '" + id_traslado + "', '" + id_almacen_llegada + "','" + ruc_transporte + "', "
-                + "'" + razon_transporte + "','" + dni_chofer + "','" + placa + "', '" + serie + "', '" + numero + "', '')";
+        String query = "insert into guias_traslado "
+                + "Values ('" + id_traslado + "', '" + id_almacen + "', '" + id_almacen_llegada + "','" + ruc_transporte + "', "
+                + "'" + razon_transporte + "','" + dni_chofer + "','" + placa + "', '" + serie + "', '" + numero + "', '', '0')";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;

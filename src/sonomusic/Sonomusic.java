@@ -19,14 +19,15 @@ public class Sonomusic {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /*
+        
         JFrame.setDefaultLookAndFeelDecorated(true);
         SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlackSteelSkin");
         frm_principal menu = new frm_principal();
         menu.setVisible(true);
-*/
+/*
         pdfGuiaTraslado df = new pdfGuiaTraslado();
         df.generarPDF();
+*/
     }
     
 }

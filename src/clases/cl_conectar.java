@@ -16,11 +16,11 @@ import javax.swing.JOptionPane;
 public class cl_conectar {
 
     private static Connection conexion = null;
-    private static String bd = "new_sonomusic"; // Nombre de BD.
-    private static String user = "root_lsp"; // Usuario de BD.
-    private static String password = "root/*123"; // Password de BD.
+    private static String bd = "brunoasc_new_sonomusic"; // Nombre de BD.
+    private static String user = "brunoasc_luis_bd"; // Usuario de BD.
+    private static String password = "C]6&TN4Bt@&I"; // Password de BD.
     //private static String url = "lunasystemsperu.com";
-    private static String url = "localhost";
+    private static String url = "artemisa.servidoresph.com";
 
     // Driver para MySQL en este caso.
     private static String driver = "com.mysql.jdbc.Driver";
@@ -62,7 +62,7 @@ public class cl_conectar {
 
     public boolean verificar_conexion() {
         boolean conectado = false;
-        String dirWeb = "www.lunasystemsperu.com";
+        String dirWeb = "www.goempresarial.com";
         int puerto = 80;
         try {
             Socket s = new Socket(dirWeb, puerto);

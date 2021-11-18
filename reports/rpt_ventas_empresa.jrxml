@@ -108,7 +108,7 @@ order by v.id_ventas asc]]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="90" height="84" uuid="29a6bd80-2dbb-470a-b024-4177a1549382"/>
-				<imageExpression><![CDATA[($F{id_empresa}== 4  ? "http://lunasystemsperu.com/clientes/sonomusic/images/rodson.png" : "http://lunasystemsperu.com/clientes/sonomusic/images/logo.png")]]></imageExpression>
+				<imageExpression><![CDATA[($F{id_empresa}== 4  ? "http://goempresarial.com/lsp/clientes/sonomusic/images/rodson.png" : "http://goempresarial.com/lsp/clientes/sonomusic/images/logo.png")]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="90" y="30" width="50" height="16" uuid="82ed54d9-c665-4fe2-8094-315616d21122">

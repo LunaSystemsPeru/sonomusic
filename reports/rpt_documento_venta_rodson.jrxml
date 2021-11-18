@@ -127,7 +127,7 @@ where v.id_ventas = $P{p_id_venta} and v.id_almacen = $P{p_id_almacen}]]>
 			</textField>
 			<image>
 				<reportElement x="0" y="0" width="149" height="42" uuid="e982f7f7-ba83-4766-ae61-9aff919282ce"/>
-				<imageExpression><![CDATA["http://lunasystemsperu.com/clientes/sonomusic/images/rodson.png"]]></imageExpression>
+				<imageExpression><![CDATA["http://goempresarial.com/lsp/clientes/sonomusic/images/rodson.png"]]></imageExpression>
 			</image>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="481" y="77" width="74" height="16" uuid="80a6001a-1c13-45f7-b969-06d9b0f412fc"/>

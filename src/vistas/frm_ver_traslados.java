@@ -50,7 +50,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
     }
 
     private void activar_botones() {
-        String estado = t_traslados.getValueAt(fila_seleccionada, 7).toString();
+        String estado = t_traslados.getValueAt(fila_seleccionada, 8).toString();
         btn_modificar.setEnabled(false);
         btn_recibir.setEnabled(false);
         btn_ver_pdf.setEnabled(true);
@@ -281,7 +281,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
 
     private void btn_recibirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recibirActionPerformed
         if (fila_seleccionada > -1) {
-            int id_traslado = Integer.parseInt(t_traslados.getValueAt(fila_seleccionada, 8).toString());
+            int id_traslado = Integer.parseInt(t_traslados.getValueAt(fila_seleccionada, 9).toString());
             c_traslado.setId_traslado(id_traslado);
             boolean existet = c_traslado.validar_datos();
             if (existet) {

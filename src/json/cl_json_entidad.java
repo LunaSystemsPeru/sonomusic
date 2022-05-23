@@ -32,7 +32,7 @@ public class cl_json_entidad {
         try {
             //Generar la URL
             //String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
-            String url = "http://goempresarial.com/lsp/apis/apiruc.php?ruc=" + ruc;
+            String url = "https://www.goempresarial.com/lsp/apis/apiruc.php?ruc=" + ruc;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -77,7 +77,7 @@ public class cl_json_entidad {
             //Generar la URL
             //String url = SERVER_PATH + "consultas_json/composer/consultas_dni_JMP.php?dni=" + dni;
             //String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaDNI.php?dni=" + dni;
-            String url = "http://goempresarial.com/lsp/apis/apidni.php?dni=" + dni;
+            String url = "https://www.goempresarial.com/lsp/apis/apidni.php?dni=" + dni;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión

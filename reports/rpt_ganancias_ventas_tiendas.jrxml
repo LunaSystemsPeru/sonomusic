@@ -60,7 +60,7 @@ order by p.descripcion asc, p.modelo asc, p.marca asc]]>
 		<band height="89" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="90" height="84" uuid="8a4e9d73-ea68-434f-87d4-c2ee9fab6dc2"/>
-				<imageExpression><![CDATA["http://goempresarial.com/lsp/clientes/sonomusic/images/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://www.goempresarial.com/lsp/clientes/sonomusic/images/logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="90" y="0" width="712" height="30" uuid="e502f3c4-dc40-4627-a415-1641bfacddc3"/>

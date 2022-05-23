@@ -249,7 +249,7 @@ WHERE
 			</textField>
 			<image>
 				<reportElement x="0" y="0" width="85" height="67" uuid="f0fd7757-43b4-4049-8d3e-8e2283066da8"/>
-				<imageExpression><![CDATA["http://goempresarial.com/lsp/clientes/sonomusic/images/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://www.goempresarial.com/lsp/clientes/sonomusic/images/logo.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

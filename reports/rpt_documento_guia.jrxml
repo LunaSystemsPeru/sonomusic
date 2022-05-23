@@ -140,7 +140,7 @@ where gr.id_almacen = $P{p_id_almacen}   and gr.id_venta =  $P{p_id_venta} ]]>
 		<band height="201" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="75" height="75" uuid="e982f7f7-ba83-4766-ae61-9aff919282ce"/>
-				<imageExpression><![CDATA["http://goempresarial.com/lsp/clientes/sonomusic/images/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://www.goempresarial.com/lsp/clientes/sonomusic/images/logo.png"]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement x="359" y="0" width="196" height="64" backcolor="#FF0000" uuid="3f31d8f7-d8d7-4b9a-a2aa-b52203b03802"/>

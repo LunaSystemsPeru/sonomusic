@@ -207,7 +207,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                     + "from productos as p "
                     + "inner join productos_almacen as pa on pa.id_producto = p.id_producto "
                     + "inner join almacen as al on al.id_almacen = pa.id_almacen "
-                 //   + "inner join productos_empresa as pe on pe.id_empresa = al.id_empresa and pe.id_producto = pa.id_producto "
+                    //   + "inner join productos_empresa as pe on pe.id_empresa = al.id_empresa and pe.id_producto = pa.id_producto "
                     + "where pa.id_almacen = '" + id_almacen + "' and pa.cactual > 0";
             ResultSet rs = c_conectar.consulta(st, sql);
             while (rs.next()) {
@@ -1773,16 +1773,34 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
     private void btn_grabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_grabarActionPerformed
         //btn_pago.setEnabled(false);
+        int errores = 0;
+        cla_mis_documentos cla_tido = (cla_mis_documentos) cbx_tipo_doc.getSelectedItem();
+        int id_tido = cla_tido.getId_tido();
+        int cantdigitosdocumento = txt_doc_cliente.getText().length();
+        if (id_tido == 2) {
+            //cbx_tipo_doc
+            //verificar q sea 11 digitos para RUC
+            if (cantdigitosdocumento > 11) {
+                JOptionPane.showMessageDialog(null, "Verificar que el numero de ruc tiene 11 digitos");
+                txt_doc_cliente.selectAll();
+                txt_doc_cliente.requestFocus();
+                
+                errores++;
+            }
+        }
 
-        jd_fin_venta.setModal(true);
-        jd_fin_venta.setSize(580, 302);
-        jd_fin_venta.setLocationRelativeTo(null);
+        if (errores == 0) {
+            jd_fin_venta.setModal(true);
+            jd_fin_venta.setSize(580, 302);
+            jd_fin_venta.setLocationRelativeTo(null);
 
-        final_total = calcular_total();
-        txt_j_efectivo.selectAll();
-        txt_j_efectivo.requestFocus();
+            final_total = calcular_total();
+            txt_j_efectivo.selectAll();
+            txt_j_efectivo.requestFocus();
 
-        jd_fin_venta.setVisible(true);
+            jd_fin_venta.setVisible(true);
+
+        }
     }//GEN-LAST:event_btn_grabarActionPerformed
 
     private void txt_j_efectivoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_j_efectivoKeyPressed
@@ -2265,7 +2283,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
     private void txt_jd_cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jd_cantidadKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_jd_cantidad.getText().length()> 0) {
+            if (txt_jd_cantidad.getText().length() > 0) {
                 txt_jd_precio.requestFocus();
             }
         }
@@ -2273,7 +2291,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
     private void txt_jd_precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_jd_precioKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_jd_precio.getText().length()> 0) {
+            if (txt_jd_precio.getText().length() > 0) {
                 btn_jd_actualizar.requestFocus();
             }
         }

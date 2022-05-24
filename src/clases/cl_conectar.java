@@ -21,6 +21,7 @@ public class cl_conectar {
     private static String password = "C]6&TN4Bt@&I"; // Password de BD.
     //private static String url = "lunasystemsperu.com";
     private static String url = "artemisa.servidoresph.com";
+    //private static String url = "localhost";
 
     // Driver para MySQL en este caso.
     private static String driver = "com.mysql.jdbc.Driver";

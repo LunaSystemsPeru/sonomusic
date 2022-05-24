@@ -379,7 +379,7 @@ public class frm_ver_traslados extends javax.swing.JInternalFrame {
             desactivar_botones();
 
             if (JOptionPane.OK_OPTION == confirmado) {
-                int id_traslado = Integer.parseInt(t_traslados.getValueAt(fila_seleccionada, 8).toString());
+                int id_traslado = Integer.parseInt(t_traslados.getValueAt(fila_seleccionada, 9).toString());
                 c_traslado.setId_traslado(id_traslado);
                 c_detalle.setId_traslado(id_traslado);
                 c_detalle.eliminar();

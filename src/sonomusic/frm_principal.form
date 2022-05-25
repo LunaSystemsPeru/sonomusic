@@ -263,7 +263,6 @@
         </Component>
         <Container class="javax.swing.JToolBar" name="jToolBar7">
           <Properties>
-            <Property name="floatable" type="boolean" value="false"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
 
@@ -430,7 +429,6 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
-        <Property name="floatable" type="boolean" value="false"/>
         <Property name="borderPainted" type="boolean" value="false"/>
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>
@@ -524,7 +522,6 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
-                <Property name="floatable" type="boolean" value="false"/>
                 <Property name="rollover" type="boolean" value="true"/>
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
@@ -654,7 +651,6 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
-                <Property name="floatable" type="boolean" value="false"/>
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
               <Constraints>
@@ -721,7 +717,6 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
-                <Property name="floatable" type="boolean" value="false"/>
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
               <Constraints>
@@ -878,7 +873,6 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
-                <Property name="floatable" type="boolean" value="false"/>
                 <Property name="borderPainted" type="boolean" value="false"/>
               </Properties>
               <Constraints>
@@ -982,7 +976,6 @@
     </Container>
     <Container class="javax.swing.JToolBar" name="jToolBar3">
       <Properties>
-        <Property name="floatable" type="boolean" value="false"/>
         <Property name="borderPainted" type="boolean" value="false"/>
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>

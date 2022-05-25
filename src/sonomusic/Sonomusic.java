@@ -7,6 +7,7 @@ package sonomusic;
 
 import javax.swing.JFrame;
 import org.jvnet.substance.SubstanceLookAndFeel;
+import pdfs.pdfComprobanteVenta;
 import pdfs.pdfGuiaTraslado;
 
 /**
@@ -25,7 +26,7 @@ public class Sonomusic {
         frm_principal menu = new frm_principal();
         menu.setVisible(true);
 /*
-        pdfGuiaTraslado df = new pdfGuiaTraslado();
+        pdfComprobanteVenta df = new pdfComprobanteVenta();
         df.generarPDF();
 */
     }

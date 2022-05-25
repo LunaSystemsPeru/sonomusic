@@ -274,7 +274,7 @@ public class cl_varios {
 
         } catch (JRException ex) {
             System.out.print(ex + " -- error jre");
-            ex.printStackTrace();
+          //  ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error con el Reporte -- \n" + ex.getLocalizedMessage());
         }
     }

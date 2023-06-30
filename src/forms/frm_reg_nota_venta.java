@@ -449,11 +449,11 @@ public class frm_reg_nota_venta extends javax.swing.JInternalFrame {
             c_detalle.setId_almacen(ventanota.getId_almacen());
             c_detalle.setId_venta(ventanota.getId_venta());
             c_detalle.setId_producto(Integer.parseInt(t_detalle.getValueAt(i, 0).toString()));
-            c_detalle.setCantidad(Integer.parseInt(t_detalle.getValueAt(i, 2).toString()));
+            c_detalle.setCantidad(Integer.parseInt(t_detalle.getValueAt(i, 3).toString()));
             c_producto.setId(c_detalle.getId_producto());
             c_producto.validar_id();
             c_detalle.setCosto(c_producto.getCosto());
-            c_detalle.setPrecio(Double.parseDouble(t_detalle.getValueAt(i, 3).toString()));
+            c_detalle.setPrecio(Double.parseDouble(t_detalle.getValueAt(i, 4).toString()));
 
             c_detalle.registrar();
         }

@@ -6,6 +6,12 @@ choose Tools | Templates
  */
 package pdfs;
 
+import clases.cl_almacen;
+import clases.cl_cliente;
+import clases.cl_empresa;
+import clases.cl_guia_remision_venta;
+import clases.cl_varios;
+import clases.cl_venta;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfCell;
 import com.lowagie.text.pdf.PdfPCell;
@@ -27,6 +33,16 @@ import java.util.logging.Logger;
  */
 public class pdfGuiaTraslado {
 
+    private final cl_venta c_venta = new cl_venta();
+    private final cl_guia_remision_venta c_guia = new cl_guia_remision_venta();
+    private final cl_empresa c_empresa = new cl_empresa();
+    private final cl_almacen c_tienda = new cl_almacen();
+    private final cl_varios c_varios = new cl_varios();
+    private final cl_cliente c_cliente = new cl_cliente();
+
+    private int ventaid;
+    private int almacenid;
+
     private static final String FILE_NAME = "itext.pdf";
 
     private static final Font WhiteBold9Font = FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, Color.WHITE);
@@ -41,7 +57,43 @@ public class pdfGuiaTraslado {
     public pdfGuiaTraslado() {
     }
 
+    public int getVentaid() {
+        return ventaid;
+    }
+
+    public void setVentaid(int ventaid) {
+        this.ventaid = ventaid;
+    }
+
+    public int getAlmacenid() {
+        return almacenid;
+    }
+
+    public void setAlmacenid(int almacenid) {
+        this.almacenid = almacenid;
+    }
+
+    private void iniciarData() {
+        c_venta.setId_venta(this.ventaid);
+        c_venta.setId_almacen(this.almacenid);
+        c_venta.validar_venta();
+
+        c_guia.setId_almacen(almacenid);
+        c_guia.setId_venta(ventaid);
+        c_guia.validar_guia();
+
+        c_empresa.setId(c_guia.getId_empresa());
+        c_empresa.validar_empresa();
+
+        c_tienda.setId(c_venta.getId_almacen());
+        c_tienda.validar_almacen();
+
+        c_cliente.setCodigo(c_venta.getId_cliente());
+        c_cliente.comprobar_cliente();
+    }
+
     public void generarPDF() {
+        iniciarData();
         try {
             Document document = new Document(PageSize.A4, 20, 20, 20, 20);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(FILE_NAME)));
@@ -50,8 +102,8 @@ public class pdfGuiaTraslado {
             document.open();
             // We add metadata to PDF
             // Añadimos los metadatos del PDF
-            document.addTitle("GUIA DE REMISION T001 - 0000400");
-            document.addSubject("IMPORTACIONES RODSON MUSIC EIRL");
+            document.addTitle("GUIA DE REMISION " + c_guia.getSerie() + " - " + c_varios.ceros_izquieda_numero(5, c_guia.getNumero()));
+            document.addSubject(c_empresa.getRazon());
             document.addKeywords("Java, PDF, iText");
             document.addAuthor("LUNA SYSTEMS PERU - SOFTWARE DE INVENTARIO Y FACTURACION ELECTRONICA");
             document.addCreator("LUNA SYSTEMS PERU");
@@ -78,12 +130,12 @@ public class pdfGuiaTraslado {
             columnHeader.setRowspan(3);
             tablatitulo.addCell(columnHeader);
 
-            columnHeader = new PdfPCell(new Phrase("IMPORTACIONES RODSON MUSIC EIRL", BOLD9Font));
+            columnHeader = new PdfPCell(new Phrase(c_empresa.getRazon(), BOLD9Font));
             columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
             columnHeader.setBorder(PdfPCell.NO_BORDER);
             tablatitulo.addCell(columnHeader);
 
-            columnHeader = new PdfPCell(new Phrase("RUC: 10469932091", WhiteBold9Font));
+            columnHeader = new PdfPCell(new Phrase("RUC: " + c_empresa.getRuc(), WhiteBold9Font));
             columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
             columnHeader.setVerticalAlignment(Element.ALIGN_MIDDLE);
             columnHeader.setBackgroundColor(Color.darkGray);
@@ -91,7 +143,7 @@ public class pdfGuiaTraslado {
             tablatitulo.addCell(columnHeader);
 
             // Fill table rows (rellenamos las filas de la tabla).
-            columnHeader = new PdfPCell(new Phrase("AAHH VILLA DEL SALVADOR MZ D5 LT 26 - NUEVO CHIMBOTE - SANTA - ANCASH", NORMAL9Font));
+            columnHeader = new PdfPCell(new Phrase(c_tienda.getDireccion(), NORMAL9Font));
             columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
             columnHeader.setBorder(PdfPCell.NO_BORDER);
             tablatitulo.addCell(columnHeader);
@@ -105,12 +157,12 @@ public class pdfGuiaTraslado {
             tablatitulo.addCell(columnHeader);
 
             // Fill table rows (rellenamos las filas de la tabla).
-            columnHeader = new PdfPCell(new Phrase("TIENDA: NUEVO CHIMBOTE", NORMAL9Font));
+            columnHeader = new PdfPCell(new Phrase("TIENDA: " + c_tienda.getNombre(), NORMAL9Font));
             columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
             columnHeader.setBorder(PdfPCell.NO_BORDER);
             tablatitulo.addCell(columnHeader);
 
-            columnHeader = new PdfPCell(new Phrase("T001-0000400", WhiteBold9Font));
+            columnHeader = new PdfPCell(new Phrase(c_guia.getSerie() + " - " + c_varios.ceros_izquieda_numero(5, c_guia.getNumero()), WhiteBold9Font));
             columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
             columnHeader.setVerticalAlignment(Element.ALIGN_MIDDLE);
             columnHeader.setBackgroundColor(Color.darkGray);
@@ -150,13 +202,13 @@ public class pdfGuiaTraslado {
             tablaencabezado.addCell(columnHeader);
             tablaencabezado.setHeaderRows(1);
 
-            tablaencabezado.addCell(new Paragraph("Fecha de Envio: Setiembre 02, 2021", paragraphFont));
+            tablaencabezado.addCell(new Paragraph("Fecha de Envio: " + c_venta.getFecha(), paragraphFont));
             tablaencabezado.addCell("");
-            tablaencabezado.addCell(new Paragraph("RUC: 10469932091", paragraphFont));
+            tablaencabezado.addCell(new Paragraph("RUC: " + c_cliente.getDocumento(), paragraphFont));
 
-            tablaencabezado.addCell(new Paragraph("Motivo: Traslado entre Almacenes", paragraphFont));
+            tablaencabezado.addCell(new Paragraph("Motivo: Venta", paragraphFont));
             tablaencabezado.addCell("");
-            tablaencabezado.addCell(new Paragraph("OYANGUREN GIRON LUIS ENRIQUE", paragraphFont));
+            tablaencabezado.addCell(new Paragraph(c_cliente.getNombre(), paragraphFont));
 
             //paragraphMore.add(tablaencabezado);
             // We add the paragraph with the table (Añadimos el elemento con la tabla).
@@ -299,18 +351,14 @@ public class pdfGuiaTraslado {
 
             FooterTable event = new FooterTable(tablafooter);
             writer.setPageEvent(event);
-            //document.add(tablafooter);
 
+            //tablafooter.setFooterRows(1);
+            //document.add(tablafooter);
             //close
             document.close();
             System.out.println("Done");
 
-        } catch (DocumentException ex) {
-            Logger.getLogger(pdfGuiaTraslado.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("No such file was found to generate the PDF "
-                    + "(No se encontró el fichero para generar el pdf)" + fileNotFoundException);
-        } catch (IOException ex) {
+        } catch (DocumentException | IOException ex) {
             Logger.getLogger(pdfGuiaTraslado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

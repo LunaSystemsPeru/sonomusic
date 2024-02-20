@@ -1534,7 +1534,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             c_hash.setId_venta(id_venta);
             c_hash.setId_almacen(id_almacen);
             c_hash.validar_firma();
-            String url_codigo_qr = "https://www.goempresarial.com/lsp/clientes/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
+            String url_codigo_qr = "http://174.138.2.254/sonomusic/greenter/generate_qr/temp/" + c_hash.getNombre() + ".png";
             System.out.println(url_codigo_qr);
 
             File miDir = new File(".");

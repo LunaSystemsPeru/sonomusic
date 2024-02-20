@@ -37,7 +37,7 @@ public class frm_ver_guias_remision extends javax.swing.JInternalFrame {
                 + "inner join ventas as v on v.id_ventas = gr.id_venta and v.id_almacen = gr.id_almacen "
                 + "inner join clientes as c on c.id_cliente = v.id_cliente "
                 + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
-                + "where month(v.fecha) = month(CURRENT_DATE()) and year(v.fecha) = year(CURRENT_DATE()) and v.id_almacen = '" + id_almacen + "'";
+                + "where v.fecha > date_sub(current_date(), interval 60 day) and v.id_almacen = '" + id_almacen + "'";
         c_guia.mostrar(t_clientes, query);
     }
 

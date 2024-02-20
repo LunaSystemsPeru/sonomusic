@@ -293,7 +293,7 @@ public class pdfComprobanteVenta {
             tablafooter.addCell(new Paragraph("", paragraphFont));
             tablafooter.addCell(new Paragraph("Observaciones:", paragraphFont));
 
-            tablafooter.addCell(new Paragraph("Consulta tu comprobante en: esonomusic.lunasystemsperu.com", paragraphFont));
+            tablafooter.addCell(new Paragraph("Consulta tu comprobante en: audionet.xyz/cpe", paragraphFont));
             tablafooter.addCell(new Paragraph("", paragraphFont));
             tablafooter.addCell(new Paragraph("Representacion impresa de la GUIA DE REMISION ELECTRONICA", paragraphFont));
 

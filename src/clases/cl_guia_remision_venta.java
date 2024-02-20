@@ -211,5 +211,33 @@ public class cl_guia_remision_venta {
             System.out.print(ex);
         }
     }
+    
+    public boolean validar_guia() {
+        boolean existe = false;
+        try {
+            Statement st = c_conectar.conexion();
+            String query = "select * "
+                    + "from guia_remision  "
+                    + "where id_almacen = '" + id_almacen + "' and id_ventas = '" + id_venta + "'";
+
+            ResultSet rs = c_conectar.consulta(st, query);
+            if (rs.next()) {
+                existe = true;
+                this.id_empresa = rs.getInt("id_empresa");
+                this.llegada = rs.getString("direccion_llegada");
+                this.ubigeo = rs.getString("ubigeo_llegada");
+                this.ruc_transporte = rs.getString("ruc_transportista");
+                this.razon_transporte = rs.getString("razon_transportista");
+                this.dni_chofer = rs.getString("dni_chofer");
+                this.placa = rs.getString("placa");
+                this.serie = rs.getString("serie");
+                this.numero = rs.getInt("numero");
+                this.hash = rs.getString("hash");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return existe;
+    }
 
 }

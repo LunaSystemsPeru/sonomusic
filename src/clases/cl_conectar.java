@@ -5,6 +5,7 @@
  */
 package clases;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -63,7 +64,7 @@ public class cl_conectar {
 
     public boolean verificar_conexion() {
         boolean conectado = false;
-        String dirWeb = "www.goempresarial.com";
+        String dirWeb = "www.google.com";
         int puerto = 80;
         try {
             Socket s = new Socket(dirWeb, puerto);
@@ -71,17 +72,28 @@ public class cl_conectar {
                 System.out.println("Conexión establecida con la dirección: " + dirWeb + " a travéz del puerto: " + puerto);
                 conectado = true;
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             conectado = false;
             System.err.println("No se pudo establecer conexión con: " + dirWeb + " a travez del puerto: " + puerto);
         }
         return conectado;
     }
 
+    // Métodos
+    public static Connection getConnection() {
+
+        if (conexion == null) {
+            new cl_conectar();
+        }
+
+        return conexion;
+    } // Fin getConnection
+
     public Statement conexion() {
         Statement st = null;
+
         try {
-            st = conexion.createStatement();
+            st = this.getConnection().createStatement();
         } catch (SQLException e) {
             System.out.println("Error: Conexión incorrecta.");
             e.printStackTrace();

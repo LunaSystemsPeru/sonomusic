@@ -24,7 +24,7 @@ import org.json.simple.parser.ParseException;
 public class cl_json_entidad {
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36";
-    
+
     public static String getJSONRUC_LUNASYSTEMS(String ruc) {
 
         StringBuffer response = null;
@@ -32,7 +32,7 @@ public class cl_json_entidad {
         try {
             //Generar la URL
             //String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
-            String url = "https://www.goempresarial.com/lsp/apis/apiruc.php?ruc=" + ruc;
+            String url = "https://goempresarial.com/apis/peru-consult-api/public/api/v1/ruc/" + ruc + "?token=abcxyz";
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -77,7 +77,7 @@ public class cl_json_entidad {
             //Generar la URL
             //String url = SERVER_PATH + "consultas_json/composer/consultas_dni_JMP.php?dni=" + dni;
             //String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaDNI.php?dni=" + dni;
-            String url = "https://www.goempresarial.com/lsp/apis/apidni.php?dni=" + dni;
+            String url = "https://goempresarial.com/apis/peru-consult-api/public/api/v1/dni/" + dni + "?token=abcxyz";
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión
@@ -150,11 +150,11 @@ public class cl_json_entidad {
         //https://examples.javacodegeeks.com/core-java/json/java-json-parser-example/
         //if (estatus) {
         //    JSONObject result = (JSONObject) jsonObject.get("result");
-            //System.out.println("razon social: " + result.get("RazonSocial"));
-            datos[0] = result.get("razonSocial").toString();
-            datos[1] = result.get("direccion").toString();
-            datos[2] = result.get("condicion").toString();
-            datos[3] = result.get("estado").toString();
+        //System.out.println("razon social: " + result.get("RazonSocial"));
+        datos[0] = result.get("razonSocial").toString();
+        datos[1] = result.get("direccion").toString();
+        datos[2] = result.get("condicion").toString();
+        datos[3] = result.get("estado").toString();
         //        } else {
         //            Notification.show("Busqueda Externa", (String) jsonObject.get("msg"));
         //            datos[0] = "";
@@ -166,14 +166,14 @@ public class cl_json_entidad {
         return datos;
     }
 
-   public static String showJSONDNI(String json) throws ParseException {
-        String datos= "";
+    public static String showJSONDNI(String json) throws ParseException {
+        String datos = "";
         System.out.println("INFORMACIÓN OBTENIDA DE LA BASE DE DATOS:");
 
         JSONParser Jparser = new JSONParser();
         JSONObject result = (JSONObject) Jparser.parse(json);       //jsonObject
-        //datos = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
-        datos = result.get("nombre").toString();
+        datos = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
+        //datos = result.get("nombre").toString();
         return datos;
     }
 }

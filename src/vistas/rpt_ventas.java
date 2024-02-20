@@ -93,27 +93,22 @@ public class rpt_ventas extends javax.swing.JDialog {
         String fecha_fin = c_varios.fecha_myql(txt_fecha_fin_empresa.getText());
         //ver reporte en pdf;        
         File miDir = new File(".");
-        try {
-            Map<String, Object> parametros = new HashMap<>();
-            String path = miDir.getCanonicalPath();
-            String direccion = path + File.separator + "reports" + File.separator + "subreports" + File.separator;
-
-            System.out.println(direccion);
-            parametros.put("SUBREPORT_DIR", direccion);
-            parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
-            parametros.put("REPORT_LOCALE", Locale.ENGLISH);
-            parametros.put("p_id_empresa", cla_empresa.getId_empresa());
-            parametros.put("p_fecha_inicio", fecha_inicio);
-            parametros.put("p_fecha_fin", fecha_fin);
-            // if (tipo == 1) {
-            //     c_varios.ver_reporte_excel(nombre_reporte, parametros, nombre_reporte);
-            // }
-            // if (tipo == 2) {
-            c_varios.ver_reporte(nombre_reporte, parametros);
-            // }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
-        }
+        Map<String, Object> parametros = new HashMap<>();
+        String path = miDir.getAbsolutePath();
+        String direccion = path + File.separator + "reports" + File.separator + "subreports" + File.separator;
+        System.out.println(direccion);
+        parametros.put("SUBREPORT_DIR", direccion);
+        parametros.put("JRParameter.REPORT_LOCALE", Locale.ENGLISH);
+        parametros.put("REPORT_LOCALE", Locale.ENGLISH);
+        parametros.put("p_id_empresa", cla_empresa.getId_empresa());
+        parametros.put("p_fecha_inicio", fecha_inicio);
+        parametros.put("p_fecha_fin", fecha_fin);
+        // if (tipo == 1) {
+        //     c_varios.ver_reporte_excel(nombre_reporte, parametros, nombre_reporte);
+        // }
+        // if (tipo == 2) {
+        c_varios.ver_reporte(nombre_reporte, parametros);
+        // }
     }
 
     /**

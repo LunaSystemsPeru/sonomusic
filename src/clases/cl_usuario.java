@@ -19,7 +19,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class cl_usuario {
 
-    cl_conectar c_conectar = new cl_conectar();
+    cl_conectar c_conectar;
     cl_varios c_varios = new cl_varios();
 
     private int id_usuario;
@@ -33,6 +33,7 @@ public class cl_usuario {
     private int estado;
 
     public cl_usuario() {
+        this.c_conectar = new cl_conectar();
     }
 
     public int getId_usuario() {

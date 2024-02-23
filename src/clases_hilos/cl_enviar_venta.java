@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import json.cl_envio_server;
+import json.cl_json_entidad;
 
 /**
  *
@@ -60,6 +61,20 @@ public class cl_enviar_venta extends Thread {
         c_venta.validar_venta();
     }
 
+    private void generarPDFOnline(int id_venta, int id_tienda) {
+        String textourl = cl_json_entidad.getURLPDF(id_venta, id_tienda);
+        if (textourl.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "no se encontro url");
+            return;
+        }
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(textourl));
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+
+    }
+
     private void enviar_venta() {
         String[] envio_sunat;
         envio_sunat = cl_envio_server.enviar_documento(c_venta.getId_venta(), c_venta.getId_tido(), c_venta.getId_almacen());
@@ -70,6 +85,10 @@ public class cl_enviar_venta extends Thread {
         String estatus = envio_sunat[5];
         if (estatus.equals("aceptado")) {
             System.out.println("imprimiendo docmumento de venta");
+
+            generarPDFOnline(c_venta.getId_venta(), c_venta.getId_almacen());
+
+            /*
             //imprimir boleta o factura
             leer_numeros c_letras = new leer_numeros();
             String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
@@ -100,8 +119,10 @@ public class cl_enviar_venta extends Thread {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }
+             */
         } else {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al recibir el comprobante");
+            JOptionPane.showMessageDialog(null, envio_sunat);
         }
     }
 

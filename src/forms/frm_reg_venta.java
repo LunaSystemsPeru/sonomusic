@@ -517,7 +517,6 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         lbl_total_venta = new javax.swing.JLabel();
         btn_grabar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         btn_actualizar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         cbx_guia = new javax.swing.JComboBox<>();
@@ -558,7 +557,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_pago_venta, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                .addComponent(lbl_pago_venta, javax.swing.GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1283,14 +1282,6 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
-        jButton3.setText("Cancelar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         btn_actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/reaload_16.png"))); // NOI18N
         btn_actualizar.setToolTipText("Actualizar Lista de Clientes");
         btn_actualizar.setEnabled(false);
@@ -1354,9 +1345,6 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btn_grabar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txt_direccion_guia, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1442,9 +1430,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Ver Productos en Venta"));
@@ -1457,7 +1443,6 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 "ID.", "Descripcion", "Cant.", "Precio", "Parcial"
             }
         ));
-        t_detalle.setShowVerticalLines(false);
         t_detalle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 t_detalleMouseClicked(evt);
@@ -1530,10 +1515,6 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void txt_buscar_productoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscar_productoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1784,7 +1765,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Verificar que el numero de ruc tiene 11 digitos");
                 txt_doc_cliente.selectAll();
                 txt_doc_cliente.requestFocus();
-                
+
                 errores++;
             }
         }
@@ -1926,7 +1907,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
                 }
 
                 jd_fin_venta.dispose();
-                this.dispose();
+//                this.dispose();
 
                 frm_reg_venta reg_venta = new frm_reg_venta();
                 c_varios.llamar_ventana(reg_venta);
@@ -2315,7 +2296,6 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbx_tipo_doc;
     private javax.swing.JComboBox<String> cbx_tipo_transporte;
     private javax.swing.JComboBox<String> cbx_tipo_venta;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -20,11 +20,17 @@ import forms.frm_mod_separacion;
 import forms.frm_reg_nota_venta;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -33,6 +39,7 @@ import json.cl_envio_server;
 import json.cl_json_entidad;
 import models.m_mis_documentos;
 import org.json.simple.parser.ParseException;
+import pdfs.pdfComprobanteVenta;
 import sonomusic.frm_principal;
 
 /**
@@ -64,6 +71,9 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
      */
     public frm_ver_ventas() {
         initComponents();
+        String fecha = c_varios.getFechaActual();
+        setearFecha(fecha);
+
         query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
                 + "from ventas as v "
                 + "inner join clientes as c on c.id_cliente = v.id_cliente "
@@ -74,6 +84,16 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         c_venta.mostrar(t_ventas, query);
 
         sumar_totales();
+    }
+
+    private void setearFecha(String date) {
+        try {
+            java.util.Date date2;
+            date2 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            jDateChooser1.setDate(date2);
+        } catch (java.text.ParseException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
     }
 
     private void sumar_totales() {
@@ -192,6 +212,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jLabel18 = new javax.swing.JLabel();
         txt_total_separacion = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txt_buscar = new javax.swing.JTextField();
         cbx_buscar = new javax.swing.JComboBox<>();
@@ -217,8 +238,11 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         btn_anular_venta = new javax.swing.JButton();
         btn_ver_cupon = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton6 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jButton2 = new javax.swing.JButton();
 
         jd_anular_documento.setTitle("Eliminar Venta");
 
@@ -694,7 +718,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         });
 
-        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FECHA", "CLIENTE", "NRO. DOCUMENTO" }));
+        cbx_buscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENTE", "NRO. DOCUMENTO", "MODELO PRODUCTO" }));
         cbx_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbx_buscarActionPerformed(evt);
@@ -727,7 +751,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             }
         ));
         t_ventas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        t_ventas.setShowVerticalLines(false);
         t_ventas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 t_ventasMouseClicked(evt);
@@ -869,19 +892,24 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jToolBar1.add(btn_ver_cupon);
         jToolBar1.add(jSeparator1);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
-        jButton6.setText("Salir");
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jLabel19.setText("Enter para Buscar             Escape para Limpiar");
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("Fecha:");
+
+        jDateChooser1.setDateFormatString("dd/MM/yyyy");
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Otro:");
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/find.png"))); // NOI18N
+        jButton2.setText("Buscar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton6);
-
-        jLabel19.setText("Enter para Buscar             Escape para Limpiar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -904,9 +932,17 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -919,12 +955,17 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbx_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -939,10 +980,6 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void t_ventasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_ventasMouseClicked
         int contar_filas = t_ventas.getRowCount();
@@ -1176,47 +1213,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_buscarActionPerformed
 
     private void txt_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String texto = txt_buscar.getText();
-            if (texto.length() > 0) {
-                int tipo_buscar = cbx_buscar.getSelectedIndex();
-                if (tipo_buscar == 0) {
-                    texto = c_varios.fecha_myql(texto);
-                    query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
-                            + "from ventas as v "
-                            + "inner join clientes as c on c.id_cliente = v.id_cliente "
-                            + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
-                            + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
-                            + "where v.fecha = '" + texto + "' and v.id_almacen = '" + id_almacen + "' "
-                            + "order by v.id_ventas asc";
-                    System.out.println(query);
-                }
-                if (tipo_buscar == 1) {
-                    query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
-                            + "from ventas as v "
-                            + "inner join clientes as c on c.id_cliente = v.id_cliente "
-                            + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
-                            + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
-                            + "where (c.nombre like '%" + texto + "%' or c.documento = '" + texto + "') and v.id_almacen = '" + id_almacen + "' "
-                            + "order by v.id_ventas asc";
-                }
-                if (tipo_buscar == 2) {
-                    texto = c_varios.fecha_myql(texto);
-                    query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
-                            + "from ventas as v "
-                            + "inner join clientes as c on c.id_cliente = v.id_cliente "
-                            + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
-                            + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
-                            + "where v.numero = '" + texto + "' and v.id_almacen = '" + id_almacen + "' "
-                            + "order by v.id_ventas asc";
-                    System.out.println(query);
-                }
-                c_venta.mostrar(t_ventas, query);
-                sumar_totales();
-            } else {
-                JOptionPane.showMessageDialog(null, "INGRESE TEXTO PARA BUSCAR, LUEGO PRESIONE ENTER");
-            }
-        }
+
     }//GEN-LAST:event_txt_buscarKeyPressed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -1518,13 +1515,31 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_cbx_doc_ventaKeyPressed
 
+    private void generarPDFOnline(int id_venta, int id_tienda) {
+        String textourl = cl_json_entidad.getURLPDF(id_venta, id_tienda);
+        if (textourl.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "no se encontro url");
+            return;
+        }
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(textourl));
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+
+    }
+
     private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed
+
         //cargar datos venta
         int id_venta = Integer.parseInt(t_ventas.getValueAt(fila_seleccionada, 8).toString());
         c_venta.setId_venta(id_venta);
         c_venta.setId_almacen(id_almacen);
         c_venta.validar_venta();
 
+        generarPDFOnline(c_venta.getId_venta(), c_venta.getId_almacen());
+
+        /*
         leer_numeros c_letras = new leer_numeros();
         String letras_numeros = c_letras.Convertir(c_venta.getTotal() + "", true) + " SOLES";
         System.out.println(letras_numeros);
@@ -1589,6 +1604,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
             }
         }
+         */
     }//GEN-LAST:event_btn_imprimirActionPerformed
 
     private void cbx_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbx_buscarKeyPressed
@@ -1629,12 +1645,63 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_eliminar_cobroActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            //cargar datos
-            int id_venta = Integer.parseInt(t_ventas.getValueAt(fila_seleccionada, 8).toString());
-            frm_reg_nota_venta.venta.setId_venta(id_venta);
-            frm_reg_nota_venta formulario = new frm_reg_nota_venta();
-            c_varios.llamar_ventana(formulario);
+        //cargar datos
+        int id_venta = Integer.parseInt(t_ventas.getValueAt(fila_seleccionada, 8).toString());
+        frm_reg_nota_venta.venta.setId_venta(id_venta);
+        frm_reg_nota_venta formulario = new frm_reg_nota_venta();
+        c_varios.llamar_ventana(formulario);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (jRadioButton1.isSelected()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fecha = sdf.format(jDateChooser1.getDate());
+            fecha = c_varios.fecha_myql(fecha);
+
+            query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
+                    + "from ventas as v "
+                    + "inner join clientes as c on c.id_cliente = v.id_cliente "
+                    + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
+                    + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
+                    + "where v.fecha = '" + fecha + "' and v.id_almacen = '" + id_almacen + "' "
+                    + "order by v.id_ventas asc";
+            System.out.println(query);
+            c_venta.mostrar(t_ventas, query);
+            sumar_totales();
+
+        }
+        if (jRadioButton2.isSelected()) {
+            String texto = txt_buscar.getText();
+            if (texto.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Debe escribir nombre de cliente");
+                return;
+            }
+
+            int tipo_buscar = cbx_buscar.getSelectedIndex();
+            if (tipo_buscar == 0) {
+                query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
+                        + "from ventas as v "
+                        + "inner join clientes as c on c.id_cliente = v.id_cliente "
+                        + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
+                        + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
+                        + "where (c.nombre like '%" + texto + "%' or c.documento = '" + texto + "') and v.id_almacen = '" + id_almacen + "' "
+                        + "order by v.id_ventas asc";
+            }
+            if (tipo_buscar == 1) {
+                texto = c_varios.fecha_myql(texto);
+                query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
+                        + "from ventas as v "
+                        + "inner join clientes as c on c.id_cliente = v.id_cliente "
+                        + "inner join documentos_sunat as ds on ds.id_tido = v.id_tido "
+                        + "inner join usuarios as u on u.id_usuarios = v.id_usuarios "
+                        + "where v.numero = '" + texto + "' and v.id_almacen = '" + id_almacen + "' "
+                        + "order by v.id_ventas asc";
+                System.out.println(query);
+            }
+            c_venta.mostrar(t_ventas, query);
+            sumar_totales();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1652,12 +1719,14 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_ver_cobros;
     private javax.swing.JButton btn_ver_cupon;
     private javax.swing.JButton btn_ver_detalle;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbx_buscar;
     private javax.swing.JComboBox<String> cbx_doc_venta;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox2;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1677,6 +1746,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

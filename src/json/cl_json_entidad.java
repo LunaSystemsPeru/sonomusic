@@ -6,6 +6,7 @@
 package json;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -175,5 +176,60 @@ public class cl_json_entidad {
         datos = result.get("apellidoPaterno").toString() + " " + result.get("apellidoMaterno").toString() + " " + result.get("nombres").toString();
         //datos = result.get("nombre").toString();
         return datos;
+    }
+
+    public static String getURLPDF(int idventa, int idtienda) {
+
+        StringBuffer response = null;
+
+        try {
+            //Generar la URL
+            //String url = SERVER_PATH + "consultas_json/composer/consulta_sunat_JMP.php?ruc=" + ruc;
+            String url = "http://174.138.2.254/audionet/generatePDF/getSolicitudPDFVenta.php?id_venta=" + idventa + "&id_tienda=" + idtienda;
+            //Creamos un nuevo objeto URL con la url donde pedir el JSON
+            URL obj = new URL(url);
+            //Creamos un objeto de conexión
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            //Añadimos la cabecera
+            con.setRequestMethod("GET");
+            con.setRequestProperty("User-Agent", USER_AGENT);
+            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            // Enviamos la petición por POST
+            con.setDoOutput(true);
+            //Capturamos la respuesta del servidor
+            int responseCode = con.getResponseCode();
+            System.out.println("\nSending 'GET' request to URL : " + url);
+            System.out.println("Response Code : " + responseCode);
+
+            //if (responseCode != 200) {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            //Mostramos la respuesta del servidor por consola
+            System.out.println("Respuesta del servidor: " + response);
+            //cerramos la conexión
+            in.close();
+            // }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String url = "";
+        try {
+            JSONParser Jparser = new JSONParser();
+            JSONObject result = (JSONObject) Jparser.parse(response.toString());       //jsonObject
+            String status = result.get("status").toString();
+            System.out.println(status);
+            url = result.get("url").toString();
+        } catch (ParseException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+
+        return url;
     }
 }

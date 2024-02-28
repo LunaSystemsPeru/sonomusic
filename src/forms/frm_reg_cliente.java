@@ -352,7 +352,7 @@ public class frm_reg_cliente extends javax.swing.JDialog {
                 if (c_cliente.registrar()) {
                     Notification.show("Clientes", "CLIENTE REGISTRADO CORRECTAMENTE");
                     if (origen.equals("reg_venta")) {
-                        frm_reg_venta.btn_actualizar.doClick();
+                       // frm_reg_venta.btn_actualizar.doClick();
                     }
                     btn_cerrar.doClick();
                 }

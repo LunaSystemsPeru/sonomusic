@@ -49,22 +49,25 @@ public class cl_json_entidad {
             System.out.println("\nSending 'GET' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
-            //if (responseCode != 200) {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            response = new StringBuffer();
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                //Mostramos la respuesta del servidor por consola
+                System.out.println("Respuesta del servidor: " + response);
+                //cerramos la conexión
+                in.close();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en el servicio de busqueda");
             }
-            //Mostramos la respuesta del servidor por consola
-            System.out.println("Respuesta del servidor: " + response);
-            //cerramos la conexión
-            in.close();
-            // }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error en la busqueda de los datos del RUC\n" + e.getLocalizedMessage());
+            //e.printStackTrace();
         }
 
         return response.toString();
@@ -94,22 +97,26 @@ public class cl_json_entidad {
             System.out.println("\nSending 'POST' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
-            //if (responseCode != 200) {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            response = new StringBuffer();
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                //Mostramos la respuesta del servidor por consola
+                System.out.println("Respuesta del servidor: " + response);
+                //cerramos la conexión
+                in.close();
+                //
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en el servicio de busquedas");
             }
-            //Mostramos la respuesta del servidor por consola
-            System.out.println("Respuesta del servidor: " + response);
-            //cerramos la conexión
-            in.close();
-            // }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error en la busqueda de los datos del DNI\n" + e.getLocalizedMessage());
+            //e.printStackTrace();
         }
 
         return response.toString();
@@ -201,21 +208,24 @@ public class cl_json_entidad {
             System.out.println("\nSending 'GET' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
-            //if (responseCode != 200) {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            response = new StringBuffer();
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                //Mostramos la respuesta del servidor por consola
+                System.out.println("Respuesta del servidor: " + response);
+                //cerramos la conexión
+                in.close();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en el servicio de consultas");
             }
-            //Mostramos la respuesta del servidor por consola
-            System.out.println("Respuesta del servidor: " + response);
-            //cerramos la conexión
-            in.close();
-            // }
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error en el servicio de consultas " + e.getLocalizedMessage());
             e.printStackTrace();
         }
 

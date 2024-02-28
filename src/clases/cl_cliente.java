@@ -264,7 +264,7 @@ public class cl_cliente {
 
         try {
             Statement st = c_conectar.conexion();
-            String query = "select id_cliente "
+            String query = "select ifnull(id_cliente, 0) as id_cliente "
                     + "from clientes "
                     + "where documento = '" + documento + "'";
             //System.out.println(query);

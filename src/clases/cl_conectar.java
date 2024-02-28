@@ -23,10 +23,11 @@ public class cl_conectar {
     //private static String url = "lunasystemsperu.com";
     private static String url = "artemisa.servidoresph.com";
     //private static String url = "localhost";
+    private final String __PRODUCCION = "PRODUCCION";
+    private final String __PRUEBA = "PRUEBA";
 
     // Driver para MySQL en este caso.
-    private static String driver = "com.mysql.jdbc.Driver";
-    String server = "jdbc:mysql://" + url + ":3306/" + bd;
+    private final String driver = "com.mysql.jdbc.Driver";
 
     /**
      * Método neecesario para conectarse al Driver y poder usar MySQL.
@@ -36,6 +37,9 @@ public class cl_conectar {
     public boolean conectar() {
         boolean conectado;
         try {
+            getServidor(__PRODUCCION);
+
+            String server = "jdbc:mysql://" + url + ":3306/" + bd;
 
             Class.forName(driver);
             conexion = DriverManager.getConnection(server, user, password);
@@ -60,6 +64,22 @@ public class cl_conectar {
      */
     public Connection conx() {
         return conexion;
+    }
+
+    private void getServidor(String status) {
+        if (status.equals(__PRUEBA)) {
+            bd = "goempres_audionet"; // Nombre de BD.
+            user = "goempres_user_audionet"; // Usuario de BD.
+            password = "Xzo%ALQ@3)sg"; // Password de BD.
+            url = "localhost";
+        }
+
+        if (status.equals(__PRODUCCION)) {
+            bd = "brunoasc_new_sonomusic"; // Nombre de BD.
+            user = "brunoasc_luis_bd"; // Usuario de BD.
+            password = "C]6&TN4Bt@&I"; // Password de BD.
+            url = "artemisa.servidoresph.com";
+        }
     }
 
     public boolean verificar_conexion() {

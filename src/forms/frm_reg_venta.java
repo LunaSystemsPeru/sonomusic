@@ -371,6 +371,13 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     }
 
     private void llenar_venta() {
+        cla_mis_documentos cla_tido = (cla_mis_documentos) cbx_tipo_doc.getSelectedItem();
+        int id_tido = cla_tido.getId_tido();
+
+        c_doc_almacen.setId_tido(id_tido);
+        c_doc_almacen.setId_almacen(id_almacen);
+        c_doc_almacen.comprobar_documento();
+
         c_venta.setId_almacen(id_almacen);
         c_venta.setId_usuario(id_usuario);
         c_venta.setId_venta(c_venta.obtener_codigo());

@@ -1305,6 +1305,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Tipo Documento:");
 
+        txt_fecha.setEditable(false);
         try {
             txt_fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
@@ -2015,6 +2016,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
                 frm_reg_venta reg_venta = new frm_reg_venta();
                 c_varios.llamar_ventana(reg_venta);
+                frm_principal.jTabbedPane2.removeTabAt(frm_principal.jTabbedPane2.indexOfTab(this.getTitle()));
 
             }
         } else {

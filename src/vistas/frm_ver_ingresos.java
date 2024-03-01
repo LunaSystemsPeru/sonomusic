@@ -293,7 +293,7 @@ public class frm_ver_ingresos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarActionPerformed
-        this.dispose();
+        frm_principal.jTabbedPane2.removeTabAt(frm_principal.jTabbedPane2.indexOfTab(this.getTitle()));
     }//GEN-LAST:event_btn_cerrarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed

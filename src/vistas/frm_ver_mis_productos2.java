@@ -855,7 +855,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
             jd_kardex.setSize(840, 480);
             jd_kardex.setLocationRelativeTo(null);
             int id_producto = Integer.parseInt(jTable1.getValueAt(fila_seleccionada, 0).toString());
-            String producto = jTable1.getValueAt(fila_seleccionada, 1).toString() + " " + jTable1.getValueAt(fila_seleccionada, 2).toString()+ " " + jTable1.getValueAt(fila_seleccionada, 3).toString();
+            String producto = jTable1.getValueAt(fila_seleccionada, 1).toString() + " " + jTable1.getValueAt(fila_seleccionada, 2).toString() + " " + jTable1.getValueAt(fila_seleccionada, 3).toString();
             txt_kardex_descripcion.setText(producto);
             c_kardex.setId_producto(id_producto);
             c_kardex.setId_almacen(id_almacen);
@@ -926,7 +926,7 @@ public class frm_ver_mis_productos2 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_ajuste_kardexActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-        this.dispose();
+        frm_principal.jTabbedPane2.removeTabAt(frm_principal.jTabbedPane2.indexOfTab(this.getTitle()));
     }//GEN-LAST:event_btn_salirActionPerformed
 
     private void txt_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyPressed

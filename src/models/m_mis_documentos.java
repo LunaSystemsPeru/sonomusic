@@ -19,17 +19,17 @@ import sonomusic.frm_principal;
  * @author luis
  */
 public class m_mis_documentos {
-    
+
     cl_conectar c_conectar = new cl_conectar();
-    
+
     int id_almacen = frm_principal.c_almacen.getId();
-    
+
     public void cbx_mis_documentos(JComboBox cbx) {
         try {
             cbx.removeAllItems();
-            
+
             Statement st = c_conectar.conexion();
-            
+
             String query = "select da.id_tido, ds.descripcion "
                     + "from documentos_almacen as da "
                     + "inner join documentos_sunat as ds on ds.id_tido= da.id_tido "
@@ -37,11 +37,11 @@ public class m_mis_documentos {
                     + "group by da.id_tido "
                     + "order by ds.descripcion asc";
             ResultSet rs = c_conectar.consulta(st, query);
-            
+
             while (rs.next()) {
                 cbx.addItem(new cla_mis_documentos(rs.getInt("id_tido"), rs.getString("descripcion")));
             }
-            
+
             c_conectar.cerrar(st);
             c_conectar.cerrar(rs);
         } catch (SQLException ex) {
@@ -49,27 +49,27 @@ public class m_mis_documentos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
-    
+
     public void cbx_documentos_venta(JComboBox cbx) {
         try {
             cbx.removeAllItems();
-            
+
             Statement st = c_conectar.conexion();
-            
+
             String query = "select da.id_tido, ds.descripcion "
                     + "from documentos_almacen as da "
                     + "inner join documentos_sunat as ds on ds.id_tido= da.id_tido "
-                    + "where da.id_almacen = '" + id_almacen + "' and da.id_tido = 6 "
+                    + "where da.id_almacen = '" + id_almacen + "' and da.id_tido in (1,2,6) "
                     + "group by da.id_tido "
                     + "order by ds.descripcion desc";
             //incluir el 6 en tido es nota de venta
-            //(1,2,6)
+            //in (1,2,6)
             ResultSet rs = c_conectar.consulta(st, query);
-            
+
             while (rs.next()) {
                 cbx.addItem(new cla_mis_documentos(rs.getInt("id_tido"), rs.getString("descripcion")));
             }
-            
+
             c_conectar.cerrar(st);
             c_conectar.cerrar(rs);
         } catch (SQLException ex) {
@@ -77,13 +77,13 @@ public class m_mis_documentos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
-    
+
     public void cbx_documentos_nota(JComboBox cbx) {
         try {
             cbx.removeAllItems();
-            
+
             Statement st = c_conectar.conexion();
-            
+
             String query = "select da.id_tido, ds.descripcion "
                     + "from documentos_almacen as da "
                     + "inner join documentos_sunat as ds on ds.id_tido= da.id_tido "
@@ -92,11 +92,11 @@ public class m_mis_documentos {
                     + "order by ds.descripcion desc";
             //incluir el 6 en tido es nota de venta
             ResultSet rs = c_conectar.consulta(st, query);
-            
+
             while (rs.next()) {
                 cbx.addItem(new cla_mis_documentos(rs.getInt("id_tido"), rs.getString("descripcion")));
             }
-            
+
             c_conectar.cerrar(st);
             c_conectar.cerrar(rs);
         } catch (SQLException ex) {

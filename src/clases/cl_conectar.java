@@ -17,12 +17,12 @@ import javax.swing.JOptionPane;
 public class cl_conectar {
 
     private static Connection conexion = null;
-    private static String bd = "brunoasc_new_sonomusic"; // Nombre de BD.
-    private static String user = "brunoasc_luis_bd"; // Usuario de BD.
-    private static String password = "C]6&TN4Bt@&I"; // Password de BD.
-    //private static String url = "lunasystemsperu.com";
-    private static String url = "artemisa.servidoresph.com";
-    //private static String url = "localhost";
+    
+    private static String bd; // Nombre de BD.
+    private static String user; // Usuario de BD.
+    private static String password; // Password de BD.
+    private static String url;
+
     private final String __PRODUCCION = "PRODUCCION";
     private final String __PRUEBA = "PRUEBA";
 

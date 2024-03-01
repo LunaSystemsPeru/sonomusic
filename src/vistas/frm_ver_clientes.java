@@ -10,6 +10,7 @@ import forms.frm_reg_cliente;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import sonomusic.frm_principal;
 
 /**
  *
@@ -143,7 +144,7 @@ public class frm_ver_clientes extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarActionPerformed
-        this.dispose();
+        frm_principal.jTabbedPane2.removeTabAt(frm_principal.jTabbedPane2.indexOfTab(this.getTitle()));
     }//GEN-LAST:event_btn_cerrarActionPerformed
 
     private void txt_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyPressed

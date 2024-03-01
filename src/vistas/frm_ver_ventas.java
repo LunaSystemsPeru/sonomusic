@@ -20,17 +20,13 @@ import forms.frm_mod_separacion;
 import forms.frm_reg_nota_venta;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -39,7 +35,6 @@ import json.cl_envio_server;
 import json.cl_json_entidad;
 import models.m_mis_documentos;
 import org.json.simple.parser.ParseException;
-import pdfs.pdfComprobanteVenta;
 import sonomusic.frm_principal;
 
 /**
@@ -73,6 +68,8 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         initComponents();
         String fecha = c_varios.getFechaActual();
         setearFecha(fecha);
+
+        this.jDateChooser1.setMaxSelectableDate(new Date());
 
         query = "select v.id_ventas, v.fecha, c.documento, c.nombre, ds.abreviado, v.serie, v.numero, v.total, v.pagado, u.username, v.estado, v.tipo_venta "
                 + "from ventas as v "
@@ -238,6 +235,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         btn_anular_venta = new javax.swing.JButton();
         btn_ver_cupon = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
+        jButton4 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
@@ -892,6 +890,18 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jToolBar1.add(btn_ver_cupon);
         jToolBar1.add(jSeparator1);
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cross.png"))); // NOI18N
+        jButton4.setText("Cerrar");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton4);
+
         jLabel19.setText("Enter para Buscar             Escape para Limpiar");
 
         buttonGroup1.add(jRadioButton1);
@@ -899,6 +909,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         jRadioButton1.setText("Fecha:");
 
         jDateChooser1.setDateFormatString("dd/MM/yyyy");
+        jDateChooser1.setMinSelectableDate(new java.util.Date(1388556072000L));
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Otro:");
@@ -1523,7 +1534,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
         try {
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(textourl));
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println(e.getLocalizedMessage());
         }
 
@@ -1703,6 +1714,10 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        frm_principal.jTabbedPane2.removeTabAt(frm_principal.jTabbedPane2.indexOfTab(this.getTitle()));
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_anular_venta;
@@ -1725,6 +1740,7 @@ public class frm_ver_ventas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;

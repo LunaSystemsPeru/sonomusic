@@ -23,6 +23,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -85,6 +89,7 @@ public class frm_principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ERROR!! , NO TIENE CONEXION A INTERNET");
             System.exit(0);
         }
+        getVersion();
     }
 
     private void cargar_login() {
@@ -152,20 +157,54 @@ public class frm_principal extends javax.swing.JFrame {
         if (!permitido15) {
             jButton23.setEnabled(false);
         }
-        
+
         c_permiso.setId_permiso(9);
         boolean permitido9 = c_permiso.validar();
 
         if (!permitido9) {
             jButton13.setEnabled(false);
         }
-        
+
         c_permiso.setId_permiso(4);
         boolean permitido4 = c_permiso.validar();
 
         if (!permitido4) {
             jButton19.setEnabled(false);
         }
+    }
+
+    private void getVersion() {
+        int version_actual = 0;
+        try {
+
+            File Ffichero = new File("version.txt");
+
+            /*Si existe el fichero*/
+            if (Ffichero.exists()) {
+                /*Abre un flujo de lectura a el fichero*/
+                BufferedReader Flee = new BufferedReader(new FileReader(Ffichero));
+                String Slinea;
+                System.out.println("**********Leyendo Fichero***********");
+                /*Lee el fichero linea a linea hasta llegar a la ultima*/
+                while ((Slinea = Flee.readLine()) != null) {
+                    /*Imprime la linea leida*/
+                    version_actual = Integer.parseInt(Slinea);
+                    // System.out.println(Slinea);                
+                }
+                System.out.println("*********Fin Leer Fichero**********");
+                /*Cierra el flujo*/
+                Flee.close();
+                //return txt_alm;
+            } else {
+                System.out.println("Fichero No Existe");
+            }
+        } catch (IOException ex) {
+            //error si no encuentra el archivo cierra el sistema.
+            JOptionPane.showMessageDialog(null, "No se encontro el archivo en la PC");
+            System.out.println(ex);
+            System.exit(0);
+        }
+        lbl_empresa1.setText(version_actual + "");
     }
 
     /**
@@ -206,6 +245,9 @@ public class frm_principal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jLabel3 = new javax.swing.JLabel();
         lbl_empresa = new javax.swing.JLabel();
+        jSeparator17 = new javax.swing.JToolBar.Separator();
+        jLabel14 = new javax.swing.JLabel();
+        lbl_empresa1 = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jToolBar4 = new javax.swing.JToolBar();
@@ -399,7 +441,6 @@ public class frm_principal extends javax.swing.JFrame {
             }
         });
 
-        jToolBar7.setFloatable(false);
         jToolBar7.setOpaque(false);
 
         btn_abrir_caja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/coins.png"))); // NOI18N
@@ -501,7 +542,6 @@ public class frm_principal extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage("reports/logo.png"));
 
         jToolBar1.setBorder(null);
-        jToolBar1.setFloatable(false);
         jToolBar1.setBorderPainted(false);
         jToolBar1.setOpaque(false);
 
@@ -524,6 +564,14 @@ public class frm_principal extends javax.swing.JFrame {
         lbl_empresa.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lbl_empresa.setText("10469932091 | OYANGUREN GIRON LUIS ENRIQUE");
         jToolBar1.add(lbl_empresa);
+        jToolBar1.add(jSeparator17);
+
+        jLabel14.setText("Version: ");
+        jToolBar1.add(jLabel14);
+
+        lbl_empresa1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lbl_empresa1.setText("1071");
+        jToolBar1.add(lbl_empresa1);
 
         jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -532,7 +580,6 @@ public class frm_principal extends javax.swing.JFrame {
 
         jToolBar4.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar4.setBorder(null);
-        jToolBar4.setFloatable(false);
         jToolBar4.setRollover(true);
         jToolBar4.setBorderPainted(false);
 
@@ -628,7 +675,6 @@ public class frm_principal extends javax.swing.JFrame {
 
         jToolBar5.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar5.setBorder(null);
-        jToolBar5.setFloatable(false);
         jToolBar5.setBorderPainted(false);
 
         jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/customer-testimonials-512.png"))); // NOI18N
@@ -669,7 +715,6 @@ public class frm_principal extends javax.swing.JFrame {
 
         jToolBar2.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar2.setBorder(null);
-        jToolBar2.setFloatable(false);
         jToolBar2.setBorderPainted(false);
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/transport-512.png"))); // NOI18N
@@ -785,7 +830,6 @@ public class frm_principal extends javax.swing.JFrame {
 
         jToolBar6.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar6.setBorder(null);
-        jToolBar6.setFloatable(false);
         jToolBar6.setBorderPainted(false);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/company_building-512.png"))); // NOI18N
@@ -867,11 +911,10 @@ public class frm_principal extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
         );
 
-        jToolBar3.setFloatable(false);
         jToolBar3.setBorderPainted(false);
         jToolBar3.setOpaque(false);
 
@@ -904,14 +947,14 @@ public class frm_principal extends javax.swing.JFrame {
             .addComponent(jDesktopPane1)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jDesktopPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToolBar3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1007,7 +1050,7 @@ public class frm_principal extends javax.swing.JFrame {
         /*c_grafica = new cl_grafica_mensual();
         c_grafica.llenar_series_diarias(jp_dias);
         c_grafica.llenar_series_mensuales(jp_meses);
-        */
+         */
     }//GEN-LAST:event_btn_ingresarActionPerformed
 
     private void txt_contrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_contrasenaKeyPressed
@@ -1231,6 +1274,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1249,6 +1293,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator14;
     private javax.swing.JToolBar.Separator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
+    private javax.swing.JSeparator jSeparator17;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -1270,6 +1315,7 @@ public class frm_principal extends javax.swing.JFrame {
     private javax.swing.JDialog jd_formato;
     private javax.swing.JDialog jd_login;
     private javax.swing.JLabel lbl_empresa;
+    private javax.swing.JLabel lbl_empresa1;
     private javax.swing.JLabel lbl_nom_tienda;
     public static javax.swing.JLabel lbl_traslados_encontrados;
     private javax.swing.JLabel lbl_usuario;

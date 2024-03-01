@@ -13,6 +13,7 @@ import clases_autocomplete.cla_mis_documentos;
 import java.awt.event.KeyEvent;
 import models.m_documentos_sunat;
 import models.m_empresas;
+import sonomusic.frm_principal;
 
 /**
  *
@@ -560,7 +561,7 @@ public class frm_ver_almacenes extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarActionPerformed
-        this.dispose();
+        frm_principal.jTabbedPane2.removeTabAt(frm_principal.jTabbedPane2.indexOfTab(this.getTitle()));
     }//GEN-LAST:event_btn_cerrarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed

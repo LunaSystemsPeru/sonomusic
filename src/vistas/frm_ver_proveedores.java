@@ -7,6 +7,7 @@ package vistas;
 
 import clases.cl_proveedor;
 import clases.cl_varios;
+import sonomusic.frm_principal;
 
 /**
  *
@@ -45,6 +46,8 @@ public class frm_ver_proveedores extends javax.swing.JInternalFrame {
         txt_buscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         t_proveedores = new javax.swing.JTable();
+
+        setTitle("Proveedores");
 
         jToolBar1.setFloatable(false);
 
@@ -140,7 +143,7 @@ public class frm_ver_proveedores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_buscarKeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
+        frm_principal.jTabbedPane2.removeTabAt(frm_principal.jTabbedPane2.indexOfTab(this.getTitle()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txt_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyPressed

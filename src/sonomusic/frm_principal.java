@@ -1032,6 +1032,8 @@ public class frm_principal extends javax.swing.JFrame {
         lbl_usuario.setText(c_usuario.getUsername());
 
         jd_login.setVisible(false);
+        
+        c_usuario.actualizarLogeo();
 
         c_caja.setId_almacen(c_almacen.getId());
         c_caja.setFecha(c_varios.getFechaActual());

@@ -31,6 +31,7 @@ public class cl_usuario {
     private String celular;
     private int id_almacen;
     private int estado;
+    private String fecingreso;
 
     public cl_usuario() {
         this.c_conectar = new cl_conectar();
@@ -255,7 +256,7 @@ public class cl_usuario {
         boolean registrado = false;
         Statement st = c_conectar.conexion();
         String query = "insert into usuarios "
-                + "Values ('" + id_usuario + "', '" + username + "', '" + password + "', '" + documento + "', '" + nombre + "', '" + email + "', '" + celular + "', '" + id_almacen + "', '1')";
+                + "Values ('" + id_usuario + "', '" + username + "', '" + password + "', '" + documento + "', '" + nombre + "', '" + email + "', '" + celular + "', '" + id_almacen + "', '1', now())";
         int resultado = c_conectar.actualiza(st, query);
         if (resultado > -1) {
             registrado = true;
@@ -276,5 +277,14 @@ public class cl_usuario {
         }
         c_conectar.cerrar(st);
         return registrado;
+    }
+    
+    public void actualizarLogeo () {
+        Statement st = c_conectar.conexion();
+        String query = "update usuarios "
+                + "set ultimo_login = NOW() "
+                + "where id_usuarios = '" + id_usuario + "'";
+        int resultado = c_conectar.actualiza(st, query);
+        c_conectar.cerrar(st);
     }
 }

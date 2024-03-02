@@ -2389,7 +2389,8 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
         boolean existe = c_cliente.comprobar_cliente_doc();
 
-        if (c_cliente.getCodigo() == 0) {
+        if (!existe) {
+            c_cliente.obtener_codigo();
             c_cliente.registrar();
         } else {
             c_cliente.modificar();

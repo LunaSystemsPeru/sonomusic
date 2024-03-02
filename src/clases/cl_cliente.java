@@ -264,15 +264,20 @@ public class cl_cliente {
 
         try {
             Statement st = c_conectar.conexion();
-            String query = "select ifnull(id_cliente, 0) as id_cliente "
+            String query = "select ifnull(id_cliente, '-') as id_cliente "
                     + "from clientes "
                     + "where documento = '" + documento + "'";
             //System.out.println(query);
             ResultSet rs = c_conectar.consulta(st, query);
 
-            while (rs.next()) {
-                existe = true;
-                codigo = rs.getInt("id_cliente");
+            if (rs.next()) {
+                if (rs.getString("id_cliente").equals("-")) {
+                    existe = false;
+                } else {
+                    codigo = rs.getInt("id_cliente");
+                    existe = true;
+                }
+
             }
             c_conectar.cerrar(rs);
             c_conectar.cerrar(st);

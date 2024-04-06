@@ -1305,7 +1305,6 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Tipo Documento:");
 
-        txt_fecha.setEditable(false);
         try {
             txt_fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {

@@ -2373,6 +2373,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
     private void txt_dirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_dirKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_dir.getText().length() > 0) {
+                btn_reg_cliente.setEnabled(true);
                 btn_reg_cliente.requestFocus();
             }
         }
@@ -2443,6 +2444,7 @@ public class frm_reg_venta extends javax.swing.JInternalFrame {
 
                 } catch (ParseException e) {
                     JOptionPane.showMessageDialog(null, "ERROR EN BUSCAR DNI " + e.getLocalizedMessage());
+                    txt_nom.setEditable(true);
                 }
             }
 

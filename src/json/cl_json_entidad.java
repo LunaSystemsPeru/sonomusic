@@ -81,7 +81,8 @@ public class cl_json_entidad {
             //Generar la URL
             //String url = SERVER_PATH + "consultas_json/composer/consultas_dni_JMP.php?dni=" + dni;
             //String url = "http://c2200996.ferozo.com/apis/peru-consult/public/consultaDNI.php?dni=" + dni;
-            String url = "https://goempresarial.com/apis/peru-consult-api/public/api/v1/dni/" + dni + "?token=abcxyz";
+            //String url = "https://goempresarial.com/apis/peru-consult-api/public/api/v1/dni/" + dni + "?token=abcxyz";
+            String url = "https://goempresarial.com/apis/luna-consult/public/index.php?dni=" + dni;
             //Creamos un nuevo objeto URL con la url donde pedir el JSON
             URL obj = new URL(url);
             //Creamos un objeto de conexión

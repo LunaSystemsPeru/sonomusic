@@ -59,11 +59,11 @@ public class m_mis_documentos {
             String query = "select da.id_tido, ds.descripcion "
                     + "from documentos_almacen as da "
                     + "inner join documentos_sunat as ds on ds.id_tido= da.id_tido "
-                    + "where da.id_almacen = '" + id_almacen + "' and da.id_tido = 6 "
+                    + "where da.id_almacen = '" + id_almacen + "' and da.id_tido in (1,2,6) "
                     + "group by da.id_tido "
                     + "order by ds.descripcion desc";
-            //incluir el 6 en tido es nota de venta
-            //in (1,2,6)
+            //= 6 solo nota de venta
+            //in (1,2,6) boleta, factura y nota de ventsa
             ResultSet rs = c_conectar.consulta(st, query);
 
             while (rs.next()) {
